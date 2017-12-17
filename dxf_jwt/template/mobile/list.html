@@ -1,0 +1,78 @@
+﻿{template 'header'}
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<title>金梧桐群英网</title>
+<meta name="keywords" content="金梧桐群英网" />
+<meta name="description" content="金梧桐群英网." />
+<link href="{OSSURL}/public/mobile/css/css.css" rel="stylesheet" type="text/css" />
+<script src="{OSSURL}/public/mobile/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+        function AutoScroll(obj) {
+
+            $(obj).find("ul:first").animate({
+                marginTop: "-22px"
+            }, 500, function() {
+                $(this).css({ marginTop: "0px" }).find("li:first").appendTo(this);
+            });
+        }
+        $(document).ready(function() {
+            var myar = setInterval('AutoScroll("#scrollDiv")', 3000)
+            $("#scrollDiv").hover(function() { clearInterval(myar); }, function() { myar = setInterval('AutoScroll("#scrollDiv")', 3000) }); //当鼠标放上去的时候，滚动停止，鼠标离开的时候滚动开始，-22px是行高
+        });
+</script>
+<style type="text/css">
+    
+</style>
+</head>
+<body>
+    <header style="background:#2786da;margin-top:0px;">
+        <div id="logo" ><a href="javascript:;"><h1>金梧桐群英网</h1></a></div>
+        <nav>
+            <ul id="menu">
+               {template 'common_header'}
+            </ul>
+        </nav>
+    </header>
+    <article id="content" style="margin-top:1rem;">
+        <div id="topic" style="margin-top:0.5rem;">
+            {loop $list $row}
+            <dl>
+                <dt>
+                    <a href="curriculum/1.html">
+                    {if mb_strlen($row['title'], 'utf8')>15}
+                        {php echo mb_substr($row['title'], 0, 15, 'utf8').'...';}
+                    {else}
+                        {$row['title']}
+                    {/if} 
+                    </a>
+                </dt>
+                <dd>
+                    <a  href="{php echo $this->createMobileUrl('index', array('op' => 'detail','id'=>$row['id']))}"><img  src="{php echo tomedia($row['f_img']);}" style="width:280px;height:100px;"></a>
+                    <p>
+                    {if mb_strlen($row['contents'], 'utf8')>80}
+                        {php echo mb_substr($row['contents'], 0, 80, 'utf8').'......';}
+                    {else}
+                        {$row['title']}
+                    {/if}
+                    </p>
+                    <div class="online">
+                    <a  href="{php echo $this->createMobileUrl('index', array('op' => 'detail','id'=>$row['id']))}">了解详情</a><a  href="{php echo $this->createMobileUrl('baoming', array('op' => 'detail','title'=>$row['title']))}">我要找工作，（点击报名）</a><a class="on" href="tel:13015510995">电话咨询</a>
+                    </div>
+                </dd>
+            </dl>
+            {/loop}
+           
+        </div>
+        {$pager}
+    </article>
+
+    <footer>
+        {template 'common_footer'}
+    </footer>
+</body>
+</html>
+

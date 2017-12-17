@@ -1,0 +1,124 @@
+﻿{template 'header'}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<title>金梧桐群英网</title>
+<meta name="keywords" content="金梧桐群英网" />
+<meta name="description" content="金梧桐群英网." />
+<link href="{OSSURL}/public/mobile/css/css.css" rel="stylesheet" type="text/css" />
+<script src="{OSSURL}/public/mobile/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+        function AutoScroll(obj) {
+
+            $(obj).find("ul:first").animate({
+                marginTop: "-22px"
+            }, 500, function() {
+                $(this).css({ marginTop: "0px" }).find("li:first").appendTo(this);
+            });
+        }
+        $(document).ready(function() {
+            var myar = setInterval('AutoScroll("#scrollDiv")', 3000)
+            $("#scrollDiv").hover(function() { clearInterval(myar); }, function() { myar = setInterval('AutoScroll("#scrollDiv")', 3000) }); //当鼠标放上去的时候，滚动停止，鼠标离开的时候滚动开始，-22px是行高
+        });
+</script>
+<style type="text/css">
+    #jwt{
+        margin-top:10px;height:auto!important;
+    }
+</style>
+</head>
+<body>
+    <header style="background:#2786da;margin-top:0px;">
+        <div id="logo" ><a href="javascript:;"><h1>金梧桐群英网</h1></a></div>
+        <nav>
+            <ul id="menu">
+               {template 'common_header'}
+            </ul>
+        </nav>
+    </header>
+  
+    <div class="panel panel-default" id="jwt" >
+          <div class="panel-heading">
+            <h3 class="panel-title">招聘详情</h3>
+          </div>
+          <div class="panel-body" style="height:auto;"> 
+            <p style="color:#2786da;margin:5px 0px 10px 0px;font-size:16px;text-align:center;">{$list['title']}</p>
+            <div align="center">
+             <img  src="{php echo tomedia($list['f_img']);}" style="width:280px;height:100px;">
+            </div>
+            <p style="margin-top:10px;">公司福利：{$list['fuli']}</p>
+            <p>工作要求：{$list['yaoqiu']}</p>
+            <p>工作地址：{$list['address']}</p>
+            <p>薪资待遇：<span style='color:red;'>￥ {$list['money']}/月</span></p>
+          </div>
+        <table class="table table-condensed" style="text-align:center;width:94%;margin-left:3%;margin-right:3%;">
+            <tr >
+              <td class="success" width="40%">开始时间</td>
+              <td class="info" rowspan="" ="2">{php echo date('Y-m-d',$list['start_time']);}</td>
+            </tr>
+            <tr >
+              <td class="success">结束时间</td>
+              <td class="info">{php echo date('Y-m-d',$list['end_time']);}</td>
+            </tr>
+             <tr >
+              <td class="danger" colspan="2">倒计时：
+              <span style='color:red;'><span class="lxftime" starttime="{php echo date('Y-m-d',$list['end_time']);}"></span></a>
+              </td>
+             
+            </tr>
+        </table>
+        <div style="width:94%;margin-left:3%;margin-right:3%;margin-top:10px;">
+            <p style='background:#A4A4A4;'>职位描述：</p>
+            <div style="margin-top:10px;">
+                {php echo html_entity_decode($list['desc']);}
+            </div>
+        </div>
+        <div style="margin-top:10px;text-align:center;">
+            <a href="tel:13015510995" ><button type="button" class="btn btn-success" style="margin-right:5px;">电话报名</button></a>
+            <a  href="{php echo $this->createMobileUrl('baoming', array('op' => 'detail','title'=>$list['title']))}"><button type="button" class="btn btn-info">在线报名</button>
+            </a>
+        </div>
+
+    </div>
+    <footer>
+        {template 'common_footer'}
+    </footer>
+</body>
+</html>
+<script type="text/javascript">
+  
+
+ function sfpmEndtime(){  
+            $(".lxftime").each(function(){  
+                var starttime = new Date($(this).attr("starttime")).getTime();//取结束日期(毫秒值)  
+                var nowtime = new Date().getTime();//今天的日期(毫秒值)  
+                var youtime = starttime-nowtime;//还有多久(毫秒值)  
+                var seconds = youtime/1000;  
+                var minutes = Math.floor(seconds/60);  
+                var hours = Math.floor(minutes/60);  
+                var days = Math.floor(hours/24);  
+                var CDay= days ;  
+                var CHour= hours % 24;  
+                var CMinute= minutes % 60;  
+                var CSecond= Math.floor(seconds%60);  
+                var c=new Date();  
+                var q=((c.getMilliseconds())%10);  
+                if(starttime<=nowtime){  
+                    
+                    $(this).html("已过")//结束日期小于当前日期
+
+                }else{     
+                    // $(this).html("<span style='color:green'>"+days+"</span>");//输出有天数的数据 
+
+                     $(this).html("<span>"+days+"天"+CHour+"时"+CMinute+"分"+CSecond+"秒</span>");//输出有天数的数据 
+                }  
+          });  
+       setTimeout("sfpmEndtime()",100);  
+      };  
+    $(function(){  
+          sfpmEndtime();  
+       });  
+</script>
+

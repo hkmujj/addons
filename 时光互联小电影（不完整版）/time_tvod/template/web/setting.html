@@ -1,0 +1,317 @@
+{template 'common/header'}
+
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+	<input type="hidden" name="id" value="{$setting['id']}" />
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            全局设置
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#tab_1">基本设置</a></li>
+				<li><a href="#tab_2">万能解析</a></li>
+              	<li><a href="#tab_3">高级功能</a></li>
+              	<li><a href="#tab_5">APP功能</a></li>
+              	<li><a href="#tab_6">会员系统</a></li>
+              	<li><a href="#tab_7">红包提现</a></li>
+            </ul>
+            <div class="tab-content">
+	            <div class="tab-pane  active" id="tab_1">
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">网站名称</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" name="data[title]" class="form-control" value="{$config['title']}" />
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">海报背景</label>
+	                    <div class="col-sm-9">
+	                   {php echo tpl_form_field_image('data[hb_image]',$config['hb_image'], '../addons/time_tvod/static/images/nopic.jpg', array('width' => 350, 'height' => 600))}
+	                        <span class="help-block" style="color:#f00">建议尺寸350*600</span>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">诱导的链接</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="yd_url" name="data[yd_url]" value="{$config['yd_url']}" class="form-control" />
+	                        <div class="help-block">建议填写公众号素材地址 </div>
+	                    </div>
+	                </div>
+
+	                
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">底部版权</label>
+						<div class="col-xs-9">
+							<textarea class="form-control richtext" name="data[copyright]" rows="5">{if empty($config) || empty($config['copyright'])}
+							本站所有视频来自互联网，本站仅提供Web页面服务，不参与录制、上传，且不储存任何资源。 
+							若本站收录的节目无意侵犯到贵司版权，我们会及时删除.{else}{$config['copyright']}{/if}</textarea>
+						</div>
+					</div>
+	        	</div>
+	        	
+				<div class="tab-pane" id="tab_2">
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">万能解析VIP</label>
+	                    <div class="col-sm-9">
+	                        <select id="wn_vip" name="data[wn_vip]" class="form-control">
+	                        	<option value="0" {if $config['wn_vip'] == 0}selected{/if}>不启用</option>
+	                        	<option value="1" {if $config['wn_vip'] == 1}selected{/if}>启用</option>
+	                        </select>
+	                        <div class="help-block">是否开启VIP才能用万能解析</div>
+	                    </div>
+	                </div>
+					
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">解析回复图</label>
+	                    <div class="col-sm-9">
+	                   {php echo tpl_form_field_image('data[wn_image]',$config['wn_image'], '../addons/time_tvod/static/images/nopic.jpg', array('width' => 600, 'height' => 275))}
+	                        <span class="help-block" style="color:#f00">建议尺寸600*275</span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">回复的文本</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="wn_desc" name="data[wn_desc]" value="{$config['wn_desc']}" class="form-control" />
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">万能解析</label>
+	                    <div class="col-sm-9">
+							<textarea class="form-control" name="data[wx_prise]" rows="5">{$config['wx_prise']}</textarea>
+							<div class="help-block">优酷|http://www.youku.com</div>
+	                    </div>
+	                </div>
+	            </div>
+	              
+        		<div class="tab-pane" id="tab_3">
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口地址</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="api_url" name="data[api_url]" value="{$config['api_url']}" class="form-control" />
+	                        <div class="help-block">视频数据端的接口地址,末尾不带 / </div>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口TOKEN</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="api_token" name="data[api_token]" value="{$config['api_token']}" class="form-control" />
+	                        <div class="help-block">视频数据端的接口地址的授权TOKEN</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">图片地址</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="api_web" name="data[api_web]" value="{$config['api_web']}" class="form-control" />
+	                        <div class="help-block">视频缩略图地址，请正确设置否则图片无法正常显示,末尾不带 /</div>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">主域名保护</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="share_safe" name="data[share_safe]" value="{$config['share_safe']}" class="form-control" />
+	                        <div class="help-block">多个域名以半角逗号","隔开，域名需要加入微信公众号JS白名单，并解析到微擎,不启用留空。原理：开启后任何访问都会随机在这里面的域名里跳转，不会使用微擎主域名，即便被投诉也投诉了这里所设置域名。</div>
+	                    </div>
+	                </div>
+				</div>
+				
+				
+				<div class="tab-pane" id="tab_5">      
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启APP</label>
+	                    <div class="col-sm-9">
+	                        <select id="app_open" name="data[app_open]" class="form-control">
+	                        	<option value="0" {if $config['app_open'] == 0}selected{/if}>不启用</option>
+	                        	<option value="1" {if $config['app_open'] == 1}selected{/if}>启用</option>
+	                        </select>
+	                        <div class="help-block">是否开启APP功能</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">APP名称</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="app_name" name="data[app_name]" value="{$config['app_name']}" class="form-control" />
+	                        <div class="help-block">APP名称</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">APP二维码</label>
+	                    <div class="col-sm-9">
+	                        {php echo tpl_form_field_image('data[app_code]',$config['app_code'], '../addons/time_tvod/static/images/nopic.jpg', array('width' => 400, 'height' => 400))}
+	                        <span class="help-block" style="color:#f00">建议尺寸200*200</span>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                	 <label class="col-xs-12 col-sm-3 col-md-2 control-label">APP定制</label>
+	                    <div class="col-sm-9">
+	                    	客服1：<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=42559551&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:42559551:51" alt="APP定制" title="APP定制"/></a>
+	                    	客服2：<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=313039847&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:313039847:51" alt="APP定制" title="APP定制"/></a>
+	                    	使用交流QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=a28897236f27abd2cfdfaccdc4b73a6357f2caedb52bfc32535dd87260f0e14b"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="交流QQ群" title="交流QQ群"></a>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="tab-pane" id="tab_6">   
+
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启VIP</label>
+	                    <div class="col-sm-9">
+	                        <select id="vip_open" name="data[vip_open]" class="form-control">
+	                        	<option value="0" {if $config['vip_open'] == 0}selected{/if}>不启用</option>
+	                        	<option value="1" {if $config['vip_open'] == 1}selected{/if}>启用</option>
+	                        </select>
+	                        <div class="help-block">是否开启VIP功能</div>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">VIP费用设置</label>
+	                    <div class="col-sm-9">
+	                        <textarea id="vip_data" name="data[vip_fee]" class="form-control">{$config['vip_fee']}</textarea>
+	                        <div class="help-block">格式：1(序号)|日卡|1(天)|1(元)|10(积分)</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">新会员赠点</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="app_name" name="data[vip_freenum]" value="{$config['vip_freenum']}" class="form-control" />
+	                        <div class="help-block">开启VIP状态下，新会员免费赠送多少次观看</div>
+	                    </div>
+	                </div>
+	                
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启分销</label>
+	                    <div class="col-sm-9">
+	                        <select id="fx_open" name="data[fx_open]" class="form-control">
+	                        	<option value="0" {if $config['fx_open'] == 0}selected{/if}>不启用</option>
+	                        	<option value="1" {if $config['fx_open'] == 1}selected{/if}>启用</option>
+	                        </select>
+	                        <div class="help-block">是否开启VIP充值分销功能</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">现金提成比例</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="fx_fee" name="data[fx_fee]" value="{$config['fx_fee']}" class="form-control" />
+	                        <div class="help-block">30%(一级领导比例)|20%(二级领导比例)|10%(三级领导比例) ，不启用则留空</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请注册积分奖励</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="fx_point" name="data[fx_point]" value="{$config['fx_point']}" class="form-control" />
+	                        <div class="help-block">30(一级领导)|20(二级领导)|10(三级领导) ，不启用则留空</div>
+	                    </div>
+	                </div>
+	                
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">模版消息ID（会员）</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="mbxx_user" name="data[mbxx_user]" value="{$config['mbxx_user']}" class="form-control" />
+	                        <div class="help-block">充值成功通知：OPENTM406209789</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">模版消息ID（上级）</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="mbxx_leader" name="data[mbxx_leader]" value="{$config['mbxx_leader']}" class="form-control" />
+	                        <div class="help-block">代销订单提成通知：OPENTM207664679</div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">模版消息ID（积分）</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" id="mbxx_point" name="data[mbxx_point]" value="{$config['mbxx_point']}" class="form-control" />
+	                        <div class="help-block">积分变动提醒：OPENTM207509450</div>
+	                    </div>
+	                </div>
+	                
+	                
+	            </div>
+	            
+	            <div class="tab-pane" id="tab_7">   
+	            	
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">开启提现</label>
+	                    <div class="col-sm-9">
+	                        <select id="fx_open" name="data[tx_open]" class="form-control">
+	                        	<option value="0" {if $config['tx_open'] == 0}selected{/if}>不启用</option>
+	                        	<option value="1" {if $config['tx_open'] == 1}selected{/if}>启用</option>
+	                        </select>
+	                        <div class="help-block">是否开启红包提现功能</div>
+	                    </div>
+	                </div>
+	            	
+	            	
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">红包提现</label>
+	                    <div class="col-sm-9">
+	                        <select id="fx_open" name="data[hbtx_open]" class="form-control">
+	                        	<option value="0" {if $config['hbtx_open'] == 0}selected{/if}>不启用</option>
+	                        	<option value="1" {if $config['hbtx_open'] == 1}selected{/if}>启用</option>
+	                        </select>
+	            			<p class="help-block text-danger">
+	            				开通红包提现功能需要自己商户支持红包功能，否则下列功能无法使用！
+	            			</p>
+	                    </div>
+	                </div>
+	            	
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">ROOTCA.PEM</label>
+	                    <div class="col-sm-9">
+							请将"rootca.pem"上传到 {$cert['ca']}
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">CERT.PEM</label>
+	                    <div class="col-sm-9">
+							请将"apiclient_cert.pem"上传到 {$cert['cert']}
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">KEY.PEM</label>
+	                    <div class="col-sm-9">
+							请将"apiclient_key.pem"上传到 {$cert['key']}
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+            
+		    <div class="form-group">
+		    	<div class="col-sm-8 col-sm-offset-3  col-md-7 col-md-offset-2">
+		        	<input type="submit" name="submit" value="提交" class="btn btn-primary" />
+		        	<input type="hidden" name="token" value="{$_W['token']}" />
+		        </div>
+		    </div>
+            
+        </div>
+    </div>
+
+	</form>
+</div>
+<script type="text/javascript">
+    require(['util'],function(util){
+        util.editor( $(".richtext")[0]);
+    });
+    $(function () {
+        window.optionchanged = false;  require(['bootstrap'],function(){
+        $('#myTab a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        }) });
+    });
+</script>
+
+
+{template 'common/footer'}

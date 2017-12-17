@@ -1,0 +1,55 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('cash', array('op' => 'display'))}">充值日志</a></li>	
+</ul>
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+             <form action="" method="post" class="form form-horizontal">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+
+					 	<th style="width:10%;text-align:center;">记录ID</th>
+                        <th style="width:30%;text-align:center;">用户昵称</th>
+						<th style="width:15%;text-align:center;">充值额度</th>
+						<th style="width:15%;text-align:center;">支付方式</th>
+						<th style="width:15%;text-align:center;">提现状态</th>
+						<th style="width:15%;text-align:center;">创建时间</th>
+                        <th style="width:20%;text-align:center;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $items $row}
+                    <tr>
+                        <td class="text-center"><span class="text-info">{$row['sn']}</td>	
+						<td class="text-center">{$users[$row['uid']]['nickname']}</td>
+						<td class="text-center">
+							{if $row['method'] == 0}￥{$row['money']}{/if}
+							{if $row['method'] == 2}{$row['point']}积分{/if}
+							
+						</td>
+						<td class="text-center">
+							{$fees[$row['feeid']]['name']} ({$fees[$row['feeid']]['day']}天)
+						</td>
+						<td class="text-center">
+							{if $row['status'] > 0}<span class="label label-success">支付成功</span>{else}<span class="label label-default">尚未支付</span>{/if}
+						</td>
+						<td class="text-center">{php echo date('Y-m-d H:i',$row['create_time'])}</td>
+                        <td class="text-center">
+						    <button class="btn btn-sm" disabled="disabled">取消</button>
+						</td>
+                    <tr>
+                    {/loop}
+                    </tbody>
+                </table>
+          
+			<div class="pull-right">
+			{$pager}
+			</div>
+			</form>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

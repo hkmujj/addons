@@ -1,0 +1,143 @@
+{template 'common/header'}
+<style type="text/css">
+      .gx-jz{
+        height:80px;width:80px;
+        border:1px solid #C3C3C3;
+        text-align:center;
+        float:left;
+        margin-left: 0px;
+        font-size:8px;
+      }
+      .gx-jz img{
+        margin-top:10px;
+      }
+      .form-group{
+  margin-top:15px;
+  height:auto;
+}
+.foat_one{
+  float:left;
+  margin-left: 5px;
+}
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;">
+    <h3 class="panel-title">个人账单管理</h3>
+  </div>
+</div>
+<ul class="nav nav-tabs">
+  <li role="presentation" {if $operation == 'list'}class="active"{/if}><a href="{php echo $this->createMobileUrl('zhangdan', array('op' => 'list'))}">账单列表</a></li>
+  <li role="presentation" {if $operation == 'add'}class="active"{/if}><a href="{php echo $this->createMobileUrl('zhangdan', array('op' => 'add'))}">添加</a></li>
+</ul>
+{if $operation == 'list'}
+<form  action="" method="POST" >
+  <div class="form-group" > 
+    <div style="width:110px;" class="foat_one">{php echo _tpl_form_field_date('add_time',$time);}
+    </div>
+    <div style="width:110px;" class="foat_one">{php echo _tpl_form_field_date('add_time_1',$time1);}
+    </div>
+    <div style="width:80px;height:40px;border:1px solid #e7e6e6;" class="foat_one">
+      <select class="form-control" name="zhang_type" >
+        <option value="1" {if $zhang_type==1}selected{/if}>日常支出</option>
+        <option value="2" {if $zhang_type==2}selected{/if}>日常收入</option>
+        <option value="3" {if $zhang_type==3}selected{/if}>礼金支出</option>
+        <option value="4" {if $zhang_type==4}selected{/if}>朋友借款</option>
+      </select>
+    </div>
+    <div class="foat_one">
+        <input type="hidden" name="token" value="{$_W['token']}">
+        <input type="submit" name="chaxun" class="btn btn-default" value="查询" style="height: 40px;"/>
+    </div>
+  </div>
+  </form>
+<table class="table table-bordered" style="margin-top:20px;">
+    <tr style="text-align:center;"><th>时间</th><th>账单名称</th><th>类型</th><th>金额</th><th>删除</th></tr>
+    {loop $list $key $item}
+    <tr style="text-align:center;"><td>{php echo date('Y-m-d',$item['zhang_addtime']);}</td><td>{$item['zhang_name']}</td><td>{$zhang_type_1[$item['zhang_type']]}</td><td>{$item['zhang_money']}</td><td><!-- <a href="{php echo $this->createMobileUrl('tradedelete',array('share_id'=>$ress['share_id']))}"> --><a href="{php echo $this->createMobileUrl('ZhangDanDelete',array('z_id'=>$item['z_id'],'zhang_type'=>$item['zhang_type']))}" onclick="return confirm('确定将此记录删除?')"><i class="glyphicon glyphicon-trash"></i></a></td></tr>
+    {/loop}
+    <tr><td colspan="2"></td><td>总计</td><td style="text-align:center;">{php echo empty($sum['sum'])?'0':$sum['sum'];}</td><td></td></tr>
+</table>
+
+{elseif $operation == 'add'}
+<div class="panel-body">
+  <form class="form-horizontal" action="" method="POST" onsubmit="return checkform()">
+
+  <label for="inputEmail3" class="col-sm-2 control-label">账单分类</label>
+  <div style="height:40px;border:1px solid #e7e6e6;" class="">
+      <select class="form-control" name="zhang_type" >
+        <option value="1" >日常支出</option>
+        <option value="2" >日常收入</option>
+        <option value="3" >礼金支出</option>
+        <option value="4" >朋友借款</option>
+      </select>
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">账单名称</label>
+    <div class="col-sm-10">
+      <input type="text" name="zhang_name" class="form-control" id="inputEmail3" placeholder="" >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">账单金额</label>
+    <div class="col-sm-10">
+      <input type="text" name="zhang_money" class="form-control" id="inputEmail3" placeholder="元" >
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10" style="text-align:center;">
+      <input type="hidden" name="token" value="{$_W['token']}">
+      <input type="submit" name="submit" class="btn btn-default" value="提交" />
+    </div>
+  </div>
+</form>
+</div>
+{/if}
+
+<script type="text/javascript">
+  
+function checkform(){
+  if($("input[name='zhang_name']").val() == ''){
+    alert('账单名称不能为空');
+    return false;
+  }
+  if($("input[name='zhang_name']").val().length >6){
+    alert('账单名称不能超过6字符');
+    return false;
+  }
+  var regu1 = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/   
+  var re1 = new RegExp(regu1);    
+  if (!re1.test($("input[name='zhang_money']").val())) {
+      alert('金额格式不正确');
+      return false;  
+  }
+  return true;
+}
+
+
+
+$('#btn_alert').click(
+function delete(){
+  alert('dd');
+
+
+/*$.ajax({
+           url:"{php echo $this->createMobileUrl('ZhangDanDelete')}",
+
+            type:'post',
+            data:$("form").serialize()+str,
+            dataType:'json',
+            success:function(data){
+
+                if(data.success==1){
+                    alert("报名成功");
+
+                }else{
+                    alert(mydata.desc);
+                }
+            }
+        });*/
+});
+</script>
+{template './footer_nav'}
+{template 'common/footer'}

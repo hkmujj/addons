@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>频道</title>
+		<link rel="stylesheet" href="/public/css/framework7.ios.min.css">
+		<link rel="stylesheet" href="/public/css/app.css">
+	</head>
+
+	<body>
+		<div class="statusbar-overlay"></div>
+		<div class="views">
+			<div class="view view-main">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left">
+				            <a href="#" class="link back">
+				                <i class="icon icon-back"></i><span>返回</span>
+				            </a>
+						</div>
+						<div class="center sliding">搜索</div>
+						<div class="right"></div>
+					</div>
+				</div>
+				<div class="pages navbar-through toolbar-through">
+					<div id="search-page" data-page="search" class="page">
+						<input class="currentPage" type="hidden" value="1" />
+					    <!-- Search Bar -->
+					    <form class="searchbar" method="post" action="/search/list.html">
+					        <div class="searchbar-input">
+					            <input id="keyword" type="search" placeholder="搜索想看的...">
+					            <a href="#" class="searchbar-clear"></a>
+					        </div>
+					        <a href="#" class="searchbar-cancel">取消</a>
+					    </form>
+					    
+					    <!-- Search Bar overlay-->
+					    <div class="searchbar-overlay"></div>
+
+						<div class="page-content infinite-scroll">
+							
+							<div class="list-block media-list <neq name="cate.t_pid" value="0">ui-ma-0</neq>">
+								<ul class="currentList"></ul>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</body>
+</html>

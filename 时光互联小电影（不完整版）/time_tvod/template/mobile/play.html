@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$vod['d_name']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/swiper.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+	</head>
+<body>
+ 	<div class="page-group">
+		<div class="page page-current">
+			<div class="content">
+				<header class="bar bar-nav bar-play">
+					<a class="button button-link button-nav pull-left back">
+						<span class="icon icon-left"></span>
+					</a>
+				</header>
+				{if $vipcheck != 1}
+				<iframe class="player" src="{$list[0]['data'][0]['url']}"></iframe>
+				<div class="player-sub">
+					<div class="row">
+						<div class="col-75">
+							<div class="name">{$vod['d_name']}</div>
+							<p class="info">{$vod['d_hits']}人观看</p>
+						</div>
+						<div class="col-25">
+							<a class="discribe external" href="{$config['yd_url']}">+ 关注</a>
+						</div>
+					</div>
+				</div>
+				<div class="buttons-tab tui-mt-10">
+					{php $i=0 }
+			    	{loop $list $item}
+			    	<a href="#tab-play-{$i}" class="tab-link button {if $i == 0}active{/if}">{$item[name]}</a>
+			    	{php $i++ }
+			    	{/loop}
+			    	{if $config['app_open'] == 1}
+			    	<a href="#tab-play-{$i}" class="tab-link button">APP</a>
+			    	{/if}
+				</div>
+				<div class="player-list">
+					<div class="tabs">
+						{php $i=0 }
+						{php $x=0 }
+				    	{loop $list $item}
+					    <div id="tab-play-{$i}" class="tab {if $i == 0}active{/if}">
+							{loop $item['data'] $var}
+							<a class="item {if $x == 0}active{/if}" href="#" rel-link="{$var['url']}">{$var['name']}</a>
+							{php $x++ }
+							{/loop}
+					    </div>
+				    	{php $i++ }
+				    	{/loop}
+				    	{if $config['app_open'] == 1}
+				    	<div id="tab-play-{$i}" class="tab">
+				    		<div class="app-box">
+				    			<img src="{$_W['attachurl']}{$config['app_code']}" />
+				    			<p>长按下载【{$config['app_name']}】APP，免费看VIP电影</p>
+				    		</div>
+				    	</div>
+				    	{/if}
+					</div>
+				</div>
+				
+				<div class="index-title tui-border-b tui-mt-10">
+					<i></i>
+					<h4>视频介绍</h4>
+				</div>
+				<div class="player-detail">
+					{$vod['d_content']}
+				</div>
+				{/if}
+			</div>
+		</div>
+	</div>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+	{php echo register_jssdk(false);} 
+	<script>
+		wx.ready(function () {
+			wx.hideAllNonBaseMenuItem();
+		});
+		
+		$(document).on("click",".tabs .item",function(){
+			$(".tabs .item").removeClass("active");
+			$(this).addClass("active");
+			var playUrl = $(this).attr("rel-link");
+			$(".player").attr("src",playUrl);
+		});
+		{if $vipcheck == 1}
+			var url = "{php echo $this->createMobileUrl('user',array('op' => recharge))}";
+			$.alert("该视频为会员视频,您的免费次数已用完，请开通会员！","提示",function(){
+				window.location.href = url;
+			});
+		{/if}
+	</script>
+</body>
+</html>

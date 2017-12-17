@@ -1,0 +1,198 @@
+{template 'common/header'}
+
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form"  id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				编辑信息
+			</div>
+			<div class="panel-body">
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">微信昵称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" value="{$list['nickname']}" disabled />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">真实姓名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" class="form-control" name="realname" value="{$list['realname']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2  control-label">区域</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="cat_id" class='form-control'>
+							{loop $category $row}
+							<option value="{$row['id']}" style="color:#C60A27;" {if $list['cat_id'] ==$row['id'] } selected{/if}>|—{$row['name']}</option>
+							{loop $children[$row['id']] $row}
+							<option value="{$row['id']}" {if $list['cat_id'] ==$row['id'] } selected{/if}>|——{$row['name']}</option>
+							{loop $grandson[$row['id']] $row}
+							<option value="{$row['id']}" {if $list['cat_id'] ==$row['id'] } selected{/if}>|————{$row['name']}</option>
+							{/loop}
+							{/loop}
+							{/loop}
+						</select>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">代理状态</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='1' {if $list['status']==1}checked{/if} /> 正常
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='0' {if $list['status']==0}checked{/if} /> 禁用
+						</label>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="确定" class="btn btn-primary col-lg-1 " />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{elseif $operation == 'display'}
+
+<div class="main" style="margin-top:2px;height:auto;">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body" style="height:60px;">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="dxf_jwt" />
+			<input type="hidden" name="do" value="private" />
+			<input type="hidden" name="op" value="display" />
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">区域</label>
+				<div class="col-sm-7 col-xs-12">
+					<select name="cat_id" class='form-control'>
+							<option value="0" >全部</option>
+							{loop $category $row}
+							<option value="{$row['id']}" style="color:#C60A27;" {if $_GPC['cat_id'] ==$row['id'] } selected{/if}>|—{$row['name']}</option>
+							{loop $children[$row['id']] $row}
+							<option value="{$row['id']}" {if $_GPC['cat_id'] ==$row['id'] } selected{/if}>|——{$row['name']}</option>
+							{loop $grandson[$row['id']] $row}
+							<option value="{$row['id']}" {if $_GPC['cat_id'] ==$row['id'] } selected{/if}>|————{$row['name']}</option>
+							{/loop}
+							{/loop}
+							{/loop}
+					</select>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+
+			<div class="form-group">
+				
+				
+			</div>
+
+			<div class="form-group">
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.label{cursor:pointer;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:10%;">微信头像</th>
+					<th style="width:10%;">微信昵称</th>
+					<th style="width:10%;">代理姓名</th>
+					<th style="width:10%;">代理等级</th>
+					<th style="width:10%;">城市</th>
+					<th style="width:10%;">代理区域</th>
+					<th style="width:10%;">状态</th>
+					<th style="width:10%;">加入时间</th>
+					<th style=" width:10%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td><img src="{$item['headimg']}" style="width:60px;height:60px;" /></td>
+					<td>{$item['nickname']}</td>
+					
+					<td>{$item['realname']}</td>
+					<td>{$lang['level'][$item['level']]}</td>
+					<td>
+					{if $item['level']==1}
+					{$item['name']}
+					{elseif $item['level']==2}
+					{$four[$item['parentid']]['name']}
+					{elseif $item['level']==3}
+					{$four[$four[$item['parentid']]['parentid']]['name']}
+					{/if}
+					
+
+
+					</td>
+					<td>{$item['name']}</td>
+					<td>
+						{if $item['status']==1}
+							<span class='label label-success'>正常</span>
+						{else}
+							<span class='label label-danger'>禁用</span>
+						{/if}
+					</td>
+					<td>{php echo date('m-d H:i',$item['ctime'])}</td>
+					<td style="">
+						<a href="{php echo $this->createWebUrl('private', array('id' => $item['id'], 'op' => 'post'))}"class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><i class="fa fa-pencil"></i></a>
+						<a href="{php echo $this->createWebUrl('private', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('删除后将不可恢复？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</div>
+</div>
+<script type="text/javascript">
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+
+	var category = {php echo json_encode($children)};
+	function setProperty(obj,id,type){
+		$(obj).html($(obj).html() + "...");
+		$.post("{php echo $this->createWebUrl('setgoodsproperty')}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("...",""));
+				if(type=='type'){
+				 $(obj).html( d.data=='1'?'实体物品':'虚拟物品');
+				}
+				if(type=='status'){
+				 $(obj).html( d.data=='1'?'上架':'下架');
+				}
+				$(obj).attr("data",d.data);
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+
+</script>
+{/if}
+{template 'common/footer'}

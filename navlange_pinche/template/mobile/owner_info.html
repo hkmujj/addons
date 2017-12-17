@@ -1,0 +1,229 @@
+{template 'common/header'}
+<style>
+.mui-input-group:before {
+    height:0px;
+}
+.mui-input-group:after {
+    height:0px;
+}
+</style>
+<div class="mui-content" style="background-color: {$conf['bg_color']}">
+    <div style="margin:10px">
+        <form class="mui-input-group" role="form" action="" method="POST">
+            <div class="mui-input-row">
+                <label style="width:30%">车牌号</label>
+                <div style="margin-left:30%;width:70%">
+                    <div style="width:30px;height:40px">
+                        <select id="part_1" name="part_1">
+                            <option {if $owner['car_number_1'] == '京'}selected{/if}>京</option>
+                            <option {if $owner['car_number_1'] == '津'}selected{/if}>津</option>
+                            <option {if $owner['car_number_1'] == '冀'}selected{/if}>冀</option>
+                            <option {if $owner['car_number_1'] == '晋'}selected{/if}>晋</option>
+                            <option {if $owner['car_number_1'] == '蒙'}selected{/if}>蒙</option>
+                            <option {if $owner['car_number_1'] == '辽'}selected{/if}>辽</option>
+                            <option {if $owner['car_number_1'] == '吉'}selected{/if}>吉</option>
+                            <option {if $owner['car_number_1'] == '黑'}selected{/if}>黑</option> 
+                            <option {if $owner['car_number_1'] == '沪'}selected{/if}>沪</option>
+                            <option {if $owner['car_number_1'] == '苏'}selected{/if}>苏</option> 
+                            <option {if $owner['car_number_1'] == '浙'}selected{/if}>浙</option>
+                            <option {if $owner['car_number_1'] == '皖'}selected{/if}>皖</option>
+                            <option {if $owner['car_number_1'] == '闽'}selected{/if}>闽</option>
+                            <option {if $owner['car_number_1'] == '赣'}selected{/if}>赣</option>
+                            <option {if $owner['car_number_1'] == '鲁'}selected{/if}>鲁</option>
+                            <option {if $owner['car_number_1'] == '豫'}selected{/if}>豫</option>
+                            <option {if $owner['car_number_1'] == '鄂'}selected{/if}>鄂</option>
+                            <option {if $owner['car_number_1'] == '湘'}selected{/if}>湘</option> 
+                            <option {if $owner['car_number_1'] == '粤'}selected{/if}>粤</option>
+                            <option {if $owner['car_number_1'] == '桂'}selected{/if}>桂</option>
+                            <option {if $owner['car_number_1'] == '琼'}selected{/if}>琼</option>
+                            <option {if $owner['car_number_1'] == '渝'}selected{/if}>渝</option>
+                            <option {if $owner['car_number_1'] == '川'}selected{/if}>川</option>
+                            <option {if $owner['car_number_1'] == '贵'}selected{/if}>贵</option>
+                            <option {if $owner['car_number_1'] == '云'}selected{/if}>云</option>
+                            <option {if $owner['car_number_1'] == '藏'}selected{/if}>藏</option>
+                            <option {if $owner['car_number_1'] == '陕'}selected{/if}>陕</option>
+                            <option {if $owner['car_number_1'] == '甘'}selected{/if}>甘</option>
+                            <option {if $owner['car_number_1'] == '青'}selected{/if}>青</option>
+                            <option {if $owner['car_number_1'] == '宁'}selected{/if}>宁</option>
+                            <option {if $owner['car_number_1'] == '新'}selected{/if}>新</option>
+                        </select>
+                    </div>
+                    <div style="width:30px;margin-left:30px;margin-top:-40px;height:40px">
+                        <select id="part_2" name="part_2">
+                            <option {if $owner['car_number_2'] == 'A'}selected{/if}>A</option>
+                            <option {if $owner['car_number_2'] == 'B'}selected{/if}>B</option>
+                            <option {if $owner['car_number_2'] == 'C'}selected{/if}>C</option>
+                            <option {if $owner['car_number_2'] == 'D'}selected{/if}>D</option>
+                            <option {if $owner['car_number_2'] == 'E'}selected{/if}>E</option>
+                            <option {if $owner['car_number_2'] == 'F'}selected{/if}>F</option>
+                            <option {if $owner['car_number_2'] == 'G'}selected{/if}>G</option>
+                            <option {if $owner['car_number_2'] == 'H'}selected{/if}>H</option>
+                            <option {if $owner['car_number_2'] == 'I'}selected{/if}>I</option>
+                            <option {if $owner['car_number_2'] == 'J'}selected{/if}>J</option>
+                            <option {if $owner['car_number_2'] == 'K'}selected{/if}>K</option>
+                            <option {if $owner['car_number_2'] == 'L'}selected{/if}>L</option>
+                            <option {if $owner['car_number_2'] == 'M'}selected{/if}>M</option>
+                            <option {if $owner['car_number_2'] == 'N'}selected{/if}>N</option>
+                            <option {if $owner['car_number_2'] == 'O'}selected{/if}>O</option>
+                            <option {if $owner['car_number_2'] == 'P'}selected{/if}>P</option>
+                            <option {if $owner['car_number_2'] == 'Q'}selected{/if}>Q</option>
+                            <option {if $owner['car_number_2'] == 'R'}selected{/if}>R</option>
+                            <option {if $owner['car_number_2'] == 'S'}selected{/if}>S</option>
+                            <option {if $owner['car_number_2'] == 'T'}selected{/if}>T</option>
+                            <option {if $owner['car_number_2'] == 'U'}selected{/if}>U</option>
+                            <option {if $owner['car_number_2'] == 'V'}selected{/if}>V</option>
+                            <option {if $owner['car_number_2'] == 'W'}selected{/if}>W</option>
+                            <option {if $owner['car_number_2'] == 'X'}selected{/if}>X</option>
+                            <option {if $owner['car_number_2'] == 'Y'}selected{/if}>Y</option>
+                            <option {if $owner['car_number_2'] == 'Z'}selected{/if}>Z</option>
+                        </select>
+                    </div>
+                    <div style="margin-left:60px;margin-top:-40px">
+                        <input id="part_3" name="part_3" style="text-transform:uppercase;" maxlength="6"  onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" value="{$owner['car_number_3']}" class="weui_input" type="text" placeholder="请输六位数字字母"/>
+                    </div>
+                </div>
+            </div>
+            <div class="mui-input-row">
+                <label style="width:30%">品牌型号</label>
+                <input id="car_series" name="car_series" value="{$owner['car_series']}" style="width:70%" type="text" class="mui-input-clear" placeholder="请输入车辆品牌型号">
+            </div>
+            <div class="mui-input-row">
+                <label style="width:30%">车辆颜色</label>
+                <input id="car_color" name="car_color" value="{$owner['car_color']}" style="width:70%" type="text" class="mui-input-clear" placeholder="请输入车身颜色">
+            </div>
+            <div style="height:15px;background-color: {$conf['bg_color']};margin-top:10px"></div>
+            <div class="mui-input-row">
+                <label style="width:30%">姓名</label>
+                <input id="name" name="name" value="{$owner['name']}" style="width:70%" type="text" class="mui-input-clear" placeholder="请输入车主姓名">
+            </div>
+            <div class="mui-input-row">
+                <label style="width:30%">联系电话</label>
+                <input id="tel" name="tel" value="{$owner['tel']}" style="width:70%" type="text" class="mui-input-clear" placeholder="请输入车主联系电话">
+            </div>
+            <div style="height:15px;background-color: {$conf['bg_color']};margin-top:10px"></div>
+            <style>
+                .help-block img {
+                    width:100%;
+                    height:auto;
+                }
+            </style>
+            <div style="padding:10px;width:100%">
+                <div style="width:60px;height:40px;text-align: center">行驶证<br>【蓝本】</div>
+                <div style="margin:-40px 0px 0px 60px">
+                    {php load()->func('tpl'); if($owner['vehicle_travel_license'] != '') echo tpl_form_field_image('vehicle_travel_license','images/pinche/license/' . $owner['vehicle_travel_license']); else echo tpl_form_field_image('vehicle_travel_license');}
+                </div>
+            </div>
+            <div style="height:10px;background-color: {$conf['bg_color']}"></div>
+            <div style="padding:10px;width:100%">
+                <div style="width:60px;height:40px;text-align: center">驾驶证<br>【黑本】</div>
+                <div style="margin:-40px 0px 0px 60px">
+                    {php load()->func('tpl'); if($owner['driving_license'] != '') echo tpl_form_field_image('driving_license','images/pinche/license/' . $owner['driving_license']); else echo tpl_form_field_image('driving_license');}
+                </div>
+            </div>
+            <div style="height:10px;background-color: {$conf['bg_color']}"></div>
+            <div style="padding:10px;width:100%">
+                <div style="width:60px;height:40px;text-align: center;line-height: 40px">车辆照片</div>
+                <div style="margin:-40px 0px 0px 60px">
+                    {php load()->func('tpl'); if($owner['car_img'] != '') echo tpl_form_field_image('car_img','images/pinche/license/' . $owner['car_img']); else echo tpl_form_field_image('car_img');}
+                </div>
+            </div>
+        </form>
+    </div>
+    <div style="height:80px"></div>
+    <div style="position:fixed;bottom:0px;padding:5px 10px;background-color: white;width:100%">
+        {if empty($owner)}
+            <button class="mui-btn mui-btn-block" style="background-color: {$conf['color']};color:white;margin:0px" onclick="info_submit()">提交认证</button>
+        {else if $owner['status'] == '0'}
+            <button class="mui-btn mui-btn-block" style="background-color: #F3F3F3;margin:0px">等待审核</button>
+        {else if $owner['status'] == '1'}
+            <button class="mui-btn mui-btn-block" style="background-color: red;color:white;margin:0px" onclick="cancel_bind()">解除绑定</button>
+        {else if $owner['status'] == '2'}
+            <button class="mui-btn mui-btn-block" style="background-color: {$conf['color']};color:white;margin:0px" onclick="info_submit()">重新认证</button>
+        {/if}
+        {if $owner['status'] != '1' && $conf['agreement_on'] == '1'}
+            <div style="text-align: center">
+                <input name="agreement_check" type="checkbox" /><span>同意<a href="javascript:show_agreement()">《{$conf['agreement_title']}》</a></span>
+            </div>
+        {/if}
+    </div>
+</div>
+<div id="agreement_panel" style="position: absolute;top:0px;left:0px;width:100%;height:100;padding:10px;z-index: 999;display: none">
+    <div id="agreement_content" style="background-color: white;padding: 10px;overflow-y:scroll">
+        {php echo htmlspecialchars_decode(str_replace(array("\r\n", "\r", "\n"), "", $conf['agreement_content']));}
+    </div>
+    <div style="position: absolute;top:20px;right:20px;width:30px;height:30px">
+        <img src="{$_W['siteroot']}addons/navlange_reserve_service/template/style/img/close.png" width="30px" height="30px" onclick="close_agreement()" />
+    </div>
+</div>
+<script>
+var mask = mui.createMask(function(){});//callback为用户点击蒙版时自动执行的回调；
+$(function(){
+    var height = document.documentElement.clientHeight-20;
+    $("#agreement_content").css('height',height);
+})
+function show_agreement() {
+    mask.show();//显示遮罩
+    $("#agreement_panel").show();
+}
+function close_agreement() {
+    $("#agreement_panel").hide();
+    mask.close();
+}
+function info_submit() {
+    var agreed = $("input[name='agreement_check']:checked").val();
+    if(agreed != 'on') {
+        alert("请阅读协议！");
+    } else {
+        if($("#part_3").val() == "") {
+            alert("请输入车牌号！");
+            $("#part_3").focus();
+        } else if ($("#car_series").val() == '') {
+            alert("请输入车辆品牌型号！");
+            $("#car_series").focus();
+        } else if ($("#car_color").val() == '') {
+            alert("请输入车辆颜色!");
+            $("#car_color").focus();
+        } else if ($("#name").val() == '') {
+            alert("请输入姓名！");
+            $("#name").focus();
+        } else if ($("#tel").val() == "") {
+            alert("请输入联系电话！");
+            $("#tel").focus();
+        } else {
+            $.post("{php echo $this->createMobileurl('owner_info',array('op'=>'info_submit'))}",{
+                    part_1:$("#part_1").val(),
+                    part_2:$("#part_2").val(),
+                    part_3:$("#part_3").val(),
+                    car_series:$("#car_series").val(),
+                    car_color:$("#car_color").val(),
+                    name:$("#name").val(),
+                    tel:$("#tel").val(),
+                    vehicle_travel_license:$("input[name='vehicle_travel_license']").val(),
+                    driving_license:$("input[name='driving_license']").val(),
+                    car_img:$("input[name='car_img']").val(),
+                },function(resp) {
+                    resp = $.parseJSON(resp);
+                    if(resp.message.errno == 0) {
+                        alert("信息提交成功！");
+                        location.reload();
+                    }
+                }
+            );
+        }
+    }
+}
+function cancel_bind() {
+    var r = confirm("解除绑定！解除后如果想再次提供拼车服务需要重新认证！");
+    if(r) {
+        $.post("{php echo $this->createMobileurl('owner_info',array('op'=>'cancel_bind'))}",
+            function(resp) {
+                resp = $.parseJSON(resp);
+                if(resp.message.errno == '0') {
+                    alert("解除绑定成功！");
+                    location.reload();
+                }
+            }
+        );
+    }
+}
+</script>

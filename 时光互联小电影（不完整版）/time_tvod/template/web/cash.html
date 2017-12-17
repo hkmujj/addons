@@ -1,0 +1,59 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('cash', array('op' => 'display'))}">提现日志</a></li>	
+</ul>
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+             <form action="" method="post" class="form form-horizontal">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+
+					 	<th style="width:10%;text-align:center;">记录ID</th>
+                        <th style="width:10%;text-align:center;">用户昵称</th>
+						<th style="width:15%;text-align:center;">提现金额</th>
+						<th style="width:10%;text-align:center;">提现方式</th>
+						<th style="width:15%;text-align:center;">提现状态</th>
+						<th style="width:15%;text-align:center;">创建时间</th>
+                        <th style="width:25%;text-align:center;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $items $row}
+                    <tr>
+                        <td class="text-center"><span class="text-info">{$row['id']}</td>	
+						<td class="text-center">{$users[$row['uid']]['nickname']}</td>
+						<td class="text-center">{$row['money']}</td>
+						<td class="text-center">
+							{if $row['method'] == 0}微信红包{/if}
+							{if $row['method'] == 1}支付宝【{$row['account']}】{/if}
+							{if $row['method'] == 2}个人微信【{$row['account']}】{/if}
+						</td>
+						<td class="text-center">
+							{if $row['status'] > 0}<span class="label label-success">提现成功</span>{else}<span class="label label-default">尚未处理</span>{/if}
+						</td>
+						<td class="text-center">{php echo date('Y-m-d H:i',$row['create_time'])}</td>
+                        <td class="text-center">
+                        	{if $row['status'] == 0}
+						    <a class="btn btn-info btn-sm" onclick="return confirm('确定审核吗？');return false;" href="{php echo $this->createWebUrl('cash', array('op' => 'audit', 'id' => $row['id']))}" title="审核">审核</a>
+						    <a class="btn btn-danger btn-sm" onclick="return confirm('确定取消吗？');return false;" href="{php echo $this->createWebUrl('cash', array('op' => 'close', 'id' => $row['id']))}" title="取消">取消</a>
+						    {else}
+						    <button class="btn btn-sm" disabled="disabled">审核</button>
+						    <button class="btn btn-sm" disabled="disabled">取消</button>
+						    {/if}
+						</td>
+                    <tr>
+                    {/loop}
+                    </tbody>
+                </table>
+          
+			<div class="pull-right">
+			{$pager}
+			</div>
+			</form>
+        </div>
+    </div>
+</div>
+{template 'common/footer'}

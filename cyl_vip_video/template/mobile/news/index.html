@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta name="author" content="lsl">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="generator" content="webstorm">
+<!--移动端响应式-->
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<!--支持IE的兼容模式-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--让部分国产浏览器默认采用高速模式渲染页面-->
+<meta name="renderer" content="webkit">
+<!--页面style css-->
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}style/css/base.css">
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}style/css/li.css">
+<link rel="stylesheet" href="{MODULE_URL}/weui/swiper.min.css"/>
+<title>{$settings['site_title']}</title>
+<!--JQ库-->
+<script src="{MODULE_URL}/weui/zepto.min.js"></script>
+<script src="{MODULE_URL}/weui/iscroll.js"></script>
+<script src="{MODULE_URL}style/js/li.js"></script>
+<script src="{MODULE_URL}/weui/swiper.min.js"></script>
+<script>
+  $(function(){
+    TagNav('#tagnav',{
+        type: 'scrollToFirst',
+    });
+    $('.weui_tab').tab({
+    defaultIndex: 0,
+    activeClass:'weui_bar_item_on',
+    onToggle:function(index){
+    if(index>0){
+    alert(index)
+    }
+    }
+});
+});     
+</script>
+
+</head>
+<body>
+<!-- <header class="header p_r clearfix">
+  <h2>VIP看片神器</h2>
+  <div class="fanhui_box clearfix"> <a class="fl fanhui"> &lt;&nbsp;返回 </a> </div>
+</header> -->
+<section class="logo_box clearfix">
+  <div class="fl"> <a href=""><img class="logo_img" src="{if $settings['logo']}{php echo tomedia($settings['logo'])}{else}{MODULE_URL}style/images/icon_1_06.png{/if}"></a> </div>
+  <div class="sosuo_box fl">
+    <form  action="./index.php" method="get" role="form">
+    <input type="hidden" name="i" value="{$_W['uniacid']}">  
+    <input type="hidden" name="c" value="{$_GPC['c']}">  
+    <input type="hidden" name="do" value="search">  
+    <input type="hidden" name="m" value="{$_GPC['m']}">
+    <input class="btn_com btn_sosuo" type="text" placeholder="请输入影视、电视剧关键词、支持拼音" name="key" value="{$key}">
+    </form>
+  </div>
+  <div class="fr"><a class="tanchu" href="javascript:void(0)"><em class="jilu"></em></a></div>
+</section>
+<div id="tagnav" class="weui-navigator weui-navigator-wrapper">
+  <ul class="weui-navigator-list">
+    <li {if $op == 'index'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index');}">首页</a></li>
+    <li {if $op == 'dianying'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'dianying'));}">电影</a></li>
+    <li {if $op == 'dianshi'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'dianshi'));}">剧集</a></li>
+    <li {if $op == 'zongyi'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'zongyi'));}">综艺</a></li>
+    <li {if $op == 'dongman'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'dongman'));}">动漫</a></li>
+    {loop $category $category_list}
+    <li {if $op == $category_list['id']}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>$category_list['id'],'pid'=>$category_list['parentid']));}">{$category_list['name']}</a></li>
+    {/loop} 
+  </ul>
+</div>
+
+<section class="guanzhu_box">
+<span class="jishu fl">{$settings['subscribe_title']}</span>
+<a class="guanzhu fl" {if $settings['subscribe_url']}href="{$settings['subscribe_url']}"{else}href="javascript:;"{/if}>点我关注，获取更多精彩</a>
+<a class="fr" href="javascript:;"><em class="close"></em></a>
+</section>
+
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        {loop $hdp $v}
+        <div class="swiper-slide">
+            {if $v['out_link']}
+            <a href="{$v['out_link']}">
+            {else}
+            <a href="{php echo $this->createMobileUrl('detail',array('op'=>$v['type']));}&url={$v['link']}">
+            {/if}
+            <img src="{php echo tomedia($v['thumb'])}" width="100%" >
+            <div style="position: absolute;width: 100%;height: 30px;line-height: 30px;bottom: 0;background: rgba(10, 10, 10, 0.64);color: #fff;">{$v['title']}</div>
+            </a>
+        </div>
+        {/loop}           
+    </div> 
+</div>
+
+<section class="gonggao_box clearfix">
+  <div class="gonggao_box2 clearfix"> <span class="gonggao fl">公告</span>
+    <p class="fl xianshi" style="width: 80%;height: 27px"><marquee scrollamount="5" direction="left" onMouseOver="this.stop()"><a href="{$settings['index_gg_url']}">{$settings['index_gg']}</a></marquee></p>
+  </div>
+</section>
+{if $op == 'index'}
+{if $data}
+<section class="tuijian_box">
+  <h2 class="clearfix tuijian bgfff" ><em class="dianyin"></em>最新增加<a class="fr more" href="">More<em class="more_icon"></em></a></h2>
+  <div class="dianying_box  bgfff clearfix">
+    <ul class="clearfix">      
+      {loop $data $key $v}
+      {if $key < $num}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('id'=>$v['id'],'op'=>$v['cid']));}"><img src="{php echo tomedia($v['thumb'])}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('id'=>$v['id'],'op'=>$v['cid']));}"><span class="biaoti">{php echo cutstr($v['title'],8)}</span></a></li>
+      {/if}
+      {/loop}           
+    </ul>
+  </div>
+</section>
+{/if}
+<section class="tuijian_box">
+  <h2 class="clearfix tuijian bgfff" ><em class="dianyin"></em>电影推荐<a class="fr more" href="{php echo $this->createMobileUrl('index',array('op'=>'dianying'));}">More<em class="more_icon"></em></a></h2>
+  <div class="dianying_box  bgfff clearfix">
+    <ul class="clearfix">      
+      {loop $dianying $key $v}
+      {if $key < $num}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>'dianying'));}&url={$v['link']}"><img src="{$v['img']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>'dianying'));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],8)}</span></a></li>
+      {/if}
+      {/loop}           
+    </ul>
+  </div>
+</section>
+<section class="tuijian_box">
+  <h2 class="clearfix tuijian bgfff"><em class="dianshiju"></em>电视剧推荐<a class="fr more" href="{php echo $this->createMobileUrl('index',array('op'=>'dianshi'));}">More<em class="more_icon"></em></a></h2>
+  <div class="dianying_box  bgfff clearfix">
+    <ul class="clearfix">
+      {loop $dianshi $key $v}
+      {if $key < $num}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>'dianshi'));}&url={$v['link']}"><img src="{$v['img']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>'dianshi'));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],8)}</span></a></li>
+      {/if}
+      {/loop}       
+    </ul>
+  </div>
+</section>
+<section class="tuijian_box">
+  <h2 class="clearfix tuijian bgfff"><em class="zongyi"></em>综艺推荐<a class="fr more" href="{php echo $this->createMobileUrl('index',array('op'=>'zongyi'));}">More<em class="more_icon"></em></a></h2>
+  <div class="dianying_box clearfix bgfff">
+    <ul class="clearfix">
+     {loop $zongyi $key $v}
+      {if $key < $num}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>'zongyi'));}&url={$v['link']}"><img src="{$v['img']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>'zongyi'));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],8)}</span></a></li>
+      {/if}
+      {/loop}       
+    </ul>
+  </div>
+</section>
+<section class="tuijian_box">
+  <h2 class="clearfix tuijian bgfff"><em class="dongman"></em>动漫推荐<a class="fr more" href="{php echo $this->createMobileUrl('index',array('op'=>'dongman'));}">More<em class="more_icon"></em></a></h2>
+  <div class="dianying_box clearfix bgfff">
+    <ul class="clearfix">
+      {loop $dongman $key $v}
+      {if $key < $num}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>'dongman'));}&url={$v['link']}"><img src="{$v['img']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>'dongman'));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],8)}</span></a></li>
+      {/if}
+      {/loop}      
+    </ul>
+  </div>
+</section>
+{loop $category $list}
+<section class="tuijian_box">
+  <h2 class="clearfix tuijian bgfff"><em class="dongman"></em>{$list['name']}<a class="fr more" href="{php echo $this->createMobileUrl('index',array('op'=>$list['id']));}">More<em class="more_icon"></em></a></h2>
+  <div class="dianying_box clearfix bgfff">
+    <ul class="clearfix">
+      {php $data = pdo_getall('cyl_vip_video_manage', array('uniacid'=>$_W['uniacid'],'cid'=>$list['id']), array() , '' , 'id DESC');}
+      {loop $data $key $v}
+      {if $key < $num}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>$v['cid'],'id'=>$v['id']));}"><img src="{php echo tomedia($v['thumb'])}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>$v['cid'],'id'=>$v['id']));}"><span class="biaoti">{php echo cutstr($v['title'],8)}</span></a></li>
+      {/if}
+      {/loop}      
+    </ul>
+  </div>
+</section>
+{/loop}
+{else}
+<section class="tuijian_box">
+  <div class="bgfff shaixuan clearfix">
+    <div class="fl leimu_zui"> 
+    <a {if $rank == 'rankhot'}class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>'rankhot','cat'=>$_GPC['cat'],'act'=>$_GPC['act'],'year'=>$_GPC['year'],'area'=>$_GPC['area']));}">最近热映</a> 
+    <a {if $rank == 'createtime'}class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>'createtime','cat'=>$_GPC['cat'],'act'=>$_GPC['act'],'year'=>$_GPC['year'],'area'=>$_GPC['area']));}">最新上映</a> 
+    <a {if $rank == 'rankpoint'}class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>'rankpoint','cat'=>$_GPC['cat'],'act'=>$_GPC['act'],'year'=>$_GPC['year'],'area'=>$_GPC['area']));}">最受好评</a> </div>
+
+    <div class="fr shaixuan_2"><a href="javascript:;" id="shaixuan">条件筛选 <em class="shaixuan_icon"><img src="{MODULE_URL}style/images/icon_y4_03.jpg"></em></a> </div></div>
+    {if $_GPC['cat'] || $_GPC['act'] || $_GPC['year'] || $_GPC['area'] || $pid}
+    <div class="lebiao_box bgfff shaixuan" >
+    {else}
+    <div class="lebiao_box bgfff shaixuan" style="display: none">
+    {/if}
+    {if $op > 0}
+      <div class="biao_li leibiao clearfix">
+        <dt><h2 class="leixing"><a href="{php echo $this->createMobileUrl('index',array('op'=>$op));}">全部</a></h2></dt>
+        <div style="width: 90%;float: right">
+        {loop $cat $c}
+        <dd><a {if $c['id'] == $pid }class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'pid'=>$c['id']));}">{$c['name']}</a></dd>
+        {/loop}
+        </div>
+      </div>
+    {else}
+      <div class="biao_li leibiao clearfix">
+        <dt><h2 class="leixing">{$cat['0']['on']}</h2></dt>
+        <div style="width: 90%;float: right">
+        {loop $cat $c}        
+        {if $c['title'] != '收起' && $c['title'] != '更多'}
+        {php $url = explode('?',$c['link'])}
+        <dd><a {if $c['link'] == 'javascript:;'}class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>$rank));}&{$url['1']}">{$c['title']}</a></dd>
+        {/if}
+        {/loop}
+        </div>
+      </div>
+      {if $op == 'dianying' || $op == 'dianshi' || $op == 'dongman'}
+      {if $year}
+      <div class="biao_li leibiao clearfix">
+        <dt><h2 class="leixing">{$year['0']['on']}</h2></dt>
+        <div style="width: 90%;float: right">
+        {loop $year $c}        
+        {if $c['title'] != '收起' && $c['title'] != '更多'}
+        {php $url = explode('?',$c['link'])}
+        <dd><a {if $c['link'] == 'javascript:;'}class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>$rank));}&{$url['1']}">{$c['title']}</a></dd>
+        {/if}
+        {/loop}
+        </div>
+      </div>
+      {/if}
+      {/if}
+     {if $area} 
+      <div class="biao_li leibiao clearfix">
+        <dt><h2 class="leixing">{$area['0']['on']}</h2></dt>
+        <div style="width: 90%;float: right">
+        {loop $area $c}        
+        {if $c['title'] != '收起' && $c['title'] != '更多'}
+        {php $url = explode('?',$c['link'])}
+        <dd><a {if $c['link'] == 'javascript:;'}class="on"{/if} href="{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>$rank));}&{$url['1']}">{$c['title']}</a></dd>
+        {/if}
+        {/loop}
+        </div>
+      </div>
+      {/if} 
+    {/if}     
+    </div>
+  </div>
+  <div class="dianying_box bgfff clearfix content">
+    <ul class="clearfix">
+     {if $op > 0}
+      {loop $data $v}
+      <li><a href="{if $v['link']}{php echo $this->createMobileUrl('detail',array('op'=>$op,'url'=>'http://v.youku.com'.$v['link']));}{else}{php echo $this->createMobileUrl('detail',array('op'=>$op,'id'=>$v['id']));}{/if}"><img src="{php echo tomedia($v['thumb'])}">{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+      <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+      <span class="biaoti">{php echo cutstr($v['title'],7)}</span></a></li>
+      {/loop} 
+     {else}
+      {loop $data['0'] $v}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>$op));}&url={$v['link']}"><img src="{$v['img']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <p class="clearfix leimu"><span class="fl"></span><span class="fr">{$v['hint']}</span></p>
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>$op));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],7)}</span></a></li>
+      {/loop} 
+     {/if}     
+    </ul>
+  </div>
+</section>
+<script src="{MODULE_URL}weui/dropload.min.js"></script>
+<script>
+$(function(){
+    var page = 1;   
+    $('.content').dropload({
+        scrollArea : window,
+        loadDownFn : function(me){
+            page++;
+            // 拼接HTML           
+            $.ajax({
+                type: 'GET',
+                url: '{php echo $this->createMobileUrl('index',array('op'=>$op,'rank'=>$rank,'type'=>'json','cat'=>$_GPC['cat'],'act'=>$_GPC['act'],'year'=>$_GPC['year'],'area'=>$_GPC['area']));}',
+                data:{num: page},
+                dataType: 'html',
+                success: function(data){
+                   
+                    if(data){
+                       $(".content ul").append(data);   
+                    // 如果没有数据
+                    }else{
+                        // 锁定
+                        me.lock();
+                        // 无数据
+                        me.noData();
+                    }
+                    // 为了测试，延迟1秒加载
+                    setTimeout(function(){
+                        // 插入数据到页面，放到最后面
+                        // 每次数据插入，必须重置
+                        me.resetload();
+                    },1000);
+                },
+                error: function(xhr, type){
+                    alert('加载失败，请重新刷新页面');
+                    // 即使加载出错，也得重置
+                    me.resetload();
+                }
+            });
+        }
+    });
+});
+</script>
+{/if}
+{template 'news/footer'} 
+</body>
+</html>
+<section class="guanyin_box guanyin_box2">
+  <div class="meiyou_box">
+    <p class="zhanshi_p">最近十条观影记录</p>
+    
+    <div class="jilu_box">
+     <ul class="clearfix">
+      {loop $jilu $key $v}     
+      
+      <li class="clearfix">{$v['title']}<span class="fr">
+      <a class="jishu_guankan" href="{if $v['index']}{php echo $this->createMobileUrl('detail',array('op'=>$v['type'],'url'=>$v['video_url']));}{else}{php echo $this->createMobileUrl('detail',array('op'=>$v['type'],'jishu'=>$v['share'],'url'=>$v['yvideo_url'],'link'=>$v['video_url']));}{/if}">继续观看<em class="zhuandao"></em></a></span></li>
+     
+      {/loop}    
+     </ul>
+    </div>
+   
+  </div>
+<div class="fanhui_box2 fanhui_box3">
+<p class="fanhui2_p" style="padding-bottom: 15px"><a class="fanhui_dianji" href="javascript:void(0)" id="clean" style="color: #fff">清空记录</a></p>
+<a class="fanhui_dianji" href="javascript:void(0)"><em class="close_2"></em></a>
+</div>
+</section>
+<section class="guanyin_box index_guanzhu" id="guanzhu" style="display: none">
+  <div class="meiyou_box">
+    <p class="zhanshi_p">长按二维码识别</p>
+    <div class="dianying_box dianying_box2 clearfix" style="padding: 10%">
+      <img src="{php echo tomedia($settings['ewm'])}" width="100%">
+    </div>
+    <div class="jilu_box">
+   
+    </div>
+  </div>
+  <div class="fanhui_box2 fanhui_box3">
+    <a class="fanhui_dianji" href="javascript:void(0)"><em class="close_3"></em></a>
+  </div>
+</section>
+<!-- 轮播 效果 JS文件   -->
+<script>  		
+	   var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+          // autoHeight: true,
+          loop:true,
+          autoplay: 2500, 
+	    });		  
+		  $("#shaixuan").click(function(){
+		  	$(".lebiao_box").toggle();		  	
+		  });      
+      $(".close_a").click(function(){
+        $(".guanzhu_box").hide();
+      });
+
+      $(".tanchu").click(function(){
+        $(".guanyin_box2").show();       
+      });
+      $(".fanhui_dianji").click(function(){
+        $(".guanyin_box2").hide();
+      });
+      $(".guanzhu").click(function(){
+        $("#guanzhu").show();       
+      }); 
+      $(".close_3").click(function(){
+        $("#guanzhu").hide();       
+      });   
+      $(".close").click(function(){
+        $(".guanzhu_box").hide();       
+      });		
+      $('#clean').on('click',function(){
+          $.post('{php echo $this->createMobileUrl('clean');}',function(data){
+              alert(data);
+          })
+      }); 
+</script>

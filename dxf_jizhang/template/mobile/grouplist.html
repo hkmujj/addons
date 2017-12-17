@@ -1,0 +1,51 @@
+{template 'common/header'}
+<style type="text/css">
+      .gx-jz{
+        height:80px;width:80px;
+        border:1px solid #C3C3C3;
+        text-align:center;
+        float:left;
+        margin-left: 0px;
+        font-size:8px;
+      }
+      .gx-jz img{
+        margin-top:10px;
+      }
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;">
+    <h3 class="panel-title">共享组管理</h3>
+  </div>
+</div>
+<ul class="nav nav-tabs">
+  <li role="presentation" {if $operation == 'on'}class="active"{/if}><a href="{php echo $this->createMobileUrl('grouplist', array('op' => 'on'))}">使用中</a></li>
+  <li role="presentation" {if $operation == 'close'}class="active"{/if}><a href="{php echo $this->createMobileUrl('grouplist', array('op' => 'close'))}">已关闭</a></li>
+  <li role="presentation" {if $operation == 'ownc'}class="active"{/if}><a href="{php echo $this->createMobileUrl('grouplist', array('op' => 'ownc'))}">自创组</a></li>
+</ul>
+{if $operation == 'on'}
+<table class="table table-bordered" style="margin-top:20px;">
+    <tr style="text-align:center;"><th>组序号</th><th>组名称</th><th>组人数</th><th>设为默认</th><th>组员</th></tr>
+    {loop $list $key $item}
+    <tr style="text-align:center;"><td>{php echo ++$key;}</td><td>{$item['group_name']}</td><td>{$item['group_num']}</td><td><a href="{php echo $this->createMobileUrl('grouplist', array('op' => 'moren','gu_type'=>$item['gu_type'],'gu_id'=>$item['gu_id']))}">{$gu_type[$item['gu_type']]}</a></td><td><a href="{php echo $this->createMobileUrl('groupdetail',array('op' => 'detail','group_id'=>$item['group_id'],'hidden'=>1))}"><img src="../addons/dxf_jizhang/template/images/see.png"></a></td></tr>
+    {/loop}
+</table>
+{elseif $operation == 'close'}
+<table class="table table-bordered" style="margin-top:20px;">
+    <tr style="text-align:center;"><th>组序号</th><th>组名称</th><th>组人数</th><th>状态</th><th>组员</th></tr>
+    {loop $list $key $item}
+    <tr style="text-align:center;"><td>{php echo ++$key;}</td><td>{$item['group_name']}</td><td>{$item['group_num']}</td><td><img src="../addons/dxf_jizhang/template/images/{$item['group_status']}.gif"></td><td><a href="{php echo $this->createMobileUrl('groupdetail',array('op' => 'detail','group_id'=>$item['group_id'],'hidden'=>1))}"><img src="../addons/dxf_jizhang/template/images/see.png"></a></td></tr>
+    {/loop}
+</table>
+
+{elseif $operation == 'ownc'}
+<table class="table table-bordered" style="margin-top:20px;">
+    <tr style="text-align:center;"><th>组序号</th><th>组名称</th><th>组人数</th><th>状态</th><th>详情</th></tr>
+    {loop $list $key $item}
+    <tr style="text-align:center;"><td>{php echo ++$key;}</td><td><a href="{php echo $this->createMobileUrl('groupdetail',array('op' => 'edit','group_id'=>$item['group_id']))}">{$item['group_name']}</a></td><td>{$item['group_num']}</td><td><a href="{php echo $this->createMobileUrl('grouplist', array('op' => 'groupstatus','group_status'=>$item['group_status'],'group_id'=>$item['group_id']))}"><img src="../addons/dxf_jizhang/template/images/{$item['group_status']}.gif"></a></td><td><a href="{php echo $this->createMobileUrl('groupdetail',array('op' => 'detail','group_id'=>$item['group_id']))}"><img src="../addons/dxf_jizhang/template/images/see.png"></a></td></tr>
+    {/loop}
+</table>
+{/if}
+
+
+{template './footer_nav'}
+{template 'common/footer'}

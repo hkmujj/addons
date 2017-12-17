@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.chaojiym.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[新微信墙]]></name>
+		<identifie><![CDATA[meepo_wxwall]]></identifie>
+		<version><![CDATA[3.3]]></version>
+		<type><![CDATA[wdlshow]]></type>
+		<ability><![CDATA[联盟微信墙]]></ability>
+		<description><![CDATA[联盟微信墙]]></description>
+		<author><![CDATA[超级源码(chaojiYM.com)]]></author>
+		<url><![CDATA[http://www.chaojiym.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="image" />
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="微信墙入口" do="index" state="" direct="false" />
+		</cover>
+		<menu call="getMenuTiles"></menu>
+	</bindings>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[update.php]]></upgrade>
+</manifest>

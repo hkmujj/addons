@@ -1,0 +1,141 @@
+{template 'common/header'}
+<div style="margin-top:20px">
+    <div style="text-align: center">
+        <img src="{$_W['fans']['headimgurl']}" width="50px" height="50px" style="border-radius:25px" />
+    </div>
+    <div style="text-align: center">
+        {$_W['fans']['nickname']}
+    </div>
+</div>
+<div style="width:90%;margin:20px auto;border:1px #c8c7cc solid">
+    <style>
+        .mui-input-group:before{height:0px;}
+        .mui-input-group:after{height:0px;}
+    </style>
+    <form class="mui-input-group">
+        {if $user['id']} 
+        <div class="mui-input-row" >
+            <label >状态</label>
+             <input  value="{$lang['status'][$user['status']]}" type="text" class="mui-input-clear" disabled style="color:red;">
+        </div>
+        {/if}
+        <div class="mui-input-row mui-select">
+            <label>代理类型</label>
+            <select name="type" id="typeselect">
+                <option value="1" {if $user['type'] ==1 } selected{/if} >个人</option>
+                <option value="2" {if $user['type'] ==2 } selected{/if}>公司</option>
+            </select>
+        </div>
+        <div class="mui-input-row">
+            <label><span style="color:red;">*</span>代理姓名</label>
+            <input id="realname" value="{$user['realname']}" type="text" class="mui-input-clear" placeholder="请输入姓名或公司">
+        </div>
+        <div class="mui-input-row mui-select">
+            <label>性别</label>
+            <select name="sex" id="sexselect"> 
+                <option value="1" {if $user['sex'] ==1 } selected{/if}>男</option>
+                <option value="2" {if $user['sex'] ==2 } selected{/if}>女</option>
+            </select>
+        </div>
+        <div class="mui-input-row">
+            <label><span style="color:red;">*</span>联系电话</label>
+            <input id="phone" value="{$user['phone']}" type="number" class="mui-input-clear" placeholder="请输入联系电话">
+        </div>
+        <div class="mui-input-row">
+            <label>Q Q</label>
+            <input id="qq" value="{$user['qq']}" type="text" class="mui-input-clear" placeholder="">
+        </div>
+        <div class="mui-input-row">
+            <label>微信号</label>
+            <input id="chat" value="{$user['chat']}" type="text" class="mui-input-clear" placeholder="">
+        </div>
+        <div class="mui-input-row mui-select">
+            <label>所在城市</label>
+            <select name="cat_id" id="catselect">
+                <option value="68" {if $user['cat_id'] ==68 } selected{/if}{if $user['cat_id'] ==0 } selected{/if}>郑州</option>
+                <option value="78" {if $user['cat_id'] ==78 } selected{/if}>洛阳</option>
+                <option value="100" >其他</option>
+            </select>
+        </div>
+        <div class="mui-input-row">
+            <label>详细地址</label>
+            <input id="address" value="{$user['address']}" type="text" class="mui-input-clear" placeholder="学校或公司或其他地址">
+        </div>
+        <div class="form-group" style="border-bottom:1px solid #E8E5E5;margin-top:5px;">
+                <label for="inputEmail3" class="col-sm-2 control-label">代理简介</label>
+                <div class="col-sm-10">
+                  <textarea type="textarea" name="desc" id="desc">{$user['desc']}</textarea>
+                </div>
+              </div>
+        
+       
+        <div class="mui-button-row">
+            <input id="id" value="{$user['id']}" type="hidden">
+            <button type="button" class="mui-btn mui-btn-primary" onclick="update()">确认</button>
+            <button type="button" class="mui-btn mui-btn-danger" onclick=" location.href='{php echo $this->createMobileurl('user')}';">取消</button>
+        </div>
+        <div style="text-align: center">
+                <input name="agreement_check" type="checkbox" /><span>同意<a href="javascript:show_agreement()">《零零校园平台协议》</a></span>
+        </div>
+    </form>
+</div>
+<div id="agreement_panel" style="position: absolute;top:0px;left:0px;width:100%;height:100%;padding:10px;z-index: 999;display: none">
+    <div id="agreement_content" style="background-color: white;padding: 10px;overflow-y:scroll">
+        使用零零校园兼职服务前，用户应理解平台提供的信息及论坛内的所有信息均由用户自行上传，并且承担全部责任，零零校园不对信息的真实性、准确性、有效性和安全性负责，用户在交易中发生的任何纠纷与本平台无关。为了最大限度的保障用户的权益不被侵害，用户必须自行评估和承担在零零校园上提供和使用内容而产生的一切风险、损失。
+    </div>
+    <div style="position: absolute;top:20px;right:20px;width:30px;height:30px">
+        <img src="{OSSURL}/public/mobile/images/close.png" width="30px" height="30px" onclick="close_agreement()" />
+    </div>
+</div>
+<script src="{$_W['siteroot']}addons/navlange_pinche/template/style/js/check_reg.js"></script>
+<script>
+var mask = mui.createMask(function(){});//callback为用户点击蒙版时自动执行的回调；
+$(function(){
+    var height = document.documentElement.clientHeight-20;
+    $("#agreement_content").css('height',height);
+})
+function show_agreement() {
+    mask.show();//显示遮罩
+    $("#agreement_panel").show();
+}
+function close_agreement() {
+    $("#agreement_panel").hide();
+    mask.close();
+}
+function update() {
+    var agreed = $("input[name='agreement_check']:checked").val();
+    if(agreed != 'on') {
+        alert("请阅读同意协议！");
+    } else {
+        if($("#realname").val() == "") {
+            alert("名称不能为空！");
+            $("#user_name").focus();
+        } else if ($("#mobile").val()== "") {
+             alert("电话不能为空！");
+        }else {
+            $.post("{php echo $this->createMobileurl('user',array('op'=>'doDailiInfo'))}",{
+                    id:$("#id").val(),
+                    realname:$("#realname").val(),
+                   sex:$('#sexselect').val(),
+                    type:$("#typeselect").val(),
+                    phone:$("#phone").val(),
+                    qq:$("#qq").val(),
+                    chat:$("#chat").val(),
+                    cat_id:$('#catselect').val(),
+                    address:$("#address").val(),
+                    desc:$("#desc").val()
+                },
+                function(resp) {
+                    resp = $.parseJSON(resp);
+                    if(resp.message.errno == 0) {
+
+                        mui.alert("信息提交成功！",function(){
+                            location.href='{php echo $this->createMobileurl('user')}';
+                        })
+                    }
+                }
+            );
+        }
+    }
+}
+</script>

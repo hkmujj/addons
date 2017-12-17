@@ -1,0 +1,77 @@
+{template 'header'}
+<style type="text/css">
+	.focus{ width:320px; height:150px;  margin:0 auto; position:relative; overflow:hidden;   }
+	.focus .hd{ width:100%; height:5px;  position:absolute; z-index:1; bottom:0; text-align:center;  }
+	.focus .hd ul{ overflow:hidden; display:-moz-box; display:-webkit-box; display:box; height:5px; background-color:rgba(51,51,51,0.5);   }
+	.focus .hd ul li{ -moz-box-flex:1; -webkit-box-flex:1; box-flex:1; }
+	.focus .hd ul .on{ background:#FF4000;  }
+	.focus .bd{ position:relative; z-index:0; }
+	.focus .bd li img{ width:100%;  height:150px; }
+	.focus .bd li a{ -webkit-tap-highlight-color:rgba(0, 0, 0, 0); /* 取消链接高亮 */ }
+</style>
+<div class="container">
+	<div class="row">
+	
+	<!-- slider begin -->
+	<div id="focus" class="focus">
+		<div class="hd">
+			<ul><li class="on">1</li><li class="">2</li><li class="">3</li></ul>
+		</div>
+		<div class="bd">
+			<ul>
+				{loop $imglist $item}
+				<li><a href="{$item['link']}"><img src="{$item['img_path']}"></a></li>
+				{/loop}
+			</ul>
+		</div>
+	</div>
+	</div>
+	<!-- slider end -->
+	<div class="row">
+		<div class="list-group">
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=sequent&m=jiakao_system">
+				<input type="button" class="form-control btn btn-success" value="顺序练习">
+			</a>
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=randomten&m=jiakao_system">
+			<input type="button" class="form-control btn btn-success" value="随机十题">
+			</a>
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=imitate&m=jiakao_system">
+			<input type="button" class="form-control btn btn-success" value="模拟考试">
+			</a>
+			<a class="list-group-item" href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=mywrong&m=jiakao_system">
+			<button class="form-control btn btn-success">
+				我的错题
+				<span class="badge" id="my_wrong_num">0</span>
+			</button>
+			</a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/TouchSlide.1.1.js"></script>
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/KaoShi.js"></script>
+<script>
+// slider
+$(function() {
+	// slider
+	TouchSlide({ 
+		slideCell:"#focus",
+		titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+		mainCell:".bd ul", 
+		effect:"leftLoop", 
+		autoPlay:true,//自动播放
+		autoPage:true //自动分页
+	});
+	// kaoshi
+	if(localStorage["ct_"])
+	{
+		var obj = eval("("+localStorage["ct_"]+")");
+		var x = 0;
+		for(var i in obj)
+		{
+			x++;
+		}
+		$("#my_wrong_num").html(x);
+	}	 
+})
+</script>
+{template 'footer'}

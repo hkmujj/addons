@@ -1,0 +1,113 @@
+{template 'common/header'}
+<style type="text/css">
+      .gx-jz{
+        height:80px;width:80px;
+        border:1px solid #C3C3C3;
+        text-align:center;
+        float:left;
+        margin-left: 0px;
+        font-size:8px;
+      }
+      .gx-jz img{
+        margin-top:10px;
+      }
+      .form-group{
+  margin-top:15px;
+  height:auto;
+}
+.foat_one{
+  float:left;
+  margin-left: 5px;
+}
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;">
+    <h3 class="panel-title">待办事项管理</h3>
+  </div>
+</div>
+<ul class="nav nav-tabs">
+  <li role="presentation" {if $operation == 'list'}class="active"{/if}><a href="{php echo $this->createMobileUrl('daiban', array('op' => 'list'))}">事项列表</a></li>
+  <li role="presentation" {if $operation == 'add'}class="active"{/if}><a href="{php echo $this->createMobileUrl('daiban', array('op' => 'add'))}">添加</a></li>
+</ul>
+{if $operation == 'list'}
+
+<table class="table table-bordered" style="margin-top:20px;">
+    <tr style="text-align:center;"><th>事项</th><th style="text-align:center;">待办日期</th><th style="text-align:center;">距事项天数</th><th>删除</th></tr>
+    {loop $list $key $item}
+    <tr style="text-align:center;"><td>{$item['d_name']}</td><td>{php echo date('Y-m-d',$item['d_time']);}</td><td style="text-align:center;"><span class="lxftime" starttime="{php echo date('Y-m-d',$item['d_time']);}"></span></td><td><a href="{php echo $this->createMobileUrl('daibandelete',array('d_id'=>$item['d_id']))}" onclick="return confirm('确定将此记录删除?')"><i class="glyphicon glyphicon-trash"></i></a></td></tr>
+    {/loop}
+   
+</table>
+
+{elseif $operation == 'add'}
+<div class="panel-body">
+  <form class="form-horizontal" action="" method="POST" onsubmit="return checkform()">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">事项名称</label>
+    <div class="col-sm-10">
+      <input type="text" name="d_name" class="form-control" id="inputEmail3" placeholder="">
+    </div>
+  </div>
+  
+  <div class="form-group" > 
+     <label for="inputEmail3" class="col-sm-2 control-label">待办时间</label>
+     <div class="col-sm-10">{php echo _tpl_form_field_date('d_time',$value);}
+    </div>
+  </div>
+ 
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10" style="text-align:center;">
+      <input type="hidden" name="token" value="{$_W['token']}">
+      <input type="submit" name="submit" class="btn btn-default" value="提交" />
+    </div>
+  </div>
+</form>
+</div>
+{/if}
+
+<script type="text/javascript">
+  
+function checkform(){
+  if($("input[name='d_name']").val() == ''){
+    alert('名称不能为空');
+    return false;
+  }
+  if($("input[name='d_name']").val().length >10){
+    alert('名称不能超过10字符');
+    return false;
+  }
+  return true;
+}
+ function sfpmEndtime(){  
+            $(".lxftime").each(function(){  
+                var starttime = new Date($(this).attr("starttime")).getTime();//取结束日期(毫秒值)  
+                var nowtime = new Date().getTime();//今天的日期(毫秒值)  
+                var youtime = starttime-nowtime;//还有多久(毫秒值)  
+                var seconds = youtime/1000;  
+                var minutes = Math.floor(seconds/60);  
+                var hours = Math.floor(minutes/60);  
+                var days = Math.floor(hours/24);  
+                var CDay= days ;  
+                var CHour= hours % 24;  
+                var CMinute= minutes % 60;  
+                var CSecond= Math.floor(seconds%60);  
+                var c=new Date();  
+                var q=((c.getMilliseconds())%10);  
+                if(starttime<=nowtime){  
+                    
+                    $(this).html("已过")//结束日期小于当前日期
+
+                }else{     
+                    $(this).html("<span style='color:green'>"+days+"</span>");//输出有天数的数据 
+
+                      //$(this).html("<span>"+days+"天"+CHour+"时"+CMinute+"分"+CSecond+"秒</span>");//输出有天数的数据 
+                }  
+          });  
+       setTimeout("sfpmEndtime()",100);  
+      };  
+    $(function(){  
+          sfpmEndtime();  
+       });  
+</script>
+{template './footer_nav'}
+{template 'common/footer'}

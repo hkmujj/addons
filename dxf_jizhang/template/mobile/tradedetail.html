@@ -1,0 +1,53 @@
+{template 'common/header'}
+<style type="text/css">
+.martop{
+  margin-top:10px; 
+}
+img{
+  width:50%;
+  height:50%;
+  padding-left: 20px;
+}
+.martop2{
+  margin-left:10px;
+  margin-top:10px; 
+}
+body{
+  background: #f2f2f2;
+}
+</style>
+  <div class="panel panel-default">
+    <div class="panel-heading" style="text-align:center;">
+      <h3 class="panel-title">交易详情</h3>
+    </div>
+    
+    <div style="margin-top:20px;color:#ea4e4e;width:auto;">
+    交易时间：{php echo date('Y-m-d H:i:s',$ress['add_time']);} &nbsp;&nbsp;<div style="float:right;color:green;margin-right:10px;">
+    <a href="{php echo $this->createMobileUrl('tradedelete',array('share_id'=>$ress['share_id']))}"><i class="glyphicon glyphicon-trash"></i></a></div></div>
+  </div>
+  <p class="martop">所属分组：{$ress['group_name']} <a href="{php echo $this->createMobileUrl('groupdetail',array('op' => 'detail','group_id'=>$ress['group_id'],'hidden'=>1))}"><img src="../addons/dxf_jizhang/template/images/see.png" style="width:15px;height:15px;margin-left:20px;" /></a></p>
+  <p class="martop">交易名称：{$ress['share_name']} </p>
+  <p class="martop">交易分类：{$share_type[$ress['share_type']]} </p>
+  <p class="martop">总金额：<span style="color:blue;">{$ress['share_money']} </span>&nbsp;元 </p>
+  <p class="martop">人均金额：<span style="color:blue;">{php echo  $ress['share_money']/$ress['group_num']}</span> &nbsp;元 </p>
+  <p class="martop">描述备注：{$ress['share_desc']}</p>
+  <p class="martop">附加图片:</p>
+
+  <div class="martop2">
+  {loop $share_img $item}
+  <img src="{php echo tomedia($item);}" />
+  {/loop}
+  </div>
+{template './footer_nav'}
+{template 'common/footer'}
+<script type="text/javascript">
+
+
+
+
+
+
+
+
+
+</script>

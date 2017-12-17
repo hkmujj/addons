@@ -1,0 +1,125 @@
+{template 'common/header'}
+<style>
+	.alert {
+		padding: 8px;
+		margin-bottom: 5px;
+		border: 1px solid transparent;
+		border-radius: 4px;
+	}
+</style>
+<!-- <div>独立(代理)后台入口:<a href="{$_W['siteroot']}czindex/login.php">{$_W['siteroot']}czindex/login.php</a></div> -->
+        <ul class="nav nav-tabs" role="tablist">
+			<li {if $op == 'display'}class="active"{/if} ><a href="{php echo $this->createWebUrl('user', array('op' => 'display'))}">商户帐号</a> </li>
+			<li {if $op == 'add'}class="active"{/if} ><a href="{php echo $this->createWebUrl('user', array('op' => 'add'))}">{if !$id}添加帐号{else}编辑帐号{/if}</a> </li>
+        </ul>
+		 <div class="alert alert-danger" role="alert">手机操作后台:<a href="{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=user&m=cz_tk" target="blank">{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=user&m=cz_tk</a></div>
+<div class="alert alert-danger" role="alert">pc后台:<a href="{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=pclogin&m=cz_tk" target="blank">{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=pclogin&m=cz_tk</a></div>
+		<div class="main">
+		{if $op == 'display'}	
+		<div class="panel panel-default">
+			<div class=" panel-default">
+             <div class="panel-body">
+			 			  <table class="table table-hover">
+				<thead>
+					<th width="50">#</th>
+					<th width="100">帐号</th>
+					<th width="150">识别码</th>
+					<th width="150">点数</th>
+					<th width="150">失效时间</th>
+					<th width="100">创建主</th>
+					<th style="text-align:right;">操作</th>
+				</thead>
+				<tbody>
+				{loop $user $row}
+					<tr>
+						<td>{$row['id']}</td>
+						<td>{$row['name']}</td>
+						<td>{$row['psw']}</td>
+						<td>{$row['point']}</td>
+						<td>{php echo date('Y-m-d H:i',$row['timeend'])}</td>
+						<td>{$row['dl']}</td>
+						<td style="text-align:right;">
+						<button class="btn btn-success" onclick="window.location.href='{php echo $this->createWebUrl('xs', array('id' => $row['id']))}'"><i class="fa fa-plus"></i>详情</button>
+						<button class="btn btn-success" onclick="window.location.href='{php echo $this->createWebUrl('user', array('op' => 'add', 'id' => $row['id']))}'"><i class="fa fa-plus"></i>编辑</button>
+						<button class="btn btn-danger" onclick="window.location.href='{php echo $this->createWebUrl('user', array('op' => 'del', 'id' => $row['id']))}'"><i class="fa fa-check"></i>删除</button>
+						</td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+            </div>
+            </div>
+			</div>
+			<div>
+			{elseif $op == 'add'}
+			<div class=" panel-default">
+             <div class="panel-body">
+			 	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{if !$id}添加帐号{else}编辑帐号{/if}
+			</div>
+			<div class="panel-body">
+					<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>帐户</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="name" class="form-control" value="{$user['name']}" />
+					</div>
+				</div>
+					<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>识别码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="psw" class="form-control" value="{$user['psw']}" />
+						<p>等同于密码(请勿使用汉字)</p>
+					</div>
+				</div>
+						<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">下属帐号控制</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="xs" class="form-control" value="{$user['xs']}" />
+						<p>控制生成员工数量</p>
+					</div>
+				</div>
+				<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">手机号码</label>
+				<div class="col-sm-9 col-xs-12">
+					<input type="text" name="mobile" class="form-control" value="{$user['mobile']}" />
+					<p>接受到期与充值提醒</p>
+				</div>
+			</div>
+						<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">点数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="point" class="form-control" value="{$user['point']}" />
+						<p>每个分支帐户发送点数(每发送一个减1点)归零后停止使用,为空不开启</p>
+					</div>
+				</div>
+					<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启失效时间</label>
+					<div class="col-sm-7 col-xs-12">
+						<label class="radio-inline"><input type="radio" name="ntime" value="1"  {if !empty($user['ntime']) && $user['ntime'] == 1}checked="checked"{/if} /> 开启</label>
+						&nbsp;&nbsp;&nbsp;
+						<label class="radio-inline"><input type="radio" name="ntime" value="0"   {if empty($user['ntime']) || $user['ntime'] == 0}checked="checked"{/if} /> 不开启</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>帐户失效时间</label>
+					<div class="col-sm-7 col-xs-12">
+						{php echo tpl_form_field_date('timeend', date('Y-m-d H:i',$user['timeend']) , true);}
+						<p>如果使用时间失效,请开启失效时间</p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="id" value="{$user['id']}" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	    </form>
+            </div>
+            </div>
+			{/if}
+			</div>
+{template 'common/footer'}

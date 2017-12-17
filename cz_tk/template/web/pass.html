@@ -1,0 +1,73 @@
+{template 'common/header'}
+<style>
+.alert {
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+</style>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a href="javascript:;">选择服务端</a></li>
+</ul>
+<div class="alert alert-danger" role="alert"><b>选项一:</b>选择自己服务器,如果你是虚拟主机,请选择选项二和选项三. </div>
+<div class="alert alert-danger" role="alert"><b>选项二:</b>外挂服务器,如果你的服务器不方便存放大处理的线程,你可以另外自己购买服务器作为转发服务器</div>
+<div class="alert alert-danger" role="alert"><b>选项三:</b>如果使用我们的发送服务器,请每月交纳10元.</div>
+<div class="main">
+<script>
+    $(function () {
+        $(':radio[name="tnt"]').click(function () {
+            if (this.checked) {
+                if ($(this).val() == '0') {
+                    $('.waigua').hide();
+					$('.clud').hide();
+                }
+				 if ($(this).val() == '1') {
+                    $('.waigua').show();
+					$('.clud').hide();
+                }
+				if ($(this).val() == '2') {
+                    $('.waigua').hide();
+					$('.clud').show();
+                }
+            }
+        });
+	})
+</script>
+<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+	<div class="panel panel-default">
+		<div class="panel-heading">请选择选项</div>
+		<div class="panel-body">
+		<div class="form-group waigua" {if $clud['tnt'] == 0 || $clud['tnt'] == '2'}style="display:none"{/if} >
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">接收地址</label>
+		<div class="col-sm-9">  <input type="text" name="url" class="form-control" value="{$clud['url']}" autocomplete="off">
+		<p class="help-block">请确定是否配置接口,如不懂联系'哒哒哒'</p>
+        </div>
+        </div>
+		<div class="form-group clud" {if $clud['tnt'] == 0 || $clud['tnt'] == 1}style="display:none"{/if} >
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">接收地址</label>
+		<div class="col-sm-9">  <input type="text" name="urls" class="form-control" value="{$clud['urls']}" autocomplete="off">
+		<p class="help-block">请确定是否配置接口,如不懂联系'哒哒哒',这是收费的!</p>
+        </div>
+        </div>
+		<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 control-label">发送端选项</label>
+		<div class="col-sm-7 col-xs-12">
+		<label class="radio-inline"><input type="radio" name="tnt" value="0"  {if $clud['tnt'] == 0}checked="checked"{/if} />本地服务器</label>
+		&nbsp;&nbsp;&nbsp;
+		<label class="radio-inline"><input type="radio" name="tnt" value="1"   {if $clud['tnt'] == 1}checked="checked"{/if} />外挂服务器</label>
+		&nbsp;&nbsp;&nbsp;
+		<label class="radio-inline"><input type="radio" name="tnt" value="2"   {if $clud['tnt'] == 2}checked="checked"{/if} />云端服务器</label>
+		</div>
+		</div>
+		</div>
+		</div>
+		<div class="form-group col-sm-12">
+		<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+		<input type="hidden" name="id" value="{$clud['id']}" />
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	    </form>
+		</div>
+{template 'common/footer'}

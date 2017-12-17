@@ -1,0 +1,333 @@
+{template 'common/header'}
+<style>
+	body{
+		background-color: #EEECED
+	}
+    a:hover{
+        text-decoration: none
+    }
+</style>
+<script>
+	mui('body').on('tap','a',function(){document.location.href=this.href;});  
+</script>
+
+<div style="width:100%;height:80px;background-color: #F54D3B;padding:15px 10px">
+    <div style="width:50px;height:50px">
+        <img src="{$_W['fans']['headimgurl']}" width="50px" height="50px" style="border-radius: 40px;border:2px white solid" />
+    </div>
+    <div style="margin:-50px 0px 0px 60px">
+        <div style="height:30px;color:white">
+            {$_W['fans']['nickname']}
+        </div>
+       
+    </div>
+</div>
+<div style="height: 40px;line-height: 40px;padding:0px 10px;color:white;background-color: #D93C32">
+    我的兼职：{$total['jobuser']} 个 , &nbsp;我的发布：{$total['fabu']} 个
+</div>
+<div style="background-color: white;margin-top:15px">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('myjob',array('op'=>'myjob'))}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/travel_released.png" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">我的兼职</div>
+            </div>
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('fabu',array('op'=>'fabu'))}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/to_travel.png" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">我的发布</div>
+            </div>
+           
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('user',array('op'=>'user_info'))}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/person_info.png" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">个人信息</div>
+            </div>
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('user',array('op'=>'daili_info'))}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/daili.png" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">代理资料</div>
+            </div>
+             <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('shouce')}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/commenting.png" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">操作手册</div>
+            </div>
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('kefu')}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/kefu.png" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">客服中心</div>
+            </div>
+            {if $hidden==1}
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('mgg')}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/fabu.jpg" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">发布管理</div>
+            </div>
+             <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('agent')}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/daili.jpg" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">代理管理</div>
+            </div>
+            <div class="col-xs-3" style="border-bottom:1px #F3F3F3 solid;border-right:1px #F3F3F3 solid;padding:15px 0px 15px 0px" onclick="location.href='{php echo $this->createMobileurl('yonghu')}'">
+                <div style="text-align: center"><img src="{OSSURL}/public/mobile/images/yonghu.jpg" width="35px" height="35px" /></div>
+                <div style="text-align: center;font-size:12px">用户管理</div>
+            </div>
+           {/if}
+        </div>
+    </div>
+</div>
+<div id="travel_release_panel" style="position: absolute;top:0px;height:100%;width:100%;z-index:999;display:none;padding:10px">
+    <div style="background-color:white;overflow: auto">
+        <form class="mui-input-group" action="" method="POST" style="z-index:999">
+            <div class="mui-input-row">
+                <label><span style="color:red;">*</span>招聘标题</label>
+                <input type="text" id="title" name="title" class="mui-input-clear" placeholder="例如：周六金水区发单80元" value="{$row['title']}">
+            </div>
+            <div class="mui-input-row mui-select">
+                <label>职位类别</label>
+                <select name="cate_id" class='form-control' id="cate_id">
+                    {loop $cate $row}
+                    <option value="{$row['id']}" style="color:#C60A27;" {if $list['cate_id'] ==$row['id'] } selected{/if}>{$row['title']}</option>
+                    {/loop}
+                </select>
+            </div>
+            <div class="mui-input-row">
+                <label><span style="color:red;">*</span>招聘人数</label>
+                <input type="text" id="p_num" name="p_num" class="mui-input-clear" placeholder="" value="{$row['p_num']}">
+            </div>
+            <div class="mui-input-row mui-select">
+                <label>招聘类型</label>
+                <select name="type" class='form-control' id="type">
+                    <option value="1" style="color:#C60A27;"{if $list['type']==1}checked{/if}{if $list['type']==0}checked{/if}>兼职</option>
+                    <option value="2" style="color:#C60A27;"{if $list['type']==2}checked{/if}>勤工俭学</option>
+                    <option value="3" style="color:#C60A27;"{if $list['type']==3}checked{/if}>实习</option>
+                    <option value="4" style="color:#C60A27;"{if $list['type']==4}checked{/if}>全职</option>
+                </select>
+            </div>
+            <div class="mui-input-row">
+                <label><span style="color:red;">*</span>薪酬</label>
+                <input type="text" id="money" name="money" class="mui-input-clear" placeholder="如：150元/天" value="{$row['money']}">
+            </div>
+            <div class="mui-input-row mui-select">
+                <label>结算周期</label>
+                <select name="account_time" class='form-control' id="account_time">
+                    <option value="1" style="color:#C60A27;"{if $list['account_time']==1}checked{/if}{if $list['type']==0}checked{/if}>日结</option>
+                    <option value="2" style="color:#C60A27;"{if $list['account_time']==2}checked{/if}>周结</option>
+                    <option value="3" style="color:#C60A27;"{if $list['account_time']==3}checked{/if}>月结</option>
+                    <option value="4" style="color:#C60A27;"{if $list['account_time']==4}checked{/if}>面议</option>
+                </select>
+            </div>
+            <div class="mui-input-row mui-select">
+                <label>结算方式</label>
+                <select name="account_type" class='form-control' id="account_type">
+                    <option value="1" style="color:#C60A27;"{if $list['account_type']==1}checked{/if}{if $list['type']==0}checked{/if}>现金结算</option>
+                    <option value="2" style="color:#C60A27;"{if $list['account_type']==2}checked{/if}>支付宝转账</option>
+                    <option value="3" style="color:#C60A27;"{if $list['account_type']==3}checked{/if}>微信转账</option>
+                    <option value="4" style="color:#C60A27;"{if $list['account_type']==4}checked{/if}>银行卡转账</option>
+                </select>
+            </div>
+
+            <div class="mui-input-row mui-select">
+                <label>城市区域</label>
+                <select name="cat_id" class='form-control' id="cat_id">
+                            {loop $category $row}
+                            <option value="{$row['id']}" style="color:#C60A27;" {if $list['job_cid'] ==$row['id'] } selected{/if}>省-{$row['name']}</option>
+                            {loop $children[$row['id']] $row}
+                            <option value="{$row['id']}" {if $list['job_cid'] ==$row['id'] } selected{/if}>市—{$row['name']}</option>
+                            {loop $grandson[$row['id']] $row}
+                            <option value="{$row['id']}" {if $list['job_cid'] ==$row['id'] } selected{/if}>区—{$row['name']}</option>
+                            {/loop}
+                            {/loop}
+                            {/loop}
+                        </select>
+            </div>
+            <div class="mui-input-row">
+                <label><span style="color:red;">*</span>工作详细地址</label>
+                <input type="text" id="job_area" name="job_area" class="mui-input-clear" placeholder="">
+            </div>
+
+            <div class="mui-input-row">
+                <label><span style="color:red;">*</span>上班时间</label>
+                <input type="text" id="job_stime" name="job_stime" class="mui-input-clear" placeholder="请选择上班时间" readonly>
+            </div>
+             <div class="mui-input-row">
+                <label><span style="color:red;">*</span>下班时间</label>
+                <input type="text" id="job_endtime" name="job_endtime" class="mui-input-clear" placeholder="请选择下班时间" readonly>
+            </div>
+            <link rel="stylesheet" href="{$_W['siteroot']}app/resource/components/datepicker/mui.picker.all.css" />
+            <script type="text/javascript" src="{$_W['siteroot']}app/resource/components/datepicker/mui.picker.all.js"></script>
+            <script>
+                $("input[name='job_stime']").click(function(){
+                　　var dtPicker = new mui.DtPicker(); 
+                    dtPicker.show(function (selectItems) { 
+                        $("input[name='job_stime']").val(selectItems.y.value+"-"+selectItems.m.value+"-"+selectItems.d.value+" "+selectItems.h.value+":"+selectItems.i.value);
+                    })
+                })
+                $("input[name='job_endtime']").click(function(){
+                　　var dtPicker = new mui.DtPicker(); 
+                    dtPicker.show(function (selectItems) { 
+                        $("input[name='job_endtime']").val(selectItems.y.value+"-"+selectItems.m.value+"-"+selectItems.d.value+" "+selectItems.h.value+":"+selectItems.i.value);
+                    })
+                })
+
+            </script>
+
+            <div class="mui-input-row">
+                <label>集合时间</label>
+                <input type="text" id="jihe_time" name="jihe_time" class="mui-input-clear" placeholder="如：周六早上8点">
+            </div>
+            <div class="mui-input-row">
+                <label>集合地点</label>
+                <input type="text" id="jihe_area" name="jihe_area" class="mui-input-clear" placeholder="如：校园门口">
+            </div>
+            <div class="mui-input-row mui-select">
+                <label>性别</label>
+                <select name="sex" class='form-control' id="sex">
+                    <option value="1" style="color:#C60A27;"{if $list['sex']==1}checked{/if}>男</option>
+                    <option value="2" style="color:#C60A27;"{if $list['sex']==2}checked{/if}>女</option>
+                    <option value="3" style="color:#C60A27;"{if $list['sex']==3}checked{/if}>不限</option>
+                    
+                </select>
+            </div>
+            <div class="mui-input-row">
+                <label>年龄</label>
+                <input type="text" id="age" name="age" class="mui-input-clear" placeholder="如：18岁以上|不限">
+            </div>
+            <div class="mui-input-row">
+                <label>身高</label>
+                <input type="text" id="height" name="height" class="mui-input-clear" placeholder="如：不限|160cm以上">
+            </div>
+            <div class="form-group" style="border-bottom:1px solid #E8E5E5;margin-top:5px;">
+                <label for="inputEmail3" class="col-sm-2 control-label">招聘要求</label>
+                <div class="col-sm-10">
+                  <textarea type="textarea" name="job_req" id="job_req">{$user['job_req']}</textarea>
+                </div>
+              </div>
+            <div class="form-group" style="border-bottom:1px solid #E8E5E5;margin-top:5px;">
+                <label for="inputEmail3" class="col-sm-2 control-label"><span style="color:red;">*</span>工作描述</label>
+                <div class="col-sm-10">
+                  <textarea type="textarea" name="job_desc" id="job_desc">{$user['job_desc']}</textarea>
+                </div>
+              </div>
+             <div class="mui-input-row">
+                <label><span style="color:red;">*</span>报名截止时间</label>
+                <input type="text" id="bm_endtime" name="bm_endtime" class="mui-input-clear" placeholder="选择时间" readonly>
+            </div>
+            <script type="text/javascript">
+                 $("input[name='bm_endtime']").click(function(){
+                　　var dtPicker = new mui.DtPicker(); 
+                    dtPicker.show(function (selectItems) { 
+                        $("input[name='bm_endtime']").val(selectItems.y.value+"-"+selectItems.m.value+"-"+selectItems.d.value+" "+selectItems.h.value+":"+selectItems.i.value);
+                    })
+                })
+            </script>
+            <div class="mui-button-row" style="margin-top:10px;">
+                <button type="button" class="mui-btn mui-btn-primary" onclick="release_submit()">确认</button>
+                <button type="button" class="mui-btn mui-btn-danger" onclick="release_cancel()">取消</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+var mask = mui.createMask(function(){});//callback为用户点击蒙版时自动执行的回调；;
+var pin_id;
+function release_travel() {
+    mask.show();//显示遮罩
+    $("#travel_release_panel").show();
+}
+function release_cancel() {
+    $("#travel_release_panel").hide();
+    mask.close();
+}
+function release_submit() {
+    if($("#title").val()=="") {
+        alert("招聘标题");
+        $("#title").focus();
+    } else if(!(/(^[1-9]\d*$)/.test($("#p_num").val())))  {
+        alert("招聘人数格式不准确！");
+        $("#p_num").focus();
+    } else if($("#money").val()=="") {
+        alert("薪酬不能为空！");
+        $("#money").focus();
+    } else if($("#job_area").val()=="") {
+        alert("工作详细地址不能为空！");
+        $("#job_area").focus();
+    } else if($("#job_stime").val()=="") {
+        alert("上班时间不能为空！");
+        $("#job_stime").focus();
+    } else if($("#job_endtime").val()=="") {
+        alert("下班时间不能为空！");
+        $("#job_endtime").focus();
+    } else if($("#job_desc").val()=="") {
+        alert("工作描述不能为空！");
+        $("#job_desc").focus();
+    } else if($("#bm_endtime").val()=="") {
+        alert("截止时间不能为空！");
+        $("#bm_endtime").focus();
+    } else {
+        $.post("{php echo $this->createMobileurl('user',array('op'=>'dojob'))}",{
+                title:$("#title").val(),
+                cate_id:$("#cate_id").val(),
+                p_num:$("#p_num").val(),
+                type:$("#type").val(),
+                money:$("#money").val(),
+                account_time:$("#account_time").val(),
+                account_type:$("#account_type").val(),
+                cat_id:$("#cat_id").val(),
+                job_area:$("#job_area").val(),
+                job_stime:$("#job_stime").val(),
+                job_endtime:$("#job_endtime").val(),
+                jihe_time:$("#jihe_time").val(),
+                jihe_area:$("#jihe_area").val(),
+                sex:$("#sex").val(),
+                age:$("#age").val(),
+                height:$("#height").val(),
+                job_req:$("#job_req").val(),
+                job_desc:$("#job_desc").val(),
+                bm_endtime:$("#bm_endtime").val(),
+            },function(resp) {
+                resp = $.parseJSON(resp);
+                if(resp.message.errno == '0') {
+                    $("#travel_release_panel").hide();
+                    mask.close();
+                    mui.alert("恭喜你,发布成功！",function(){
+                            location.href='{php echo $this->createMobileurl('fabu',array('op'=>'fabu'))}';
+                        });
+                }
+                if(resp.message.errno == '2'){
+                     mui.alert("发布失败！请完善代理资料再发布");
+                     $("#travel_release_panel").hide();
+                    mask.close();
+                }
+                 if(resp.message.errno == '3'){
+                     mui.alert("账号异常被禁用，请联系客服！");
+                     $("#travel_release_panel").hide();
+                    mask.close();
+                }
+            }
+        );
+    }
+}
+</script>
+
+<style>
+.nav_item {
+    color:grey;
+    text-align: center
+}
+.nav_item_active {
+    color:{$conf['color']};
+}
+</style>
+<div style="position: fixed;bottom:0px;height:50px;background-color: #F7F7F7;width:100%">
+    <div class="nav_item" style="width:50px;height:50px;border-top:1px #ACACAC solid;border-right:1px #ACACAC solid" onclick="location.href='{php echo $this->createMobileurl('shouce')}'">
+        <div style="font-size:12px;height:15px">操作</div>
+        <div style="font-size:12px;height:15px">手册</div>
+        <div style="height:15px;font-size:12px"><i class="fa fa-car"></i></div>
+    </div>
+    <div class="nav_item" style="width:80px;height:50px;border-top:1px #ACACAC solid;margin:-50px auto 0px 50px" onclick="location.href='{php echo $this->createMobileurl('index')}'">
+        <div style="font-size:20px;padding-top:5px"><i class="fa fa-home"></i></div>
+        <div style="font-size:12px">首页</div>
+    </div>
+    <div class="nav_item nav_item_active" style="width:80px;margin:-50px auto 0px 130px;height:50px;border-top:1px #ACACAC solid" onclick="location.href='{php echo $this->createMobileurl('kefu')}'">
+        <div style="font-size:20px;padding-top:5px"><i class="fa fa-user"></i></div>
+        <div style="font-size:12px">客服中心</div>
+    </div>
+    <div style="height:50px;margin:-50px 0px 0px 210px;line-height: 50px;background-color: #FF9900;color:white;text-align: center;border-top:1px {$conf['color']} solid" onclick="release_travel()">
+        发布兼职
+    </div>
+</div>

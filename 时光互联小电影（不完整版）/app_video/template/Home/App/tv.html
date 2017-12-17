@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en"> 
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="referrer" content="never">
+<meta http-equiv="Cache-Control" content="no-transform">
+<title>视频解析</title>
+<style type="text/css">body,html,div{padding: 0;margin: 0;width:100%;height:100%;background-color:#000; color:#999;}</style>
+</head>
+<body>
+<div id="video">
+	<empty name="detail">
+		<img src="/public/img/tencent.png"  width="100%" height="100%" />
+	<else />
+		<video src="<{$detail['video'][0]['url']}>" controls="controls" autoplay="autoplay" preload="auto" width="100%" height="100%"  x5-video-player-type="h5" x5-video-player-fullscreen="false"></video>
+	</empty>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[【脐橙】拼车]]></name>
+		<identifie><![CDATA[navlange_pinche]]></identifie>
+		<version><![CDATA[0.26]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[微信拼车]]></ability>
+		<description><![CDATA[脐橙拼车]]></description>
+		<author><![CDATA[奇辰]]></author>
+		<url><![CDATA[http://bbs.we7.cc/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="首页入口" do="index" state="" direct="false" />
+      <entry title="我的出行" do="my_travel" state="" direct="false" />
+		</cover>
+		<menu>
+      <entry title="车主管理" do="owner" state="" direct="false" />
+			<entry title="拼车管理" do="pin" state="" direct="false" />
+      <entry title="出行管理" do="travel" state="" direct="false" />
+      <entry title="评价设置" do="comment" state="" direct="false" />
+      <entry title="消息通知" do="message" state="" direct="false" />
+      <entry title="系统设置" do="conf" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[DROP TABLE IF EXISTS `ims_navlange_pinche_comment`;
+CREATE TABLE `ims_navlange_pinche_comment` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(8) DEFAULT NULL,
+  `pin_id` int(8) DEFAULT NULL,
+  `openid` varchar(30) DEFAULT NULL,
+  `content` varchar(128) DEFAULT NULL,
+  `time` int(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_comment_template`;
+CREATE TABLE `ims_navlange_pinche_comment_template` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(8) NOT NULL,
+  `content` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_conf`;
+CREATE TABLE `ims_navlange_pinche_conf` (
+  `uniacid` int(8) NOT NULL DEFAULT '0',
+  `color` varchar(7) DEFAULT NULL,
+  `owner_color` varchar(7) NOT NULL,
+  `bg_color` varchar(7) DEFAULT NULL,
+  `use_advertise` varchar(1) DEFAULT '0',
+  `member_on` varchar(1) NOT NULL DEFAULT '0',
+  `member_type` varchar(2) DEFAULT NULL,
+  `release_need_license` varchar(1) DEFAULT '0',
+  `agreement_on` varchar(1) DEFAULT '1',
+  `agreement_title` varchar(128) DEFAULT NULL,
+  `agreement_content` text,
+  PRIMARY KEY (`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_member`;
+CREATE TABLE `ims_navlange_pinche_member` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(8) DEFAULT NULL,
+  `sn` varchar(50) DEFAULT NULL,
+  `travel_id` bigint(11) NOT NULL,
+  `pin_id` bigint(11) DEFAULT NULL,
+  `status` varchar(1) DEFAULT '',
+  `pin_time` bigint(20) NOT NULL,
+  `price` decimal(11,2) NOT NULL,
+  `pay_tid` varchar(50) NOT NULL,
+  `pay_mode` varchar(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_message`;
+CREATE TABLE `ims_navlange_pinche_message` (
+  `uniacid` int(8) NOT NULL DEFAULT '0',
+  `release_success` varchar(128) DEFAULT NULL,
+  `join_notice` varchar(128) DEFAULT NULL,
+  `join_result` varchar(128) DEFAULT NULL,
+  `sms_on` varchar(1) NOT NULL DEFAULT '0',
+  `juhe_key` varchar(50) NOT NULL,
+  `release_success_juhe_id` varchar(10) DEFAULT NULL,
+  `join_notice_juhe_id` varchar(10) DEFAULT NULL,
+  `join_result_juhe_id` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`uniacid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_owner`;
+CREATE TABLE `ims_navlange_pinche_owner` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(8) NOT NULL,
+  `openid` varchar(30) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `tel` varchar(20) DEFAULT NULL,
+  `car_number_1` varchar(10) DEFAULT NULL,
+  `car_number_2` varchar(10) NOT NULL,
+  `car_number_3` varchar(10) NOT NULL,
+  `car_color` varchar(20) DEFAULT NULL,
+  `car_series` varchar(50) DEFAULT NULL,
+  `vehicle_travel_license` varchar(50) DEFAULT NULL,
+  `driving_license` varchar(50) DEFAULT NULL,
+  `car_img` varchar(50) DEFAULT NULL,
+  `status` varchar(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_pin`;
+CREATE TABLE `ims_navlange_pinche_pin` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(8) DEFAULT NULL,
+  `departure_station` varchar(20) DEFAULT NULL,
+  `terminal_station` varchar(20) DEFAULT NULL,
+  `passenger_count` smallint(5) DEFAULT NULL,
+  `departure_time` int(20) DEFAULT NULL,
+  `owner_id` bigint(11) NOT NULL,
+  `car_number` varchar(15) NOT NULL,
+  `car_series` varchar(20) NOT NULL,
+  `car_color` varchar(10) NOT NULL,
+  `boarding_place` varchar(50) DEFAULT NULL,
+  `price` decimal(8,2) DEFAULT NULL,
+  `mode` varchar(20) DEFAULT NULL,
+  `line` varchar(50) DEFAULT NULL,
+  `note` varchar(128) DEFAULT NULL,
+  `release_time` bigint(20) NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `ims_navlange_pinche_travel`;
+CREATE TABLE `ims_navlange_pinche_travel` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(8) DEFAULT NULL,
+  `openid` varchar(30) DEFAULT NULL,
+  `departure_station` varchar(50) DEFAULT NULL,
+  `terminal_station` varchar(50) DEFAULT NULL,
+  `departure_time` bigint(20) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `mobile` varchar(20) DEFAULT NULL,
+  `amount` int(8) DEFAULT NULL,
+  `boarding_place` varchar(50) DEFAULT NULL,
+  `release_time` bigint(20) DEFAULT NULL,
+  `status` varchar(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_navlange_pinche_comment`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_comment_template`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_conf`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_member`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_message`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_owner`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_pin`;
+    DROP TABLE IF EXISTS `ims_navlange_pinche_travel`;]]></uninstall>
+	<upgrade><![CDATA[ALTER TABLE `ims_navlange_pinche_conf` ADD `member_type` VARCHAR(2) DEFAULT NULL]]></upgrade>
+</manifest>

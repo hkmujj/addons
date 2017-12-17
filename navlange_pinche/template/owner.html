@@ -1,0 +1,179 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  	<li id="nav_0"{if $op == 'index'} class="active"{/if}><a href="{php echo $this->createWeburl('owner')}">车主</a></li>
+  	{if $id > 0}
+  		<li{if $op == 'post'} class="active"{/if}><a href="{php echo $this->createWeburl('owner',array('op'=>'post','id'=>$id))}">管理车主</a></li>
+  	{/if}
+</ul>
+{if $op == 'index'}
+	<div class="panel panel-default">
+	    <div class="panel-body">
+			<table class="table table-condensed table-striped" style="background-color: white;table-layout:fixed;word-wrap:break-word">
+				<thead style="border-top-left-radius: 3px;border-top-right-radius: 3px;">
+					<tr>
+						<th style="text-align: center">姓名</th>
+					    <th style="text-align: center">联系电话</th>
+					    <th style="text-align: center">车牌</th>
+						<th style="text-align: center">车型</th>
+					    <th style="text-align: center">车身颜色</th>
+					    <th style="text-align: center">状态</th>
+					    <th style="text-align: center;width:100px">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $owner $index $item}
+						<tr id="{$item['id']}">
+							<td style="text-align: center">{$item['name']}</td>
+							<td style="text-align: center">{$item['tel']}</td>
+							<td style="text-align: center">{$item['car_number_1']}{$item['car_number_2']}{$item['car_number_3']}</td>
+							<td style="text-align: center">{$item['car_series']}</td>
+							<td style="text-align: center">{$item['car_color']}</td>
+							<td style="text-align: center">
+								{if $item['status'] == '0'}
+									待审核
+								{else if $item['status'] == '1'}
+									已审核
+								{else if $item['status'] == '2'}
+									已解除绑定
+								{/if}
+							</td>
+							<td style="text-align: center">
+								<a href="{php echo $this->createWeburl('owner',array('op'=>'post','id'=>$item['id']))}" style="color:#4CB0F9"><i class="fa fa-wrench"></i></a>
+								<a href="javascript:delete_owner({$item['id']})" style="color:red"><i class="fa fa-minus-square"></i></a>
+							</td>
+						</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+<script>
+function delete_owner(id) {
+	var r = confirm("删除车主！");
+	if(r) {
+		$.post("{php echo $this->createWeburl('owner', array('op' => 'delete_owner'));}",{
+				id:id
+			},
+			function(resp) {
+				resp = $.parseJSON(resp);
+				if(resp.message.errno != 0) {
+					util.message('操作失败, 请稍后重试.')
+				} else {
+					util.message('操作成功', location.href, 'success');
+				}
+			}
+		);
+	}
+}
+</script>
+{else}
+{if $id > 0}
+<div class="panel panel-default">
+	<div class="panel-body">
+	    <form class="form-horizontal" role="form" action="" method="POST">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">车主姓名</label>
+				<div class="col-sm-10">
+					<input class="form-control" value="{$owner['name']}" readonly="true" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">车主联系电话</label>
+				<div class="col-sm-10">
+					<input class="form-control" value="{$owner['tel']}" readonly="true" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">车牌号</label>
+				<div class="col-sm-10">
+					<input class="form-control" value="{$owner['car_number_1']}{$owner['car_number_2']}{$owner['car_number_3']}" readonly="true" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">车型</label>
+				<div class="col-sm-10">
+					<input class="form-control" value="{$owner['car_series']}" readonly="true" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">车身颜色</label>
+				<div class="col-sm-10">
+					<input class="form-control" value="{$owner['car_color']}" readonly="true" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">行驶证</label>
+				<div class="col-sm-10">
+					<img src="{$_W['siteroot']}attachment/images/pinche/license/{$owner['vehicle_travel_license']}" width="400px" height="auto" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">驾驶证</label>
+				<div class="col-sm-10">
+					<img src="{$_W['siteroot']}attachment/images/pinche/license/{$owner['driving_license']}" width="400px" height="auto" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">车辆照片</label>
+				<div class="col-sm-10">
+					<img src="{$_W['siteroot']}attachment/images/pinche/license/{$owner['car_img']}" width="400px" height="auto" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">审核</label>
+				<div class="col-sm-10">
+					<select class="form-control" name="status">
+						<option value="1" {if $owner['status']=='1'}selected{/if}>有效</option>
+						<option value="0" {if $owner['status']=='0'}selected{/if}>无效</option>
+					</select>
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" class="btn btn-default" name="edit" value="修改">
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{else}
+<div class="panel panel-default">
+	<div class="panel-body">
+	    <form class="form-horizontal" role="form" action="" method="POST">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">会员等级</label>
+				<div class="col-sm-10">
+					<select class="form-control" name="level">
+						{loop $all_level $index $item}
+							<option value="{$item['id']}">{$item['name']}</option>
+						{/loop}
+					</select>
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">周期</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input name="month" value="0" type="number" class="form-control" placeholder="" />
+						<span class="input-group-addon">月</span>
+					</div>
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<label class="col-sm-2 control-label">车主</label>
+				<div class="col-sm-10">
+					<input name="owner" type="number" step="0.01" class="form-control" placeholder="请输入车主" />
+				</div>
+		  	</div>
+		  	<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" class="btn btn-default" name="add" value="添加">
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{/if}
+{/if}

@@ -1,0 +1,155 @@
+﻿{template 'header'}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<title>金梧桐群英网</title>
+<meta name="keywords" content="金梧桐群英网" />
+<meta name="description" content="金梧桐群英网." />
+<link href="{OSSURL}/public/mobile/css/css.css" rel="stylesheet" type="text/css" />
+<script src="{OSSURL}/public/mobile/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+        function AutoScroll(obj) {
+
+            $(obj).find("ul:first").animate({
+                marginTop: "-22px"
+            }, 500, function() {
+                $(this).css({ marginTop: "0px" }).find("li:first").appendTo(this);
+            });
+        }
+        $(document).ready(function() {
+            var myar = setInterval('AutoScroll("#scrollDiv")', 3000)
+            $("#scrollDiv").hover(function() { clearInterval(myar); }, function() { myar = setInterval('AutoScroll("#scrollDiv")', 3000) }); //当鼠标放上去的时候，滚动停止，鼠标离开的时候滚动开始，-22px是行高
+        });
+</script>
+<style type="text/css">
+    #jwt{
+        margin-top:10px;height:auto!important;
+    }
+</style>
+</head>
+<body>
+    <header style="background:#2786da;margin-top:0px;">
+        <div id="logo" ><a href="javascript:;"><h1>金梧桐群英网</h1></a></div>
+        <nav>
+            <ul id="menu">
+               {template 'common_header'}
+            </ul>
+        </nav>
+    </header>
+  
+
+         <div class="panel panel-default">
+            <h3 class="panel-title" style="margin-top:30px;text-align:center;color:#616161">填写报名信息</h3>
+        
+         
+          <form class="" action="" method="POST" onsubmit="return checkform()">
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-10">
+                  <input type="text" name="u_name" class="form-control" id="inputEmail3" placeholder="">
+                </div>
+              </div>
+               <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">手机</label>
+                <div class="col-sm-10">
+                  <input type="text" name="mobile" class="form-control" id="inputEmail3" placeholder="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Q Q</label>
+                <div class="col-sm-10">
+                  <input type="text" name="qq" class="form-control" id="inputEmail3" placeholder="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">选择地区</label>
+                <div class="col-sm-10" style="width:94%;height:40px;border:1px solid #e7e6e6;margin-left:3%;margin-right:3%;">
+                  <select name="cat_id" class="form-control " >
+                      {loop $category $row}
+                        <option value="{$row['id']}" style="color:#C60A27;" {if $list['cat_id'] ==$row['id'] } selected{/if}>A-{$row['name']}</option>
+                        {loop $children[$row['id']] $row}
+                        <option value="{$row['id']}" {if $list['cat_id'] ==$row['id'] } selected{/if}>B-{$row['name']}</option>
+                        {loop $grandson[$row['id']] $row}
+                        <option value="{$row['id']}" {if $list['cat_id'] ==$row['id'] } selected{/if}>C-{$row['name']}</option>
+                        {/loop}
+                        {/loop}
+                        {/loop}
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">留言</label>
+                <div class="col-sm-10">
+                  <textarea type="textarea" name="desc"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10" style="text-align:center;">
+                <input type="hidden" name="title" value="{$title}">
+                <input type="hidden" name="token" value="{$_W['token']}">
+                  <input type="submit" name="submit" class="btn btn-default" value="确定报名" />
+                </div>
+              </div>
+          </form>
+</div>
+
+    <footer>
+        {template 'common_footer'}
+    </footer>
+</body>
+</html>
+<script type="text/javascript">
+  
+
+ function sfpmEndtime(){  
+            $(".lxftime").each(function(){  
+                var starttime = new Date($(this).attr("starttime")).getTime();//取结束日期(毫秒值)  
+                var nowtime = new Date().getTime();//今天的日期(毫秒值)  
+                var youtime = starttime-nowtime;//还有多久(毫秒值)  
+                var seconds = youtime/1000;  
+                var minutes = Math.floor(seconds/60);  
+                var hours = Math.floor(minutes/60);  
+                var days = Math.floor(hours/24);  
+                var CDay= days ;  
+                var CHour= hours % 24;  
+                var CMinute= minutes % 60;  
+                var CSecond= Math.floor(seconds%60);  
+                var c=new Date();  
+                var q=((c.getMilliseconds())%10);  
+                if(starttime<=nowtime){  
+                    
+                    $(this).html("已过")//结束日期小于当前日期
+
+                }else{     
+                    // $(this).html("<span style='color:green'>"+days+"</span>");//输出有天数的数据 
+
+                     $(this).html("<span>"+days+"天"+CHour+"时"+CMinute+"分"+CSecond+"秒</span>");//输出有天数的数据 
+                }  
+          });  
+       setTimeout("sfpmEndtime()",100);  
+      };  
+    $(function(){  
+          sfpmEndtime();  
+       });  
+  function checkform(){
+   var mobile= $("input[name='mobile']").val();
+    var reg =/^1[34578]\d{9}$/;
+    if (mobile == '') {
+        alert('手机号不能为空');
+        return false;
+    }
+    if (!reg.test(mobile)) {
+        alert('手机号输入有误');
+        return false;
+    }
+    var u_name=$("input[name='u_name']").val();
+    if( u_name== '') {
+        alert('姓名不能为空');
+        return false;
+    }
+    return true;
+  }
+</script>
+

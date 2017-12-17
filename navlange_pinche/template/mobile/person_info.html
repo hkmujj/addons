@@ -1,0 +1,85 @@
+{template 'common/header'}
+<div style="margin-top:20px">
+    <div style="text-align: center">
+        <img src="{$_W['fans']['headimgurl']}" width="50px" height="50px" style="border-radius:25px" />
+    </div>
+    <div style="text-align: center">
+        {$_W['fans']['nickname']}
+    </div>
+</div>
+<div style="width:90%;margin:20px auto;border:1px #c8c7cc solid">
+    <style>
+        .mui-input-group:before{height:0px;}
+        .mui-input-group:after{height:0px;}
+    </style>
+    <form class="mui-input-group">
+        <div class="mui-input-row">
+            <label>用户名</label>
+        <input id="realname" value="{$user['realname']}" type="text" class="mui-input-clear" placeholder="请输入用户名">
+        </div>
+        <div class="mui-input-row">
+            <label>联系电话</label>
+            <input id="mobile" value="{$user['mobile']}" type="number" class="mui-input-clear" placeholder="请输入联系电话">
+        </div>
+        <div class="mui-button-row">
+            <button type="button" class="mui-btn mui-btn-primary" onclick="update()">确认</button>
+            <button type="button" class="mui-btn mui-btn-danger" onclick="WeixinJSBridge.call('closeWindow');">取消</button>
+        </div>
+        {if $conf['agreement_on'] == '1'}
+            <div style="text-align: center">
+                <input name="agreement_check" type="checkbox" /><span>同意<a href="javascript:show_agreement()">《{$conf['agreement_title']}》</a></span>
+            </div>
+        {/if}
+    </form>
+</div>
+<div id="agreement_panel" style="position: absolute;top:0px;left:0px;width:100%;height:100%;padding:10px;z-index: 999;display: none">
+    <div id="agreement_content" style="background-color: white;padding: 10px;overflow-y:scroll">
+        {php echo htmlspecialchars_decode(str_replace(array("\r\n", "\r", "\n"), "", $conf['agreement_content']));}
+    </div>
+    <div style="position: absolute;top:20px;right:20px;width:30px;height:30px">
+        <img src="{$_W['siteroot']}addons/navlange_reserve_service/template/style/img/close.png" width="30px" height="30px" onclick="close_agreement()" />
+    </div>
+</div>
+<script src="{$_W['siteroot']}addons/navlange_pinche/template/style/js/check_reg.js"></script>
+<script>
+var mask = mui.createMask(function(){});//callback为用户点击蒙版时自动执行的回调；
+$(function(){
+    var height = document.documentElement.clientHeight-20;
+    $("#agreement_content").css('height',height);
+})
+function show_agreement() {
+    mask.show();//显示遮罩
+    $("#agreement_panel").show();
+}
+function close_agreement() {
+    $("#agreement_panel").hide();
+    mask.close();
+}
+function update() {
+    var agreed = $("input[name='agreement_check']:checked").val();
+    if(agreed != 'on') {
+        alert("请阅读协议！");
+    } else {
+        if($("#realname").val() == "") {
+            alert("姓名不能为空！");
+            $("#realname").focus();
+        } else if (!checkPhone($("#mobile").val())) {
+            $("#mobile").focus();
+        } else {
+            $.post("{php echo $this->createMobileurl('person_info',array('op'=>'update'))}",{
+                    realname:$("#realname").val(),
+                    mobile:$("#mobile").val()
+                },
+                function(resp) {
+                    resp = $.parseJSON(resp);
+                    if(resp.message.errno == 0) {
+                        mui.alert("信息提交成功！",function(){
+                            location.reload();
+                        })
+                    }
+                }
+            );
+        }
+    }
+}
+</script>

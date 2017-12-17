@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+	</head>
+<body>
+ 	<div class="page-group">
+		<div id="user-recharge" class="page page-current">
+			<header class="bar bar-nav">
+				<h1 class="title">申请提现</h1>
+			</header>
+			<nav class="bar bar-tab">
+				<a class="external tab-item" href="{php echo $this->createMobileurl('prise')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-movie"></use>
+			        </svg>
+					<span class="tab-label">神器</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('tv')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-tv"></use>
+			        </svg>
+					<span class="tab-label">电视</span>
+				</a>
+				<a class="external tab-item active" href="{php echo $this->createMobileurl('index')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-index"></use>
+			        </svg>
+					<span class="tab-label">推荐</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('vip')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-vip"></use>
+			        </svg>
+					<span class="tab-label">VIP</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('user')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-user-fill"></use>
+			        </svg>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<div class="content">
+				<form id="form-cash" method="post" action="{php echo $this->createMobileUrl('user',array('op' => 'cash'))}">
+					<div class="list-block tui-ma-0">
+							<input type="hidden" name="token" value="{$_W['token']}" />
+							<ul class="tui-border-none">
+								<li>
+									<div class="item-content">
+										<div class="item-inner">
+											<div class="item-title label">提现金额</div>
+											<div class="item-input">
+												<input id="data-money"  type="number" pattern="\d*"  type="text" placeholder="0.00" name="data[money]" />
+											</div>
+										</div>
+									</div>
+								</li>
+								{if $config['hbtx_open'] == 0}
+								<li>
+									<div class="item-content">
+										<div class="item-inner">
+											<div class="item-title label">账户类型</div>
+											<div class="item-input">
+												<select name="data[method]">
+													<option value="1">支付宝</option>
+													<option value="2">微信号</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</li>
+								<li>
+									<div class="item-content">
+										<div class="item-inner">
+											<div class="item-title label">收款账户</div>
+											<div class="item-input">
+												<input id="data-money" type="text" placeholder="支付宝/个人微信号" name="data[account]" />
+											</div>
+										</div>
+									</div>
+								</li>
+								{/if}
+								<li>
+									<div class="item-content">
+										<div class="item-inner">
+											<div class="item-title label">同意协议</div>
+											<div class="item-input">
+												<label class="label-switch">
+						                			<input id="data-agree" type="checkbox" name="data[agree]" value="1" />
+						                			<div class="checkbox"></div>
+						              			</label>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						
+					</div>
+					<div class="content-block bg-white tui-pt-10 tui-pb-10 tui-mt-0 color-warning">
+						<p>1.提现操作之前确定我已关注公众号。</p>
+						<p>2.单次提现金额范围1-200元。</p>
+						{if $config['hbtx_open'] == 1}
+						<p>3.提现后将以红包形式发送到您的微信。</p>
+						{else}
+						<p>3.提现通过审核后会转账到您账户。</p>
+						<p>4.请正确填写提现信息，避免处理到账失败。</p>
+						{/if}
+					</div>
+					
+					<div class="content-block">
+						<div class="row">
+							<div class="col-50">
+								<a href="{php echo $this->createMobileUrl('user',array('op' => 'index'))}" class="button button-big button-fill button-danger external">取消</a>
+							</div>
+							<div class="col-50">
+								<input type="submit" name="submit" class="button button-big button-fill button-success external" value="提交" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/iconfont.js'></script>
+    <script src="{$_W['siteroot']}addons/time_tvod/static/js/common.js"></script>
+	{php echo register_jssdk(false);} 
+	<script>
+		wx.ready(function () {
+			wx.hideAllNonBaseMenuItem();
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+		<style>
+			.uc-index-header .item-title{
+				margin: 0.15rem 12px;	
+			}
+			
+			.uc-index-header .header-ft a{
+				text-align:center;
+			}
+			
+			.yanshe{
+				color: #FFCF1C;
+			}
+
+			.cate-list dd a{
+				font-size: 12px;
+			}			
+		</style>
+	</head>
+	<body>
+	 	<div class="page-group">
+			<div id="page-list" class="page page-current">
+				<header class="bar bar-nav">
+					<h1 class="title">TV导航</h1>
+				</header>
+				<nav class="bar bar-tab">
+					<a class="external tab-item" href="{php echo $this->createMobileurl('prise')}">
+				        <svg class="icon" aria-hidden="true">
+				            <use xlink:href="#icon-movie"></use>
+				        </svg>
+						<span class="tab-label">神器</span>
+					</a>
+					<a class="external tab-item" href="{php echo $this->createMobileurl('tv')}">
+				        <svg class="icon" aria-hidden="true">
+				            <use xlink:href="#icon-tv-fill"></use>
+				        </svg>
+						<span class="tab-label">电视</span>
+					</a>
+					<a class="external tab-item active" href="{php echo $this->createMobileurl('index')}">
+				        <svg class="icon" aria-hidden="true">
+				            <use xlink:href="#icon-index"></use>
+				        </svg>
+						<span class="tab-label">推荐</span>
+					</a>
+					<a class="external tab-item" href="{php echo $this->createMobileurl('vip')}">
+				        <svg class="icon" aria-hidden="true">
+				            <use xlink:href="#icon-vip"></use>
+				        </svg>
+						<span class="tab-label">VIP</span>
+					</a>
+					<a class="external tab-item" href="{php echo $this->createMobileurl('user')}">
+				        <svg class="icon" aria-hidden="true">
+				            <use xlink:href="#icon-user"></use>
+				        </svg>
+						<span class="tab-label">我的</span>
+					</a>
+				</nav>
+				<div class="content">
+					
+					
+					<div class="uc-index-header">
+						<div class="list-block media-list tui-ma-0">
+							<ul class="tui-border-none">
+								<li class="tui-border-none">
+									<div class="item-inner">
+										<div class="item-title pull-left">◆TV导视</div>
+										
+										<div class="item-title pull-right">
+											<a href="#" data-url="{php echo $this->createMobileUrl('tv',array('ops' => 'zx','id' => $item['id']))}">	
+												<span class="tab-label {if $_GPC['ops'] == 'zx'}yanshe{/if}">★最新</span>
+											</a>
+										</div>
+										
+										<div class="item-title pull-right">
+				       						<a href="javascript:;" data-url="{php echo $this->createMobileUrl('tv',array('ops' => 'tj','id' => $item['id']))}">	
+												<span class="tab-label {if empty($_GPC['ops']) || $_GPC['ops'] == 'tj'}yanshe{/if}">★推荐</span>
+											</a>
+										</div>
+										
+									</div>
+								</li>
+							</ul>
+						</div>
+						
+						<div class="header-ft">
+							{loop $tvtuijian $tui}
+							<a href="{php echo $this->createMobileUrl('tv',array('op' => 'play','id' => $tui['id']))}">
+								<div class="item-title" style="font-size:13px;">{$tui['name']}</div>
+							</a>
+							{/loop}
+						</div>
+					</div>
+					
+					<div class="cate-list">
+						<ul>
+							{loop $tvcate $val}
+							
+							<li>
+								<dl>
+									<dt>
+										<h4>◆ {$val['cate_name']}</h4>
+									</dt>
+									<dd>
+										{loop $tvlist $item}
+										{if $item['cate_id'] == $val['cate_id']}
+										<a class="item-inner tui-pl-15 external" href="{php echo $this->createMobileUrl('tv',array('op' => 'play','id' => $item['id']))}">{$item['name']}</a>
+										{/if}
+										{/loop}
+									</dd>
+								</dl>
+							</li>
+							{/loop}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+	    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+	    <script src='{$_W['siteroot']}addons/time_tvod/static/js/iconfont.js'></script>
+	    <script src="{$_W['siteroot']}addons/time_tvod/static/js/common.js"></script>
+		{php echo register_jssdk(false);} 
+		<script>
+			wx.ready(function () {
+				wx.hideAllNonBaseMenuItem();
+			});
+			
+			$(".item-inner").on("click","a",function(){
+				url = $(this).attr("data-url");
+				window.location.href = url;
+			});
+			$.init();
+		</script>
+	</body>
+</html>

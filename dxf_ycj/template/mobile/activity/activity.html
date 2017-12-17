@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>零零校园</title>
+<meta name="description" content="零零校园">
+<meta name="keywords" content="零零校园">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<link href="{OSSURL}/template/mobile/activity/css/swiper3.06.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{OSSURL}/template/mobile/activity/css/animate.min.css">
+<script type="text/javascript" src="{OSSURL}/template/mobile/activity/js/jquery-1.10.1.min.js" ></script>
+<link rel="stylesheet" href="{OSSURL}/public/mobile/css/mui.min.css">
+<script src="{OSSURL}/public/mobile/js/mui.min.js"></script>
+<style type="text/css">
+	*{ padding: 0; margin: 0; list-style: none;}
+	html, body {
+        position: relative;
+        height: 100%;
+    }
+    body {
+        background: #eee;
+        font-family:"微软雅黑";
+        color: #000000;
+        margin: 0;
+        padding: 0;
+    }
+    img{ 
+    	display: block; 
+    	width: 100%; 
+    	height: auto;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+    .swiper-slide {
+        background: url({OSSURL}/template/mobile/activity/img/bg.jpg) no-repeat top center;
+        background-size: 100% 100%;
+        position: relative;
+    }
+    /* 页面css */
+   .top1{
+   		width: 100%;
+   		height: auto;
+   		overflow: hidden;
+   		margin: 0 auto;
+   		position: relative;
+   }
+   .star01{
+   		width: 100%;
+   		height: auto;
+   		position: relative;
+   		z-index: 2;
+   }
+   .star02{
+   		width: 100%;
+   		height: auto;
+   		position:absolute;
+   		left: 0;
+   		top: -100px;
+   		z-index: 1;
+   }
+   .con1{
+   		
+   		width: 55%;
+   		height: auto;
+   		margin: 4% auto 0 auto;
+   }
+   .top2{
+   		width: 100%;
+   		height: 130px;
+   		margin: 10% auto 5% auto;
+   		position: relative;
+   }
+   .top2 .left{
+   		position: absolute;
+   		left: 0;
+   		top: 80%;
+   		width: 16%;
+   		height: auto;
+   }
+   .top2 ul{
+   		width: 100%;
+   		height: 130px;
+   }
+   .top2 ul li{ 
+   		float: left;
+   	}
+   	.top2 ul li.li01{ 
+   		width: 14.8%;
+   		height:105px ;
+   		margin: 20px 0 0 5px;
+   	}
+   .top2 ul li.li02{ 
+   		width: 14.8%;
+   		height:127px ;
+   		margin: 2px 0 0 -2px;
+   	}
+   	.top2 ul li.li03{ 
+   		width: 23%;
+   		height:127px ;
+   		margin: 2px 0 0 10px;
+   	}
+   	.top2 ul li.li04{ 
+   		width: 21.56%;
+   		height:127px ;
+   		margin: 2px 0 0 5px;
+   	}
+   	.top2 ul li.li05{ 
+   		width:13.59%;
+   		height:127px ;
+   		margin: 2px 0 0 10px;
+   	}
+   .con2{
+   		width: 70%;
+   		height: auto;
+   		margin: 15% auto 0 auto;
+   }
+   .right{
+   		position: absolute;
+   		right: 0;
+   		bottom: 0;
+   		width: 20%;
+   		height: auto;
+   }
+   .top3{
+   		position:relative;
+   		width: 100%;
+   		height: auto;
+   		margin: 15px 0 0 0;
+   }
+   .top3 .p1{
+   		position: relative;
+   		z-index: 3;
+   		width: 48%;
+   		height: auto;
+   		margin: 10px auto 0 auto;
+   }
+   .top3 .p2{
+   		position: relative;
+   		z-index: 2;
+   		width: 48%;
+   		height: auto;
+   		margin: -45px auto 0 auto;
+   }
+   .top3 .p3{
+   		position: relative;
+   		z-index: 1;
+   		width: 65.78%;
+   		height: auto;
+   		margin: -55px auto 0 55px;
+   }
+   
+   .top3 .p4{
+   		position: absolute;
+   		left: 0;
+   		top: 50%;
+   		width: 29%;
+   		height: auto;
+   }
+   .top3 .p5{
+   		position: absolute;
+   		right: 0;
+   		top: 25%;
+   		width: 29%;
+   		height: auto;
+   }
+   .con3{
+   		width: 75%;
+   		height: auto;
+   		margin:10px auto;
+   		max-height: 260px;
+   }
+   .top4{
+   		width: 22%;
+   		height: auto;
+   		padding: 40px 0 10px 0;
+   		margin: 0 auto;
+   }
+   .con4{
+   		width: 77%;
+   		height: auto;
+   		margin: 5% auto 0 auto;
+   }
+   .con5{
+   		position: absolute;
+   		left: 0;
+   		bottom: 0;
+   		width: 80%;
+   		height: auto;
+   		margin: 8% auto 0 auto;
+   }
+   
+.up{
+	position: absolute; 
+	left:45%; 
+	bottom:15px;
+	animation: arrow 1s infinite;
+	-webkit-animation: arrow 1s infinite;
+	-moz-animation: arrow 1s infinite;
+	-o-animation: arrow 1s infinite;
+}
+.up img{
+	width: 50%;
+	height: auto;
+}
+@keyframes arrow {
+  0% {bottom:15px; }
+  100% {bottom:20px; }
+} 
+@-webkit-keyframes arrow {
+  0% {bottom:15px; }
+  100% {bottom:20px; }
+}
+@-moz-keyframes arrow {
+  0% {bottom:15px; }
+  100% {bottom:20px; }
+}
+@-o-keyframes arrow {
+  0% {bottom:15px; }
+  100% {bottom:20px; }
+}
+@-ms-keyframes arrow {
+  0% {bottom:15px; }
+  100% {bottom:20px; }
+}
+
+
+.star02{
+-webkit-animation:rotateIn 90s .1s linear infinite both;
+-moz-animation:rotateIn 90s .1s linear infinite both;}
+@-webkit-keyframes rotateIn{
+0%{-webkit-transform-origin:center center;
+-webkit-transform:rotate(-360deg);
+}
+100%{-webkit-transform-origin:center center;
+-webkit-transform:rotate(0);
+}
+}
+@-moz-keyframes rotateIn{
+0%{-moz-transform-origin:center center;
+-moz-transform:rotate(-360deg);
+}
+100%{-moz-transform-origin:center center;
+-moz-transform:rotate(0);
+}
+}
+
+
+.main{ z-index:999; width: 30px; height: 30px; position:absolute; right: 10px; top: 10px;}
+.music{width: 30px; height: 30px; background: url({OSSURL}/template/mobile/activity/img/musicbg.png) center center no-repeat; background-size:100%;z-index: 20;}
+
+.music.on{
+	-webkit-animation: reverseRotataZ 1.2s linear infinite;
+	-moz-animation: reverseRotataZ 1.2s linear infinite;
+}
+@-webkit-keyframes reverseRotataZ{
+	0%{
+		-webkit-transform: rotateZ(0deg);
+	}
+	100%{
+		-webkit-transform: rotateZ(-360deg);
+	}
+}
+@-moz-keyframes reverseRotataZ{
+	0%{
+		-moz-transform: rotateZ(0deg);
+	}
+	100%{
+		-moz-transform: rotateZ(-360deg);
+	}
+}
+</style>
+<script type="text/javascript">
+//	$(function(){
+//		$(".music").click(function () {
+//			if($(this).hasClass("on")){
+//				$("#myaudio")[0].pause();
+//				$(".music").removeClass("on");
+//			}else{
+//				$("#myaudio")[0].play();
+//				$(".music").addClass("on");
+//			}
+//			
+//		});
+//	});
+	$(function(){
+		$(".music").click(function () {
+			if($(this).hasClass("on")){
+				$("#myaudio")[0].pause();
+				$(".music").removeClass("on");
+			}else{
+				$("#myaudio")[0].play();
+				$(".music").addClass("on");
+			}
+			
+		});
+	});
+</script>
+</head>
+
+<body>
+	<!--controls-->
+	<div class="main">
+		<audio id="myaudio" src="{OSSURL}/template/mobile/activity/img/yy.mp3"  autoplay loop hidden="true" style="width:0;height:0" ></audio>
+		<div class="optiongroup">
+			<div class="music  on"></div>
+		</div>
+	</div>
+    <div class="swiper-container">
+		<div class="swiper-wrapper">
+			
+			<!-- 页面1 -->
+			<div class="swiper-slide slider1">
+				<div class="top1">
+          <p><img src="{OSSURL}/template/mobile/activity/img/11.jpg"></p>
+				
+				
+				</div>
+				<div class="con1 ani" swiper-animate-effect="fadeIn" swiper-animate-duration="3s" swiper-animate-delay="0.1s">
+					<img src="{OSSURL}/template/mobile/activity/img/pic1_02.png" />
+				</div>
+				<div class='up'><img src="{OSSURL}/template/mobile/activity/img/down.png"></div>
+			</div>
+			
+			<!-- 页面2 -->
+			<div class="swiper-slide slider2">
+				<div class="top2">
+					<ul>
+						<li class="li01 ani" swiper-animate-effect="rollIn" swiper-animate-duration="1s" swiper-animate-delay="0.1s">
+							<img src="{OSSURL}/template/mobile/activity/img/jump01.png" />
+						</li>
+						<li class="li02 ani" swiper-animate-effect="rollIn" swiper-animate-duration="1s" swiper-animate-delay="0.5s">
+							<img src="{OSSURL}/template/mobile/activity/img/jump02.png" />
+						</li>
+						<li class="li03 ani" swiper-animate-effect="rollIn" swiper-animate-duration="1s" swiper-animate-delay="1s">
+							<img src="{OSSURL}/template/mobile/activity/img/jump03.png" />
+						</li>
+						<li class="li04 ani" swiper-animate-effect="rollIn" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
+							<img src="{OSSURL}/template/mobile/activity/img/jump04.png" />
+						</li>
+						<li class="li05 ani" swiper-animate-effect="rotateInDownLeft" swiper-animate-duration="1s" swiper-animate-delay="2s">
+							<img src="{OSSURL}/template/mobile/activity/img/jump05.png" />
+						</li>
+					</ul>
+					<p class="left ani" swiper-animate-effect="fadeInLeftBig" swiper-animate-duration="1s" swiper-animate-delay="0.1s">
+						<img src="{OSSURL}/template/mobile/activity/img/pic2_left.png" />
+					</p>
+				</div>
+				<div class="con2 ani" swiper-animate-effect="fadeIn" swiper-animate-duration="3s" swiper-animate-delay="0.5s">
+					<img src="{OSSURL}/template/mobile/activity/img/pic2_01.png" />
+				</div>
+				<p class="right ani" swiper-animate-effect="fadeInUpBig" swiper-animate-duration="1s" swiper-animate-delay="0.1s"><img src="{OSSURL}/template/mobile/activity/img/pic2_right.png" /></p>
+				<div class='up'><img src="{OSSURL}/template/mobile/activity/img/down.png"></div>
+			</div>
+			
+			<!-- 页面3 -->
+			<div class="swiper-slide slider3">
+				<div class="top3">
+          <img src="{OSSURL}/template/mobile/activity/img/pic3_06.png" > 
+					<!-- <p class="p1 ani" swiper-animate-effect="fadeInDownBig" swiper-animate-duration="1s" swiper-animate-delay="0.5s"><img src="{OSSURL}/template/mobile/activity/img/pic3_03.png" /> </p>
+          <p class="p2 ani" swiper-animate-effect="fadeInRightBig" swiper-animate-duration="1s" swiper-animate-delay="0.1s"><img src="{OSSURL}/template/mobile/activity/img/pic3_02.png" /> </p>
+          <p class="p3 ani" swiper-animate-effect="fadeInLeftBig" swiper-animate-duration="1s" swiper-animate-delay="0.1s"><img src="{OSSURL}/template/mobile/activity/img/pic3_01.png" /> </p>
+          <p class="p4 ani" swiper-animate-effect="fadeInLeftBig" swiper-animate-duration="1s" swiper-animate-delay="1s"><img src="{OSSURL}/template/mobile/activity/img/pic3_04.png" /> </p>
+          <p class="p5 ani" swiper-animate-effect="fadeInRightBig" swiper-animate-duration="1s" swiper-animate-delay="1s"><img src="{OSSURL}/template/mobile/activity/img/pic3_05.png" /> </p> -->
+				</div>
+				<div class="con3 ani" swiper-animate-effect="swing" swiper-animate-duration="1s" swiper-animate-delay="1.5s">
+					<img src="{OSSURL}/template/mobile/activity/img/116.png">
+				</div>
+				<div class='up'><img src="{OSSURL}/template/mobile/activity/img/down.png"></div>
+			</div>
+			<!-- 页面4-->
+			<div class="swiper-slide slider4">
+				<div class="top4" style="color:#090404;font-size:18px;font-height:800;">
+					我要报名
+				</div>
+				<div class="con4 ani" swiper-animate-effect="fadeInRightBig" swiper-animate-duration="1s" swiper-animate-delay="0.1s">
+          <form class="mui-input-group">
+        <div class="mui-input-row">
+            <label>姓名</label>
+        <input type="text" class="mui-input-clear" placeholder="请输入姓名" name="name" id="name">
+        </div>
+         <div class="mui-input-row">
+            <label>电话</label>
+        <input type="text" name="phone" class="mui-input-clear" placeholder="请输入电话" id="phone">
+        </div>
+        <div class="mui-input-row">
+            <label>QQ</label>
+        <input type="text" name="qq" class="mui-input-clear" placeholder="选填" id="qq">
+        </div>
+        <div class="mui-input-row">
+            <label>微信</label>
+        <input type="text" name="wchat" class="mui-input-clear" placeholder="选填" id="wchat">
+        </div>
+        <div class="mui-button-row">
+            <button type="button" class="mui-btn mui-btn-primary" onclick="release_submit()">报名提交</button>
+        </div>
+</form>
+				</div>
+       
+				<div class="con5 ani" swiper-animate-effect="fadeInLeftBig" swiper-animate-duration="1s" swiper-animate-delay="0.1s" style="width:100%;">
+					<img src="{OSSURL}/template/mobile/activity/img/22.png" style="width:100%;" />
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
+<script type="text/javascript" src="{OSSURL}/template/mobile/activity/js/swiper.animate1.0.2.min.js"></script>
+<script type="text/javascript" src="{OSSURL}/template/mobile/activity/js/swiper3.06.min.js"></script>
+<script type="text/javascript">
+	 var swiper = new Swiper('.swiper-container', {
+        direction: 'vertical',
+        mousewheelControl : true,
+        onInit: function(swiper){
+		    swiperAnimateCache(swiper);
+		    swiperAnimate(swiper);
+		 },
+		onSlideChangeEnd: function(swiper){
+			swiperAnimate(swiper);
+		}	  
+    });
+   function release_submit() {
+    if($("#name").val()=="") {
+        alert("名称不能为空");
+        $("#name").focus();
+    } else if($("#phone").val()=="") {
+        alert("电话不能为空");
+        $("#phone").focus();
+    } else {
+        $.post("{php echo $this->createMobileurl('activity',array('op'=>'dogushi'))}",{
+                name:$("#name").val(),
+                phone:$("#phone").val(),
+                qq:$("#qq").val(),
+                wchat:$("#wchat").val()
+            },function(resp) {
+                resp = $.parseJSON(resp);
+                if(resp.message.errno == '0') {
+                    mui.alert("提交成功，请等待工作人员联系！");
+                }else{
+                  mui.alert("提交失败！");
+                }
+            }
+        );
+    }
+}
+</script>
+</html>

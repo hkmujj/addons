@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[预约打印]]></name>
+		<identifie><![CDATA[klh_ypring]]></identifie>
+		<version><![CDATA[1.0]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[预约打印]]></ability>
+		<description><![CDATA[预约打印]]></description>
+		<author><![CDATA[dxf]]></author>
+		<url><![CDATA[http://bbs.012wz.com/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="view" />
+			<message type="merchant_order" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+		</subscribes>
+		<handles>
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="merchant_order" />
+			<message type="user_get_card" />
+			<message type="user_del_card" />
+			<message type="user_consume_card" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="管理入口" do="index" state="" direct="false" />
+		</cover>
+		<rule>
+			<entry title="管理列表" do="yup" state="" direct="false" />
+		</rule>
+		<menu>
+			<entry title="打印设置" do="system" state="" direct="false" />
+			<entry title="管理列表" do="yupring" state="" direct="false" />
+
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<crons>
+	</crons>
+	<install><![CDATA[
+		DROP TABLE IF EXISTS `ims_klh_ypring`;
+		CREATE TABLE `ims_klh_ypring` (
+		  `id` int(11) NOT NULL AUTO_INCREMENT,
+		  `weid` int(11) DEFAULT NULL,
+		  `openid` varchar(255) DEFAULT NULL,
+		  `wxname` varchar(255) DEFAULT NULL,
+		  `headimgurl` varchar(255) DEFAULT NULL,
+		  `uname` varchar(255) DEFAULT NULL,
+		  `phone` varchar(50) DEFAULT NULL,
+		  `company` varchar(255) DEFAULT NULL,
+		  `location` varchar(255) DEFAULT NULL,
+		  `address` varchar(255) DEFAULT NULL,
+		  `ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+		  `status` int(11) DEFAULT '1' COMMENT '1.存在 0',
+		  PRIMARY KEY (`id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COMMENT='预约打印';
+		DROP TABLE IF EXISTS `ims_klh_setting`;
+		CREATE TABLE `ims_klh_setting` (
+		  `id` int(11) NOT NULL AUTO_INCREMENT,
+		  `weid` int(11) DEFAULT NULL,
+		  `title` varchar(255) DEFAULT NULL,
+		  `stitle` varchar(255) DEFAULT NULL,
+		  `sn` varchar(255) DEFAULT NULL,
+		  `time` varchar(64) DEFAULT NULL COMMENT '会议',
+		  `ctime` int(11) DEFAULT NULL,
+		  PRIMARY KEY (`id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='设置表';
+
+		]]></install>
+	<uninstall><![CDATA[
+		DROP TABLE IF EXISTS `ims_klh_ypring`;
+		DROP TABLE IF EXISTS `ims_klh_setting`;
+
+		]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

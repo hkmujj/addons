@@ -1,0 +1,60 @@
+{template 'common/header'}
+
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-body">	
+			<div class="row">
+				<div class="col-xs-12">
+					<form class="form-inline">
+						<div class="form-group">
+							<label for="exampleInputName2">关键字</label>
+							<input type="text" class="form-control" id="keyword" placeholder="输入搜索关键字" />
+						</div>
+						<button type="button" class="btn btn-default" onclick="ajax_get_table('search-form',1)">搜索</button>
+					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12" id="datalist"  style="margin-top:20px;margin-bottom: 20px;">
+					<div class="alert alert-info" role="alert">
+						数据正在加载中，请稍后 ……
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        ajax_get_table('search-form',1);
+    });
+
+    // ajax 抓取页面
+    function ajax_get_table(table,page){
+		//当前页面 保存为全局变量
+	    if(page < 1){
+	    	page = 1;
+	    }
+		$.post("{php echo $this->createWebUrl('video', array('op' => 'ajaxlist'))}",{
+			'keyword':$("#keyword").val(),
+			'page':page
+		},function(html){
+			$("#datalist").html(html);
+		});
+	}
+    function ajax_del(vid){
+		$.post("{php echo $this->createWebUrl('video', array('op' => 'ajaxdelete'))}",{
+			'vid':vid,
+		},function(response){
+			data = JSON.parse(response); 
+			if(data.code == 1){
+				var page = $(".pagination .active a").attr('data-p');
+				page = parseInt(page);
+				ajax_get_table('search-form',page);
+			}else{
+				alert(data.reason);
+			}
+		});
+    }
+</script>
+{template 'common/footer'}

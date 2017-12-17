@@ -1,0 +1,152 @@
+{template 'common/header'}
+<style>
+li{
+	list-style:none;
+}
+.busbk{
+	width: 300px;
+    background: rgb(234, 234, 234);
+    border-radius: 5px;
+	position: absolute;
+    left: 37%;
+    margin-top: 5%;
+	display: none;
+	}
+.busbk-div{
+	padding: 1rem;
+	}
+.jbyy{
+	background: #009688;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    color: #fff;
+	display: inline-block;
+	}
+	.bcyy{
+	background: #FF5722;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    color: #fff;
+    display: inline-block;
+	}
+	.hbsvg{
+	 float: right;
+	}
+	.bcimg img{
+	    margin-right: 0.5rem;
+		width:100%;
+	}
+	.buimg{
+	    height: 17rem;
+    border-radius: 5px;
+    overflow-x: hidden;
+	}
+	.bcimg .hu{
+	    background: #fff;
+		padding: 0.3rem;
+		border-radius: 5px;
+	}
+</style>
+		<div class="busbk">
+		<div class="busbk-div">
+		<p class="hbsvg">
+		<svg id="gb" t="1500039133275" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2384" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><defs><style type="text/css"></style></defs><path fill="#656565" d="M1011.580699 951.633055L571.281266 511.343495l437.703029-437.709611c16.476799-16.450473 16.476799-43.135188 0-59.58237-16.450473-16.450473-43.115443-16.450473-59.585661 0l-437.703029 437.703029-439.335242-439.335242c-16.555777-16.559068-43.385285-16.559068-59.941062 0-16.555777 16.559068-16.555777 43.411611 0 59.944353l439.331952 439.328661-435.886534 435.886533c-16.450473 16.453764-16.450473 43.131897 0 59.611987 16.48009 16.440601 43.135188 16.440601 59.585661 0l435.889824-435.902987 440.292851 440.286269c16.555777 16.562359 43.385285 16.562359 59.947644 0 16.549196-16.549196 16.549196-43.375413 0-59.941062z" p-id="2385"></path></svg>
+		</p>
+		<p>群发标题:</p>
+		<p><li class="jbyy"></li></p>
+		<p>内容类型:</p>
+		<p><li class="bcyy"></li></p>
+		<p>内容:</p>
+		<p class="bcimg">
+		<p></p>
+		</p>
+		</div>
+		</div>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="javascript:;">审核管理</a></li>
+</ul>
+		<div class="main">
+		     <div  class="panel-default">
+			 <div class="panel-body">
+			  <table class="table table-hover">
+				<thead>
+					<th width="150">提交商户</th>
+					<th width="150">提交时间</th>
+					<th width="200">标题</th>
+					<th width="100">内容类型</th>
+					<th style="text-align:right;">操作</th>
+				</thead>
+				<tbody>
+				{loop $msglist $row}
+					<tr id="fk{$row['id']}">
+						<td>{$row['fid']}</td>
+						<td>{php echo date('Y-m-d H:i',$row['time'])}</td>
+						<td id="{$row['id']}zt">{$row['title']}</td>
+						<td id="{$row['id']}zt">{$row['type']}</td>
+						<td style="text-align:right;">
+						<button class="btn btn-success" id="{$row['id']}" onclick="xq(this.id);"><i class="fa fa-plus"></i>详情</button>
+						<button class="btn btn-info {$row['id']}bh" id="{$row['id']}" onclick="bh(this.id);"><i class="fa fa-times"></i>驳回</button>
+						<button class="btn btn-danger {$row['id']}sh" id="{$row['id']}" onclick="add(this.id);" ><i class="fa fa-check"></i>审核内容</button>
+						</td>
+
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+            </div>
+			</div>
+			</div>
+			<script>
+			function bh(id){
+				$.ajax({
+				type: "post",
+				url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('get',array('op'=>'fk')),2)}&id="+id,
+				dataType: "json",
+				cache: false,
+				success:function(data) {
+						$('#fk' + data.id).remove();
+					}
+				});
+			}
+			function add(id){
+				$.ajax({
+				type: "post",
+				url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('get',array('op'=>'sh')),2)}&id="+id,
+				dataType: "json",
+				cache: false,
+				success:function(data) {
+						$('#fk' + data.id).remove();
+					}
+				});
+			}
+			function xq(id){
+				$.ajax({
+				type: "post",
+				url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('get',array('op'=>'get')),2)}&id="+id,
+				dataType: "json",
+				cache: false,
+				success:function(data) {
+						$('.jbyy').text(data.title);
+						$('.bcyy').text(data.type);
+						if(data.type == '文本类型'){
+							$('.bcimg').html('<p class="hu"> ' +data.content+ '</p>');
+						}else if(data.type == '图片类型'){
+							$('.bcimg').html('<img src="'+ data.content+'"/>');
+						}
+						tt();
+					}
+				});
+			}
+			function tt(){
+			var _scrollHeight = $(document).scrollTop();
+			var _windowHeight = $(window).height();
+			var _popupHeight = $('.busbk').height();
+			var _posiTop = (_windowHeight - _popupHeight)/2 + _scrollHeight -200;
+			$('.busbk').css({marginTop:_posiTop + 'px'});
+			 $('.busbk').fadeIn(100);
+			 }
+			$('#gb').click(function(){
+			$('.busbk').fadeOut(100);
+			})
+			</script>
+{template 'common/footer'}

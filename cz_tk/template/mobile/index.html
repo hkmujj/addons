@@ -1,0 +1,202 @@
+<!DOCTYPE html><!-- html5标识 -->
+<html class="html-bg-2"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--每一款手机有不同的分辨率，不同屏幕大小，使我们开发出来的应用或页面大小能适合各种高端手机-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<title>{if !empty($set['name'])}{$set['name']}{else}疯狂拓客码上有客{/if}</title>
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/index.css">
+		<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+</head>
+<style>
+	.header-user div{
+		display:inline-block;
+		width: 49%;
+		font-size: 15px;
+		line-height: 0;
+	}
+	.header-user{
+		background:-webkit-linear-gradient(30deg,#7dcdf8,#1298f1);
+		background:linear-gradient(30deg,#7dcdf8,#1298f1);
+		padding: 0.4rem 0.3rem;
+		color: #fff;
+		box-shadow: 0px 0px 6px rgba(53, 170, 244, 0.55);
+	}
+	.back-user{
+		display: inline-block;
+		vertical-align: middle;
+		line-height: 1rem;
+	}
+	.add-user{
+		text-align: right;
+	}
+	.add-user #reg-add{
+		display: inline-block;
+		background: rgba(0, 130, 214, 0.48);
+		padding: 0.2rem 0.5rem;
+		border-radius: 5px;
+		font-size: 15px;
+		vertical-align: middle;
+		text-align: center;
+	}
+	#reg-add p{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.jr{
+		width: 95%;
+		margin: 0.5rem auto;
+		/*background: -webkit-linear-gradient(30deg,rgba(255, 81, 68, 0.68),#ff2e7b);*/
+		/*background: linear-gradient(30deg,rgba(255, 81, 68, 0.68),#ff2e7b);*/
+		background: #00BCD4;
+		border-radius: 5px;
+	}
+	.jr-s{
+		width: 95%;
+		margin: 0.5rem auto;
+		/*background: -webkit-linear-gradient(30deg,#ffbe6f,#ff5d0b);*/
+		/*background: linear-gradient(30deg,#ffbe6f,#ff5d0b);*/
+		background: rgb(255, 87, 34);
+		border-radius: 5px;
+	}
+	.footer-indexs{
+		padding: 0.8rem 0.5rem;
+	}
+	.footer-indexs .text{
+		padding: 0.5rem 0.8rem;
+		color: #fff;
+	}
+	.footer-indexs .conten-indexs{
+		text-align: center;
+		color: #fff;
+	}
+	.footer-indexs .conten-indexs .sz{
+		font-size: 2rem;
+	}
+	.index-a-but{
+		width: 90%;
+		margin: auto;
+	}
+	.index-a-but p{
+		text-align: center;
+		border: 1px solid #0e90e4;
+		padding: 0.5rem;
+		border-radius: 5px;
+		color: #0f90e4;
+	}
+	.sm-user{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(187, 187, 187, 0.77);
+	}
+	.text-sm{
+	text-align:center;
+	}
+	.sm_user-a{
+    margin: auto;
+    width: 75%;
+    margin-top: 50%;
+    background: #fff;
+    padding: 0.7rem;
+    border-radius: 5px 5px 0 0;
+	}
+	.sm_user-a input{
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid rgba(117, 117, 117, 0.59);
+    padding-left: 0.3rem;
+	}
+	.sm-butsa{
+    width: 75%;
+    margin: auto;
+    text-align: center;
+    background: #fbfbfb;
+    padding: 0.45rem;
+    border-radius: 0 0 5px 5px;
+    border-top: 1px solid rgba(103, 103, 103, 0.4);
+}
+.sm-wa{
+    font-size: 11px;
+    color: red;
+    text-align: center;
+}
+</style>
+<body>
+{if $member['bg'] == ''}
+{if $member['sm'] == 1}
+	<div class="sm-user">
+	<div class="sm_user-a">
+	  <p class="text-sm">填写信息</p>
+	  <p style="margin:0.5rem 0"><input type="text" id="sm-name" name="bg" value="" placeholder="填写你的姓名"></p>
+	  <p class="sm-wa">管理开启了绑定姓名才能操作</p>
+	</div>
+	<div class="sm-buts"><div class="sm-butsa" onclick="smpost();">提交</div></div>
+	</div>
+	<script>
+	function smpost(){
+	var sm = $('input[name]').val();
+	if( sm.match( /^[\u4E00-\u9FA5]{1,}$/) ){
+	   $.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('index'),2)}",
+			dataType:"json",
+			data:{sm:sm},
+			success:function(data){
+			  $('.sm-user').fadeOut();
+			  $('.back-user').html('你好:'+ sm +'');
+			}
+		});
+	}else{
+	 alert('请输入汉字');
+	}
+	}
+	</script>
+{/if}
+{/if}
+
+<div class="header-user">
+	<div class="back-user">你好:{if $member['bg']}{$member['bg']}{else}{$member['name']}{/if}</div>
+	<div class="add-user"><div class="add-user-a" id="reg-add" onclick="window.location.href='{php echo $this->createMobileUrl('Logint')}'"><p>退出</p><p><svg t="1501902120707" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6743" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20"><defs><style type="text/css"></style></defs><path d="M134.845 804.363 134.845 219.632c0-44.015 35.722-79.735 79.735-79.735l345.529 0 0-53.16L188.002 86.737c-58.74 0-106.315 47.577-106.315 106.317l0 637.888c0 58.74 47.575 106.32 106.315 106.32l372.107 0 0-53.16L214.579 884.102C170.515 884.103 134.845 848.378 134.845 804.363zM979.458 493.181l-187.96-187.967c-10.365-10.362-27.215-10.362-37.585 0-10.36 10.367-10.36 27.22 0 37.582l142.57 142.57L374.054 485.366c-14.672 0-26.58 11.907-26.58 26.577 0 14.675 11.907 26.58 26.58 26.58l522.429 0-142.57 142.57c-10.36 10.37-10.36 27.215 0 37.585 10.37 10.36 27.22 10.36 37.585 0l187.96-187.964C989.827 520.399 989.827 503.599 979.458 493.181z" p-id="6744" fill="#fff"></path></svg></p></div> </div>
+</div>
+
+<div class="index-user">
+	<div class="footer-indexs">
+		<div class="jr">
+			<div class="jr-a">
+				<p class="text">今日爆光</p>
+				<p class="conten-indexs"><span class="sz szb">0000</span><span>次</span></p>
+			</div>
+		</div>
+		<div class="jr-s">
+			<div class="jrsm-a">
+				<p class="text">今日扫码</p>
+				<p class="conten-indexs"><span class="sz szbs">0000</span><span>次</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="index-a-but">
+		<p onclick="window.location.href='{php echo $this->createMobileUrl('qc')}'">生成二维码</p>
+	</div>
+</div>
+<script>
+num();
+var t1 = window.setInterval(num,3000); 
+function num(){
+$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('index',array('op'=>'pos')),2)}",
+		dataType:"json",
+		data:'',
+		success:function(data){
+			  $('.szb').text(data.num);
+			  $('.szbs').text(data.nums);
+			}
+});
+}
+</script>
+</body>
+</html>

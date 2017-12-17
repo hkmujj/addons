@@ -1,0 +1,68 @@
+{template 'common/header'}
+<style type="text/css">
+      .gx-jz{
+        height:80px;width:80px;
+        border:1px solid #C3C3C3;
+        text-align:center;
+        float:left;
+        margin-left: 0px;
+        font-size:8px;
+      }
+      .gx-jz img{
+        margin-top:10px;
+      }
+</style>
+
+<div style="background-color:#19ACEB;">
+  <div class="panel-heading" style="text-align:center;">
+    <h3 class="panel-title">欢迎使用生活记账小助手</h3>
+  </div>
+  <div class="panel-body panel-body-bg">
+    <img src="{$info['headimgurl']}" width="20%" style="border-radius: 35px;">
+    <span style="color:white;margin-left:10px;">{$info['nickname']}</span>
+    <span style="color:white;margin-left:10px;">{$sex[$info[sex]]}</span>
+    <span style="color:white;margin-left:10px;">{$info['province']} &nbsp;{$info['city']}</span>
+  </div>
+</div>
+<div style="color:white;background-color:#A74A4A;width:auto;height:30px;line-height:30px;">当月支出：<span style="">{php $to=$total['zhang']['sum']+$total['share']['sum'];echo empty($to)?'0':$to;}</span>&nbsp;元 &nbsp;&nbsp;&nbsp;&nbsp;当月收入：<span style="">{php echo empty($total['shouru']['sum'])?"0":$total['shouru']['sum'];}</span>&nbsp;元</div>
+
+<div class="panel panel-default" style="margin-top:10px;">
+  <div class="panel-heading">
+    <h3 class="panel-title">共享记账</h3>
+  </div>
+  <div class="panel-body" style="height:auto;">
+      <div class="gx-jz" ><a href="{php echo $this->createMobileUrl('addjizhang');}"><img src="../addons/dxf_jizhang/template/images/add.png" width="60%" /><br/><span>添加记账</span></a>
+      </div>
+      <div class="gx-jz" ><a href="{php echo $this->createMobileUrl('tradelist');}"><img src="../addons/dxf_jizhang/template/images/list.png" width="54%" /><br/><span>交易列表</span></a>
+      </div>
+      <div class="gx-jz" ><a href="{php echo $this->createMobileUrl('addgroup');}"><img src="../addons/dxf_jizhang/template/images/list5.png" width="50%" /><br/><span>新建分组</span></a>
+      </div>
+      <div class="gx-jz" ><a href="{php echo $this->createMobileUrl('grouplist');}"><img src="../addons/dxf_jizhang/template/images/list1.png" width="40%" /><br/><span>组别管理</span></a>
+      </div>
+      <div class="gx-jz" ><a href="{php echo $this->createMobileUrl('account');}"><img src="../addons/dxf_jizhang/template/images/list8.png" width="50%" /><br/><span>本月账单</span></a>
+      </div>
+      <div class="gx-jz" >
+      <a href="{php echo $this->createMobileUrl('account',array('op'=>1));}"><img src="../addons/dxf_jizhang/template/images/list9.png" width="55%" /><br/><span>历史账单</span></a>
+      </div>
+      <div class="gx-jz" >
+      </div>
+      <div class="gx-jz" >
+      </div>
+  </div>
+</div>
+<div class="panel panel-default" style="margin-top:10px;">
+  <div class="panel-heading">
+    <h3 class="panel-title">常用功能</h3>
+  </div>
+   <div class="panel-body" style="height:auto;">
+      <div class="gx-jz" >
+      <a href="{php echo $this->createMobileUrl('zhangdan');}"><img src="../addons/dxf_jizhang/template/images/list12.png" width="55%" /><br/><span>个人账单</span></a></div>
+      <div class="gx-jz" ><a href="{php echo $this->createMobileUrl('friends');}"><img src="../addons/dxf_jizhang/template/images/list15.png" width="60%" /><br/><span>朋友管理</span></a></div>
+      <div class="gx-jz" style=""><a href="{php echo $this->createMobileUrl('daiban');}"><img src="../addons/dxf_jizhang/template/images/list16.png" width="60%" /><br/><span>待办事项</span></a></div>
+
+      <div class="gx-jz" style=""><a href="{php echo $this->createMobileUrl('shouce');}"><img src="../addons/dxf_jizhang/template/images/shouce.png" width="57%" /><br/><span>操作手册</span></a></div>
+
+  </div>
+</div>
+{template './footer_nav'}
+{template 'common/footer'}

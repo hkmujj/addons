@@ -1,0 +1,94 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('parse', array('op' => 'display'))}">管理接口</a></li>
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('parse', array('op' => 'post'))}">添加接口</a></li>
+	
+</ul>
+{if $operation == 'display'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th style="width:20%;">接口名称</th>
+                        <th style="width:20%;">关键值</th>
+                        <th style="width:50%;">调用地址</th>
+                        <th style="width:50%;">附加字串</th>
+                        <th style="width:20%;text-align: right;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+						<td>{$row['title']}</td>
+						<td>{$row['key']}</td>	
+						<td>{$row['url']}</td>
+						<td>{$row['last']}</td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('parse', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('parse', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="5">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+  
+</div>
+</div>
+{elseif $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">接口编辑 </div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口名称</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[title]" class="form-control" value="{$item['title']}" />
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口字串</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[key]" class="form-control" value="{$item['key']}" />
+					<div class="help-block">如：iqiyi / qq / youku / tudou / mgtv等</div>
+                </div>
+            </div>   
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口调用</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[url]" class="form-control" value="{$item['url']}" />
+					<div class="help-block">接口调用的url，仅支持地址形式，比如免费接口:http://api.xfsub.com/index.php?url=</div>
+                </div>
+            </div>
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">附加字串</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[last]" class="form-control" value="{$item['last']}" />
+					<div class="help-block">解析地址后缀附加字串，一般留空</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+			<input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+{/if}
+
+{template 'common/footer'}

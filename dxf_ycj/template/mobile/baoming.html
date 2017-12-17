@@ -1,0 +1,109 @@
+{template 'common/header'}
+{if $info['status']!='-1'}
+<div style="margin-top:20px">
+    <div style="text-align: center;font-size:18px;">
+        确认报名信息
+    </div>
+</div>
+<div style="width:90%;margin:20px auto;border:1px #c8c7cc solid">
+    <style>
+        .mui-input-group:before{height:0px;}
+        .mui-input-group:after{height:0px;}
+    </style>
+    
+    <form class="mui-input-group">
+        <div class="mui-input-row">
+            <label>姓名</label>
+        <input id="user_name" value="{$info['user_name']}" type="text" class="mui-input-clear" placeholder="请输入姓名" >
+        </div>
+        <div class="mui-input-row">
+            <label>联系电话</label>
+            <input id="mobile" value="{$info['mobile']}" type="number" class="mui-input-clear" placeholder="请输入联系电话">
+        </div>
+        <div class="mui-input-row">
+            <label>Q Q</label>
+            <input id="qq" value="{$info['qq']}" type="text" class="mui-input-clear" placeholder="选填">
+        </div>
+        <div class="mui-input-row">
+            <label>微信号</label>
+            <input id="wchat" value="{$info['wchat']}" type="text" class="mui-input-clear" placeholder="选填">
+        </div>
+       
+        <div class="mui-button-row">
+            <input id="id" value="{$id}" type="hidden">
+            <button type="button" class="mui-btn mui-btn-primary " onclick="update()">确认</button>
+            <button type="button" class="mui-btn mui-btn-danger mui-action-back" >取消</button>
+        </div>
+        <div style="text-align: center">
+                <input name="agreement_check" type="checkbox" /><span>同意<a href="javascript:show_agreement()">《零零校园平台协议》</a></span>
+        </div>
+    </form>
+</div>
+{else}
+<div style="margin-top: 200px;">
+    <div style="text-align: center;font-size:18px;">
+        报名权限被平台禁用
+    </div>
+</div>
+<div class="mui-button-row" style="margin-top:30px;">
+            
+            <a href="tel:13015510995"><button type="button" class="mui-btn mui-btn-primary ">电话申诉</button></a>
+            <button type="button" class="mui-btn mui-btn-danger mui-action-back" >返回</button>
+        </div>
+{/if}
+{if $info['user_name']}
+        {elseif $info['mobile']}
+        {else}
+        
+
+<div style="position: fixed;bottom:0px;height:50px;background-color: #F7F7F7;width:100%">
+    提示：亲，在个人中心完善个人信息，可以省去每次填写哦！
+</div>
+ {/if}
+<div id="agreement_panel" style="position: absolute;top:0px;left:0px;width:100%;height:100%;padding:10px;z-index: 999;display: none">
+    <div id="agreement_content" style="background-color: white;padding: 10px;overflow-y:scroll">
+        使用零零校园兼职服务前，用户应理解平台提供的信息及论坛内的所有信息均由用户自行上传，并且承担全部责任，零零校园不对信息的真实性、准确性、有效性和安全性负责，用户在交易中发生的任何纠纷与本平台无关。为了最大限度的保障用户的权益不被侵害，用户必须自行评估和承担在零零校园上提供和使用内容而产生的一切风险、损失。
+    </div>
+    <div style="position: absolute;top:20px;right:20px;width:30px;height:30px">
+        <img src="{OSSURL}/public/mobile/images/close.png" width="30px" height="30px" onclick="close_agreement()" />
+    </div>
+</div>
+
+<script>
+
+function update() {
+    var agreed = $("input[name='agreement_check']:checked").val();
+    if(agreed != 'on') {
+        alert("请阅读协议！");
+    } else {
+        if($("#user_name").val() == "") {
+            alert("姓名不能为空！");
+            $("#user_name").focus();
+        } else if ($("#mobile").val()== "") {
+             alert("电话不能为空！");
+        }else {
+
+            $.post("{php echo $this->createMobileurl('baoming',array('op'=>'dobaoming'))}",{
+                    job_id:$("#id").val(),
+                    user_name:$("#user_name").val(),
+                    mobile:$("#mobile").val(),
+                    qq:$("#qq").val(),
+                    wchat:$("#wchat").val()
+                },
+                function(resp) {
+                    resp = $.parseJSON(resp);
+                    if(resp.message.errno == 0) {
+                        mui.alert("报名信息已提交，等代理同意！",function(){
+                            location.href='{php echo $this->createMobileurl('myjob',array('op'=>'myjob'))}';
+                        });
+                    }else if (resp.message.errno == 1) {
+                         mui.alert("您已报过名，无需报名");
+                    }else if (resp.message.errno == 3) {
+                         mui.alert("报名失败");
+                    }
+                }
+            );
+        }
+    }
+}
+</script>

@@ -1,0 +1,93 @@
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+
+              <ul class="sidebar-menu">
+			  {if $uutt['gid'] == '8'}
+                  <li {if $pcindex == '0'}class="active"{/if}>
+                      <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex'),2)}">
+                          <i class="icon-dashboard"></i>
+                          <span>商户全局统计</span>
+                      </a>
+                  </li>
+				{else if $dl['gid'] == '10'}
+				     <li {if $pcindex == '0'}class="active"{/if}>
+                      <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex'),2)}">
+                          <i class="icon-dashboard"></i>
+                          <span>代理全局统计</span>
+                      </a>
+                  </li>
+				{/if}
+				{if $uutt['gid'] == '8'}
+                   <li {if $pcuser == '0'}class="active"{/if}>
+                      <a href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser'),2)}">
+                          <i class="icon-user"></i>
+                          <span>员工管理</span>
+                      </a>
+                  </li>
+				{else if $dl['gid'] == '10'}
+                   <li {if $pcuser == '0'}class="active"{/if}>
+                      <a href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser'),2)}">
+                          <i class="icon-user"></i>
+                          <span>商户管理</span>
+                      </a>
+                  </li>
+				{/if}
+					{if $uutt['gid'] == '8'}
+                   <li {if $pcsets == '0'}class="active"{/if}>
+                       <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcset'),2)}">
+                          <i class="icon-cogs"></i>
+                          <span>平台群发设置</span>
+                      </a>
+                  </li>
+				{else if $dl['gid'] == '10'}
+                   <!--<li {if $pcsets == '0'}class="active"{/if}>
+                       <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcset'),2)}">
+                          <i class="icon-cogs"></i>
+                          <span>平台设置</span>
+                      </a>
+                  </li>-->
+				{/if}
+
+
+                  <!--<li class="sub-menu">
+                      <a href="javascript:;" class="">
+                          <i class="icon-tasks"></i>
+                          <span>提取工具</span>
+                          <span class="arrow"></span>
+                      </a>
+                      <ul class="sub">
+                          <li><a class="" href="form_component.html">个人名片提取</a></li>
+                          <li><a class="" href="form_wizard.html">公众号名片提取</a></li>
+                          <li><a class="" href="form_validation.html">图文提取工具</a></li>
+                      </ul>
+                  </li>-->
+				  {if $uutt['gid'] == '8'}
+                 <li {if $pccons == '0'}class="active"{/if}>
+                       <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pccon'),2)}">
+                          <i class="icon-th"></i>
+                          <span>群发内容管理</span>
+                      </a>
+                  </li>
+				  {else if $dl['gid'] == '10'}
+				  {/if}
+                  <li {if $pcdli == '0'}class="active"{/if}>
+                       <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcdli'),2)}">
+                          <i class="icon-envelope"></i>
+                          <span>支出帐单</span>
+                      </a>
+                  </li>
+                  <li {if $pcdemo == '0'}class="active"{/if}>
+                      <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcdemo'),2)}">
+                          <i class="icon-glass"></i>
+                          <span>使用说明</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a class="" href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('logints'),2)}">
+                          <i class="icon-user"></i>
+                          <span>退出登陆</span>
+                      </a>
+                  </li>
+              </ul>
+          </div>
+      </aside>

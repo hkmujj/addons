@@ -1,0 +1,229 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('factory', array('op' => 'post'))}">添加信息</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('factory', array('op' => 'display'))}">招聘列表</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1" onsubmit="return formcheck();">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				编辑信息
+			</div>
+			<div class="panel-body">
+				
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>招聘标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="title" class="form-control" value="{$list['title']}" placeholder="建议小于15字符"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>厂区名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="f_name" class="form-control" value="{$list['f_name']}" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>工厂类型</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="f_type" class="form-control" value="{$list['f_type']}" placeholder="上市/股份制/合资/外资等"/>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">招聘主图</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('f_img', $list['f_img'],'', array('extras' => array('text' => 'readonly')))}<label class="col-sm-9 col-xs-12">建议尺寸 280*100</label>
+					</div>
+
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>所在城市</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="city" class="form-control" value="{$list['city']}" placeholder="苏州/上海/等"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>详细地址</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="address" class="form-control" value="{$list['address']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>所属行业</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="hangye" class="form-control" value="{$list['hangye']}" placeholder="加工制造/电子信息/等"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>厂区福利</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="fuli" class="form-control" value="{$list['fuli']}" placeholder="包吃住,岗位津贴,带薪培训等" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>招聘要求</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="yaoqiu" class="form-control" value="{$list['yaoqiu']}" placeholder="初中及以上 | 性别不限 | 18-43岁等"/>
+					</div>
+				</div>
+				<div class="form-group" style="margin-bottom:10px;">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>月薪资 &nbsp;</label>
+					<div class="input-group form-group col-sm-9 col-xs-12">
+						<input type="text" name="money" id="marketprice" class="form-control" value="{$list['money']}" />
+						<span class="input-group-addon">元</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">报名时间</label>
+					<div class="col-sm-4 col-xs-6">
+						{php echo tpl_form_field_date('start_time', !empty($list['start_time']) ? date('Y-m-d H:i',$list['start_time']) : date('Y-m-d H:i'), 1)}
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						{php echo tpl_form_field_date('end_time', !empty($list['end_time']) ? date('Y-m-d H:i',$list['end_time']) : date('Y-m-d H:i'), 1)}
+					</div>
+				</div>
+			
+				 <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否显示</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='1' {if $list['status']==1}checked{/if} /> 是
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='0' {if $list['status']==0}checked{/if} /> 否
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">职位摘要</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea name="contents" class="form-control" cols="70">{$list['contents']}</textarea>
+					</div>	
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>职位描述</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('desc', $list['desc']);}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1 " />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+function formcheck(){
+		
+		if($("input[name='title']").val()==''){
+			alert('标题不能为空');
+			return false;
+		}
+		if($("input[name='f_name']").val()==''){
+			alert('厂区不能为空');
+			return false;
+		}
+		if($("input[name='money']").val()==''){
+			alert('薪资不能为空');
+			return false;
+		}
+		return true;
+	}
+
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="category">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:200px;padding-left:80px;">标题</th>
+								<th style="width:150px;">薪资</th>
+								<th style="width:180px;">福利</th>
+								<th style="width:180px;">要求</th>
+								<th style="width:150px;">状态</th>
+								<th style="width:150px;">添加时间</th>
+								<th style="width:150px;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $list $row}
+						<tr>
+							
+								<!-- <img src="{php echo tomedia($row['thumb']);}" width='30' height="30" onerror="$(this).remove()" style='padding:1px;border: 1px solid #ccc;float:left;' /> -->
+							
+							<td>{if mb_strlen($row['title'], 'utf8')>10}
+								{php echo mb_substr($row['title'], 0, 10, 'utf8').'...';}
+								{else}
+								{$row['title']}
+								{/if} 
+                            </td>
+							<td>{$row['money']}</td>
+							<td>{if mb_strlen($row['fuli'], 'utf8')>10}
+								{php echo mb_substr($row['fuli'], 0, 10, 'utf8').'...';}
+								{else}
+								{$row['fuli']}
+								{/if} 
+							</td>
+							<td>{if mb_strlen($row['yaoqiu'], 'utf8')>10}
+								{php echo mb_substr($row['yaoqiu'], 0, 10, 'utf8').'...';}
+								{else}
+								{$row['yaoqiu']}
+								{/if} 
+							</td>
+							<td>
+								{if $row['status']==1}
+								<span class='label label-success'>显示</span>
+								{else}
+								<span class='label label-danger'>隐藏</span>
+								{/if}
+							</td>
+							<td>{php echo date('Y-m-d',$row['ctime'])}</td>
+							<td>
+								
+
+								<a href="{php echo $this->createWebUrl('factory', array('op' => 'post', 'id' => $row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+								<a href="{php echo $this->createWebUrl('factory', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除此条信息吗？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a>
+
+							
+							
+							
+
+								
+							</td>
+						</tr>
+
+						
+						
+						{/loop}
+						
+					
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

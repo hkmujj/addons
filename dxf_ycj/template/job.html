@@ -1,0 +1,516 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('job', array('op' => 'post'))}">添加信息</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('job', array('op' => 'display'))}">招聘列表</a></li>
+	<li {if $operation == 'join'}class="active"{/if}><a href="{php echo $this->createWebUrl('job', array('op' => 'join'))}">报名列表</a></li>
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1" onsubmit="return formcheck();">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				编辑招聘信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>招聘标题</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="title" class="form-control" value="{$list['title']}" placeholder="建议小于15字符"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2  control-label">职位类别</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="cate_id" class='form-control'>
+							{loop $cate $row}
+							<option value="{$row['id']}" style="color:#C60A27;" {if $list['cate_id'] ==$row['id'] } selected{/if}>{$row['title']}</option>
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>招聘人数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="p_num" class="form-control" value="{$list['p_num']}" placeholder=""/>
+
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">招聘类型</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='type' value='1' {if $list['type']==1}checked{/if}  {if $list['type']==0}checked{/if}/> 兼职
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='type' value='2' {if $list['type']==2}checked{/if} /> 勤工俭学
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='type' value='3' {if $list['type']==3}checked{/if} /> 实习
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='type' value='4' {if $list['type']==4}checked{/if} /> 全职
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>薪酬</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="money" class="form-control" value="{$list['money']}" placeholder="如：50元/天" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">结算周日</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='account_time' value='1' {if $list['account_time']==1}checked{/if}{if $list['status']==0}checked{/if} /> 日结
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='account_time' value='2' {if $list['account_time']==2}checked{/if} /> 周结
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='account_time' value='3' {if $list['account_time']==3}checked{/if} /> 月结
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='account_time' value='4' {if $list['account_time']==4}checked{/if} /> 面议
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">结算方式</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='account_type' value='1' {if $list['account_type']==1}checked{/if} {if $list['status']==0}checked{/if}/> 现金结算
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='account_type' value='2' {if $list['account_type']==2}checked{/if} /> 支付宝转账
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='account_type' value='3' {if $list['account_type']==3}checked{/if} /> 微信转账
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='account_type' value='4' {if $list['account_type']==4}checked{/if} /> 银行卡转账
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2  control-label">城市区域</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="cat_id" class='form-control'>
+							{loop $category $row}
+							<option value="{$row['id']}" style="color:#C60A27;" {if $list['job_cid'] ==$row['id'] } selected{/if}>|—{$row['name']}</option>
+							{loop $children[$row['id']] $row}
+							<option value="{$row['id']}" {if $list['job_cid'] ==$row['id'] } selected{/if}>|——{$row['name']}</option>
+							{loop $grandson[$row['id']] $row}
+							<option value="{$row['id']}" {if $list['job_cid'] ==$row['id'] } selected{/if}>|————{$row['name']}</option>
+							{/loop}
+							{/loop}
+							{/loop}
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>工作详细地址</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="job_area" class="form-control" value="{$list['job_area']}" placeholder=""/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">工作时间</label>
+					<div class="col-sm-4 col-xs-6">
+						{php echo tpl_form_field_date('job_stime', !empty($list['job_stime']) ? date('Y-m-d H:i',$list['job_stime']) : date('Y-m-d H:i'), 1)}
+					</div>
+					<div class="col-sm-4 col-xs-6">
+						{php echo tpl_form_field_date('job_endtime', !empty($list['job_endtime']) ? date('Y-m-d H:i',$list['job_endtime']) : date('Y-m-d H:i'), 1)}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>集合时间</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="jihe_time" class="form-control" value="{$list['jihe_time']}" placeholder="如：周六早上8点"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>集合地点</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="jihe_area" class="form-control" value="{$list['jihe_area']}" placeholder="如：校园门口"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2  control-label">性别</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="sex" class='form-control'>
+							<option value="1" style="color:#C60A27;" {if $list['sex'] ==1 } selected{/if}>男</option>
+							<option value="2" style="color:#C60A27;" {if $list['sex'] ==2 } selected{/if}>女</option>
+							<option value="3" style="color:#C60A27;" {if $list['sex'] ==3 } selected{/if}>不限</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">年龄</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="age" class="form-control" value="{$list['age']}" placeholder="如：18岁以上"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">身高</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="height" class="form-control" value="{$list['height']}" placeholder="如：160cm以上"//>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>已报名人数</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="bm_num" class="form-control" value="{$list['bm_num']}" placeholder="" disabled="" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">职位要求</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea name="job_req" class="form-control" cols="70">{$list['job_req']}</textarea>
+					</div>	
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red"></span>职位描述</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_ueditor('job_desc', $list['job_desc']);}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">报名截止时间</label>
+					<div class="col-sm-8 col-xs-8">
+						{php echo tpl_form_field_date('bm_endtime', !empty($list['bm_endtime']) ? date('Y-m-d H:i',$list['bm_endtime']) : date('Y-m-d H:i'), 1)}
+					</div>
+					
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐：</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='ad_hot' value='1' {if $list['ad_hot']==1}checked{/if} {if $list['ad_hot']==''}checked{/if}/> 推荐
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='ad_hot' value='0' {if $list['ad_hot']=='0'}checked{/if} /> 不推荐
+						</label>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">平台审核</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='ad_status' value='1' {if $list['ad_status']==1}checked{/if} {if $list['ad_status']==0}checked{/if}/> 正常显示
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='ad_status' value='-1' {if $list['ad_status']=='-1'}checked{/if} /> 违规下线
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1 " />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+function formcheck(){
+		
+		if($("input[name='title']").val()==''){
+			alert('标题不能为空');
+			return false;
+		}
+		var re = /^[0-9]+.?[0-9]*$/;
+		if (!re.test($("input[name='p_num']").val())) {
+            　alert("招聘人数不正确");
+            　return false;
+        }
+
+		if($("input[name='job_area']").val()==''){
+			alert('工作详细地址不能为空');
+			return false;
+		}
+		
+		return true;
+}
+
+</script>
+{elseif $operation == 'display'}
+<div class="main" style="margin-top:2px;height:auto;">
+	<div class="panel panel-info">
+	<div class="panel-heading">总计发布数：<span style="color:red;">{$total}</span></div>
+	<div class="panel-body" style="height:auto;">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="dxf_ycj" />
+			<input type="hidden" name="do" value="job" />
+			<input type="hidden" name="op" value="display" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标题</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="title" id="" type="text" value="{$_GPC['title']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">代理姓名</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="realname" id="" type="text" value="{$_GPC['realname']}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">发布日期</label>
+				<div class="col-sm-7 col-xs-12">
+					 {php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d H:i', $starttime),'endtime'=>date('Y-m-d H:i', $endtime)),true);}
+				</div>
+				
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="main">
+	<div class="category">
+
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:12%;">刷新时间</th>
+								<th style="width:12%;">发布时间</th>
+								<th style="width:15%;">标题</th>
+								<th style="width:10%;;">工作地区</th>
+								<th style="width:12%;">薪资</th>
+								<th style="width:8%;">招聘数</th>
+								<th style="width:8%;">已报名</th>
+								<th style="width:10%;">发布人</th>
+								<th style="width:10%;">上下线</th>
+								<th style="width:8%;">推荐</th>
+								<th style="width:8%;">审核</th>
+								<th style="width:8%;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $list $row}
+						<tr>
+							<td>{php echo date('m-d H:i',$row['updat_time'])}</td>
+							<td>{php echo date('Y-m-d H:i:s',$row['ctime'])}</td>
+							<td>{if mb_strlen($row['title'], 'utf8')>10}
+								{php echo mb_substr($row['title'], 0, 10, 'utf8').'...';}
+								{else}
+								{$row['title']}
+								{/if} 
+                            </td>
+                            <td>{$row['cname']}-{$row['name']}</td>
+							<td>{$row['money']}</td>
+							<td>
+								{$row['p_num']}
+								 
+							</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('job', array('op' => 'join', 'id' => $row['id']))}" >{$row['bm_num']}</a>
+							</td>
+							
+							<td>{$row['realname']}</td>
+							<td>
+								{if $row['status']==1}
+								<span class='label label-success'>上线</span>
+								{else}
+								<span class='label label-danger'>下线</span>
+								{/if}
+							</td>
+							<td>
+								<label data='{$row[ad_hot]}' class='label label-default {if $row['ad_hot']==1}label-info{else}{/if}' onclick="setProperty(this,{$row['id']},'ad_hot')">推荐</label>
+							</td>
+							<td>
+								<label data='{$row[ad_status]}' class='label label-default {if $row['ad_status']==1}label-info{else}{/if}' onclick="setProperty(this,{$row['id']},'ad_status')">
+								{if $row['ad_status']==1}正常{else}违规{/if}
+								</label>
+							</td>
+			
+							
+							
+							<td>
+								
+
+								<a href="{php echo $this->createWebUrl('job', array('op' => 'post', 'id' => $row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+								<!-- <a href="{php echo $this->createWebUrl('factory', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除此条信息吗？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="删除"><i class="fa fa-times"></i></a> -->
+
+							
+							
+							
+
+								
+							</td>
+						</tr>
+
+						
+						
+						{/loop}
+						
+					
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function setProperty(obj,id,type){
+		$(obj).html($(obj).html() + "..");
+		$.post("{php echo $this->createWebUrl('setstatus')}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("..",""));
+				if(type=='ad_hot'){
+				 $(obj).html( d.data=='1'?'推荐':'推荐');
+				}
+
+				if(type=='ad_status'){
+				 $(obj).html( d.data=='1'?'正常':'违规');
+				}
+				$(obj).attr("data",d.data);
+
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+
+</script>
+{elseif $operation == 'join'}
+<div class="main" style="margin-top:2px;height:auto;">
+	<div class="panel panel-info">
+	<div class="panel-heading">总计人数：<span style="color:red;">{$total}</span></div>
+	{if $hidden == '1'}
+	{else}
+	<div class="panel-body" style="height:auto;">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="dxf_ycj" />
+			<input type="hidden" name="do" value="job" />
+			<input type="hidden" name="op" value="join" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标题</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="title" id="" type="text" value="{$_GPC['title']}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">报名日期</label>
+				<div class="col-sm-7 col-xs-12">
+					 {php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d H:i', $starttime),'endtime'=>date('Y-m-d H:i', $endtime)),true);}
+				</div>
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	{/if}
+</div>
+<div class="main">
+	<div class="category">
+
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:15%;">报名时间</th>
+								<th style="width:10%;">用户头像</th>
+								<th style="width:12%;">职位名称</th>
+								<th style="width:8%;">报名人</th>
+								<th style="width:8%;">电话</th>
+								<th style="width:8%;">qq</th>
+								<th style="width:8%;">微信</th>
+								<th style="width:9%;">用户状态</th>
+								<th style="width:9%;">代理状态</th>
+								<th style="width:9%;">报名进度</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $list $row}
+						<tr>
+							<td>{php echo date('Y-m-d H:i:s',$row['ctime'])}</td>
+							<td><img src="{$row['headimg']}" style="width:60px;height:60px;"></td>
+							<td>{if mb_strlen($row['title'], 'utf8')>10}
+								{php echo mb_substr($row['title'], 0, 10, 'utf8').'...';}
+								{else}
+								{$row['title']}
+								{/if} 
+                            </td>
+                            <td>{$row['user_name']}</td>
+							
+							<td>
+								{$row['mobile']}
+							</td>
+							<td>
+								{$row['wchat']}
+								 
+							</td>
+							<td>{$row['qq']}</td>
+							<td>
+								{if $row['is_delete']==1}
+								<span class='label label-success'>存在</span>
+								{else}
+								<span class='label label-danger'>删除</span>
+								{/if}
+							</td>
+							<td>
+								{if $row['daili_delete']==1}
+								<span class='label label-success'>存在</span>
+								{else}
+								<span class='label label-danger'>删除</span>
+								{/if}
+							</td>
+							<td>
+								
+								<span class='label label-success'>{$lang['status'][$row['status']]}</span>
+								
+					
+
+								
+							</td>
+			
+							
+							
+							
+						</tr>
+
+						
+						
+						{/loop}
+						
+					
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

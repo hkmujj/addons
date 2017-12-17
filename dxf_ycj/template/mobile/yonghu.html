@@ -1,0 +1,124 @@
+{template 'common/header'}
+<style>
+body{
+	background-color: #F3F3F3;
+}
+.express{
+	margin:10px;
+	border-radius:5px;
+	border:1px #EFEFEF solid;
+	background-color: white;
+	padding: 10px;
+}
+.address{
+	margin:10px 15px;
+	font-size:80%;
+}
+.send .goods {
+	color:#EA7F17;
+}
+.send .express-time {
+	color:#EA7F17;
+}
+.send .money {
+	color:#EA7F17;
+	text-align: right
+}
+.send .info {
+	background-color: #EA7F17;
+}
+.status {
+	height:24px;
+	line-height: 24px;
+	font-size:80%;
+}
+.status-0 {
+	color:#397ADB;
+}
+.status-1 {
+	color:#EA7F17;
+}
+.status-2 {
+	color:green;
+}
+</style>
+
+
+
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-arrowleft mui-pull-left mui-plus-visble" href="javascript:history.go(-1)"></a>
+    <!--a class="mui-icon mui-icon-phone mui-pull-right"></a--> <a href="{php echo $this->createMobileUrl('user')}"><span class="mui-icon mui-pull-right mui-icon-person"></span></a>
+    <h1 class="mui-title">用户管理({$total})</h1>
+</header>
+<div style="height:44px"></div>
+
+{loop $list $index $item}
+	<div id="delete_{$vo['id']}" class='express send' style="font-size:15px;" >
+		
+		<div class="address" >
+		姓名：{$item['user_name']}
+		</div>
+		<div class="address" >
+			电话： {$item['mobile']}
+		</div>
+		<div class="address" >
+			qq： {$item['qq']} <span style="float:right;">微信：{$item['wchat']} </span>
+		</div>
+		<div class="address" >
+		加入时间：{php echo date('Y-m-d H:i:s',$item['ctime'])} 
+		</div>
+		
+		
+		<div style="border-top: 1px #EFEFEF solid"></div>
+		<div style="margin:10px auto 0px auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-5 status" style="line-height: 33px;" id="hidden{$item['id']}">
+						状态：
+						{if $item['status'] == '1'}
+						<span style="color:#000000;">
+						{else if $item['status'] == '-1'}
+						<span style="color:#EB1820;">
+						{/if}
+						{$lang['status'][$item['status']]}
+						</span>
+					</div>
+					<div class="col-xs-7" style="text-align:right" id="hiddenb{$item['id']}">
+							<button type="button" class="mui-btn mui-btn-warning" onclick="update_user({$item['id']},1)">正常</button>&nbsp;
+							 <button type="button" class="mui-btn mui-btn-royal" onclick="update_user({$item['id']},-1)">禁用</button>
+					</div>
+				</div>
+			</div>				
+		</div>
+	</div>
+{/loop}
+<div style="text-align:center;">{$pager}</div>
+<script>
+function update_user(id,status) {
+	
+
+		if(status=='1'){
+			var r = confirm("你确定要通过吗？");
+		}else if(status=='-1'){
+			var r = confirm("你确定要禁用吗？");
+		}
+		if(r) {
+			$.post("{php echo $this->createMobileurl('yonghu',array('op'=>'update_user'))}",{
+					id:id,status:status
+				},function(resp) {
+					resp = $.parseJSON(resp);
+					if(resp.message.errno == 0) {
+						mui.toast('操作成功！请以实际情况为准，如有疑问，请联系平台QQ客服：917144573');
+						
+						if(status=='1'){
+							$("#hidden"+id).html('状态：<span style="color:#000000;">正常</span>');
+						}else if(status=='-1'){
+							$("#hidden"+id).html('状态：<span style="color:#EB1820;">禁用</span>');
+						}
+						$("#hiddenb"+id).html('<button type="button" class="mui-btn mui-btn-warning" onclick="update_user('+id+',1)">正常</button>&nbsp;<button type="button" class="mui-btn mui-btn-royal" onclick="update_user('+id+',-1)">禁用</button>');
+					}
+				}
+			);
+		}
+	}
+</script>

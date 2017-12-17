@@ -1,0 +1,85 @@
+﻿{template 'header'}
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<title>金梧桐群英网</title>
+<meta name="keywords" content="金梧桐群英网" />
+<meta name="description" content="金梧桐群英网." />
+<link href="{OSSURL}/public/mobile/css/css.css" rel="stylesheet" type="text/css" />
+<script src="{OSSURL}/public/mobile/js/jquery-1.4.2.min.js"></script>
+
+<style type="text/css">
+    #jwt{
+        margin-top:10px;height:auto!important;
+    }
+</style>
+</head>
+<body>
+    <header style="background:#2786da;margin-top:0px;">
+        <div id="logo" ><a href="javascript:;"><h1>金梧桐群英网</h1></a></div>
+        <nav>
+            <ul id="menu">
+               {template 'common_header'}
+            </ul>
+        </nav>
+    </header>
+  
+    <div class="panel panel-default" id="jwt" >
+         
+          <div class="panel-body" style="height:auto;"> 
+            <p style="color:#2786da;margin:5px 0px 10px 0px;font-size:16px;text-align:center;">{$list['title']}</p>
+             <p style="margin:5px 0px 10px 0px;font-size:14px;text-align:center;">{$list['author']} &nbsp;{php echo date('Y-m-d',$list['ctime']);}</p>
+  
+          </div>
+       
+        <div style="width:94%;margin-left:3%;margin-right:3%;margin-top:10px;">
+          
+            <div style="margin-top:10px;">
+                {php echo html_entity_decode($list['desc']);}
+            </div>
+        </div>
+        
+
+    </div>
+    <footer>
+        {template 'common_footer'}
+    </footer>
+</body>
+</html>
+<script type="text/javascript">
+  
+
+ function sfpmEndtime(){  
+            $(".lxftime").each(function(){  
+                var starttime = new Date($(this).attr("starttime")).getTime();//取结束日期(毫秒值)  
+                var nowtime = new Date().getTime();//今天的日期(毫秒值)  
+                var youtime = starttime-nowtime;//还有多久(毫秒值)  
+                var seconds = youtime/1000;  
+                var minutes = Math.floor(seconds/60);  
+                var hours = Math.floor(minutes/60);  
+                var days = Math.floor(hours/24);  
+                var CDay= days ;  
+                var CHour= hours % 24;  
+                var CMinute= minutes % 60;  
+                var CSecond= Math.floor(seconds%60);  
+                var c=new Date();  
+                var q=((c.getMilliseconds())%10);  
+                if(starttime<=nowtime){  
+                    
+                    $(this).html("已过")//结束日期小于当前日期
+
+                }else{     
+                    // $(this).html("<span style='color:green'>"+days+"</span>");//输出有天数的数据 
+
+                     $(this).html("<span>"+days+"天"+CHour+"时"+CMinute+"分"+CSecond+"秒</span>");//输出有天数的数据 
+                }  
+          });  
+       setTimeout("sfpmEndtime()",100);  
+      };  
+    $(function(){  
+          sfpmEndtime();  
+       });  
+</script>
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="img/favicon.html">
+    <title>{if $set['pcname'] == ''}拓客pc面板{else}{$set['pcname']}{/if}</title>
+    <link href="{MODULE_URL}pc/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{MODULE_URL}pc/css/bootstrap-reset.css" rel="stylesheet">
+    <link href="{MODULE_URL}pc/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="{MODULE_URL}pc/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="{MODULE_URL}pc/css/owl.carousel.css" type="text/css">
+    <link href="{MODULE_URL}pc/css/style.css" rel="stylesheet">
+    <link href="{MODULE_URL}pc/css/style-responsive.css" rel="stylesheet" />
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+	<script src="{MODULE_URL}pc/laydate/laydate.js"></script>
+  </head>
+    <body>
+	<style>
+	.pchear{
+	position: fixed;
+    z-index: 9999;
+    width: 100%;
+    text-align: center;
+    background: rgba(244, 67, 54, 0.92);
+    color: #fff;
+    font-size: 15px;
+    padding: 3px 0;
+	display: none;
+	}
+	.uutt{
+	display: inline-block;
+    margin-right: 3px;
+	}
+	.lev{
+	display:inline-block;
+	}
+	#qcss{
+	height: 40px;
+    width: 100%;
+	}
+	</style>
+  <section id="container" class="">
+      <header class="header white-bg">
+            <div class="sidebar-toggle-box">
+                <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+            </div>	{if $uutt['id'] == ''}
+						{if $dl['id'] == ''}
+						<script>
+							window.location.href='{php echo $this->createMobileUrl('pclogin')}'
+						</script>
+						{/if}
+						{else if $dl['id']}
+						{if $uutt['id'] == ''}
+						<script>
+							window.location.href='{php echo $this->createMobileUrl('pclogin')}'
+						</script>
+						{/if}
+						{/if}
+          <a href="#" class="logo">{if $set['pclogo']}<img id="qcss" src="{php echo tomedia($set['pclogo'])}"/>{else}{if $set['pcname']}<span>{$set['pcname']}</span>{else}疯狂<span>拓客</span>{/if}{/if}</a>
+            <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+					{if  $uutt['bg'] == '99'}
+					<p class="uutt">你好:{$uutt['name']}</p>|
+					<p class="lev">试用账户  <a href="{$set['pcdl']}" style="color:red">升级为正式商户？</a></p>
+					{else if $dl['gid'] == '10'}
+					<p class="uutt">你好:{$dl['name']}</p>|
+					<p class="lev">代理用户</p>
+					{else if $uutt['gid'] == '8'}
+					<p class="uutt">你好:{$uutt['name']}</p>|
+					<p class="lev">商户用户  <a href="{$set['pcdl']}" style="color:red">升级为代理？</a></p>
+					{/if}
+
+                </ul>
+            </div>
+        </header>
+		<div class="pchear">提交成功</div>

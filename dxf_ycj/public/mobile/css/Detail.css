@@ -1,0 +1,41 @@
+.borderL {
+    border-left: 3px solid red;
+    color: #fe7418;
+}
+.borderB {
+    border-bottom: 1px solid #c8c7cc;
+}
+
+.des li{
+    font-size: 1rem;
+}
+.requirelist{
+    padding-right: 10px;
+}
+.companyAddress{
+    font-size: 14px;
+    /*padding: 8px;*/
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3)    ;
+    font-style: normal;
+}
+.companyAddress address{
+    font-style: normal;
+    width:80%;
+    float: left;
+}
+.companyMap{
+    float: right;
+    text-align: right;
+    width:20%;
+}
+.companyDetail{
+    padding:0;
+    box-shadow: none;
+    overflow: hidden;
+}

@@ -1,0 +1,411 @@
+{template 'common/header'}
+<style>
+body{
+	background-color: #F3F3F3;
+}
+.express{
+	margin:10px;
+	border-radius:5px;
+	border:1px #EFEFEF solid;
+	background-color: white;
+	padding: 10px;
+}
+.address{
+	margin:10px 15px;
+	font-size:80%;
+}
+.send .goods {
+	color:#EA7F17;
+}
+.send .express-time {
+	color:#EA7F17;
+}
+.send .money {
+	color:#EA7F17;
+	text-align: right
+}
+.send .info {
+	background-color: #EA7F17;
+}
+.status {
+	height:24px;
+	line-height: 24px;
+	font-size:80%;
+}
+.status-0 {
+	color:#397ADB;
+}
+.status-1 {
+	color:#EA7F17;
+}
+.status-2 {
+	color:green;
+}
+</style>
+
+<script>
+	mui('body').on('tap','a',function(){document.location.href=this.href;});  
+</script>
+{if $operation == 'fabu'}
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-arrowleft mui-pull-left mui-plus-visble" href="javascript:history.go(-1)"></a>
+    <!--a class="mui-icon mui-icon-phone mui-pull-right"></a-->
+    <a href="{php echo $this->createMobileUrl('user')}"><span class="mui-icon mui-pull-right mui-icon-person"></span></a>
+    <h1 class="mui-title">我的发布({$total})</h1>
+</header>
+<div style="height:44px"></div>
+{loop $list $index $vo}
+	<div id="travel_{$vo['id']}" class='express send' style="font-size:15px;" >
+		<div style="text-align: left;margin:0px auto;font-weight:300;" onclick="location.href='{php echo $this->createMobileurl('fabu',array('op'=>'jobdetail','id'=>$vo['id']))}'">
+			刷新时间：{php echo date('Y-m-d H:i:s',$vo['updat_time'])} {if $vo['ad_hot'] == '1'}<span style="float:right;"><img src="{OSSURL}/public/mobile/images/jian.png" width="50px" height="50px" /></span>{/if}
+		</div>
+		<div style="border-top:1px #EFEFEF solid;">
+		
+		</div>
+		<div class="address" onclick="location.href='{php echo $this->createMobileurl('fabu',array('op'=>'jobdetail','id'=>$vo['id']))}'">
+			兼职名称：{if mb_strlen($vo['title'], 'utf8')>14}
+								{php echo mb_substr($vo['title'], 0, 14, 'utf8').'...';}
+								{else}
+								{$vo['title']}
+								{/if} 
+		</div>
+		<div class="address" onclick="location.href='{php echo $this->createMobileurl('fabu',array('op'=>'jobdetail','id'=>$vo['id']))}'">
+			兼职地点：{if mb_strlen($vo['job_area'], 'utf8')>20}
+								{php echo mb_substr($vo['job_area'], 0, 20, 'utf8').'...';}
+								{else}
+								{$vo['job_area']}
+								{/if} 
+		</div>
+		<div class="address" onclick="location.href='{php echo $this->createMobileurl('fabu',array('op'=>'person_list','id'=>$vo['id']))}'">
+			兼职薪酬：{$vo['money']}
+		</div>
+		<div class="address" onclick="location.href='{php echo $this->createMobileurl('fabu',array('op'=>'person_list','id'=>$vo['id']))}'">
+			招募人数：{$vo['p_num']} &nbsp;&nbsp;&nbsp;报名人数：<span style="font-weight:600;font-size:16px;">{$vo['bm_num']}</span>&nbsp;&nbsp;<span style="color:#B96C41;">查看</span>
+		</div>
+		<div style="border-top: 1px #EFEFEF solid"></div>
+		<div style="margin:10px auto 0px auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-5 status" style="line-height: 33px;" id="hidden{$vo['id']}">
+						状态：
+					{if $vo['ad_status'] == '0'}
+						<span style="color:red;">
+						违规下线
+					{else}
+						{if $vo['status'] == '1'}
+						<span style="color:#11B741;">
+						{else if $vo['status'] == '-1'}
+						<span style="color:#C34BC4;">
+						{/if}
+						{$lang['status'][$vo['status']]}
+					{/if}
+						</span>
+					</div>
+					<div class="col-xs-7" style="text-align:right" >
+							{if $vo['ad_status'] == '1'}
+							<SPAN id="hiddenb{$vo['id']}">
+							{if $vo['status'] == '1'}
+							 <button type="button" class="mui-btn mui-btn-danger" onclick="action({$vo['id']},-1)">下线</button>
+							 <button type="button" class="mui-btn mui-btn-success" onclick="updatejob({$vo['id']})">刷新</button>
+							 {elseif $vo['status'] == '-1'}
+							 <button type="button" class="mui-btn mui-btn-success" onclick="action({$vo['id']},1)">上线</button>
+							 {/if}
+							</SPAN>
+							{elseif $vo['ad_status'] == '0'}
+							<a  href="tel:13015510995"><button type="button" class="mui-btn" onclick="updatejob({$vo['id']})">电话申诉</button></a>
+							 {/if}
+					</div>
+				</div>
+			</div>				
+		</div>
+	</div>
+{/loop}
+<div style="text-align:center;">{$pager}</div>
+<script>
+function action(id,status) {
+	if(status=='1'){
+		var r = confirm("你确定要上线这个兼职吗？");
+	}else{
+		var r = confirm("你确定要下线这个兼职吗？");
+	}
+	if(r) {
+		$.post("{php echo $this->createMobileurl('fabu',array('op'=>'action_fabu'))}",{
+				id:id,status:status
+			},function(resp) {
+				resp = $.parseJSON(resp);
+				if(resp.message.errno == 0) {
+					mui.toast('操作成功！,如有疑问，请联系平台客服');
+					if(status=='1'){
+						$("#hidden"+id).html('状态：<span style="color:#11B741;">已上线</span>');
+						$("#hiddenb"+id).html('<button type="button" class="mui-btn mui-btn-danger" onclick="action('+id+',-1)">下线</button>&nbsp;<button type="button" class="mui-btn  mui-btn-success" onclick="updatejob('+id+')">刷新</button>');
+
+					}else{
+						$("#hidden"+id).html('状态：<span style="color:#C34BC4;">已下线</span>');
+						$("#hiddenb"+id).html('<button type="button" class="mui-btn mui-btn-success" onclick="action('+id+',1)">上线</button>');
+					}
+
+					
+				}
+			}
+		);
+	}
+}
+function updatejob(id) {
+		$.post("{php echo $this->createMobileurl('fabu',array('op'=>'update_fabu'))}",{
+				id:id
+			},function(resp) {
+				resp = $.parseJSON(resp);
+				if(resp.message.errno == 0) {
+					alert('刷新成功！');
+					
+					location.href="{php echo $this->createMobileurl('fabu',array('op'=>'fabu'))}";
+				}
+			}
+		);
+	
+}
+</script>
+{elseif $operation == 'person_list'}
+<header class="mui-bar mui-bar-nav">
+	    <a class="mui-icon mui-icon-arrowleft mui-pull-left mui-plus-visble" href="javascript:history.go(-1)"></a>
+	     <a href="{php echo $this->createMobileUrl('user')}"><span class="mui-icon mui-pull-right mui-icon-person"></span></a>
+	    <!--a class="mui-icon mui-icon-phone mui-pull-right"></a-->
+	    <h1 class="mui-title">报名管理({$total})</h1>
+</header>
+<div style="height:44px"></div>
+{loop $list $index $vo}
+	<div id="delete_{$vo['id']}" class='express send' style="font-size:15px;" >
+		
+		<div class="address" >
+			
+				姓名：{if mb_strlen($vo['user_name'], 'utf8')>14}
+									{php echo mb_substr($vo['user_name'], 0, 14, 'utf8').'...';}
+									{else}
+									{$vo['user_name']}
+								{/if} 
+			
+			<span  style="margin-left:20px;">微信：{$vo['wchat']}</span>
+
+			<span  style="float:right;">
+			Q Q：{$vo['qq']}
+			</span>				
+		</div>
+		
+		<div class="address" >
+			电话：{if mb_strlen($vo['mobile'], 'utf8')>14}
+								{php echo mb_substr($vo['mobile'], 0, 14, 'utf8').'...';}
+								{else}
+								{$vo['mobile']}
+								{/if} <a  href="tel:{$vo['mobile']}">&nbsp;&nbsp;<span style="color:#0D96AA;">打电话</span></a>&nbsp;&nbsp;<a  href="sms:{$vo['mobile']}"><span style="color:#0D96AA;">发短信</span></a>
+		</div>
+		<div class="address" >
+			报名时间：{php echo date('Y-m-d H:i:s',$vo['ctime'])}
+		</div>
+		<div style="border-top: 1px #EFEFEF solid"></div>
+		<div style="margin:10px auto 0px auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-6 status" style="line-height: 33px;" id="hidden{$vo['id']}">
+						状态：
+						{if $vo['status'] == '1'}
+						<span style="color:#000000;">
+						{else if $vo['status'] == '2'}
+						<span style="color:#11B741;">
+						{else if $vo['status'] == '3'}
+						<span style="color:#8A6DE9;">
+						{else if $vo['status'] == '-1'}
+						<span style="color:#EB1820;">
+						{else if $vo['status'] == '-2'}
+						<span style="color:#C5774B;">
+						{else if $vo['status'] == '-3'}
+						<span style="color:#FFBE00;">
+						{/if}
+						{$lang['status'][$vo['status']]}
+						</span>
+					</div>
+					<div class="col-xs-6" style="text-align:right" id="hiddenb{$vo['id']}">
+							
+							{if $vo['status'] == '1'}
+							 <button type="button" class="mui-btn mui-btn-success" onclick="update_jobuser({$vo['id']},2)">同意</button>&nbsp;<button type="button" class="mui-btn mui-btn-danger" onclick="update_jobuser({$vo['id']},-1)">拒绝</button>
+							{elseif $vo['status'] == '2' || $vo['status'] == '3' || $vo['status'] == '-3'}
+							<button type="button" class="mui-btn mui-btn-warning" onclick="update_jobuser({$vo['id']},-3)">未到</button>&nbsp;
+							 <button type="button" class="mui-btn mui-btn-royal" onclick="update_jobuser({$vo['id']},3)">已到</button>
+							 {elseif $vo['status'] == '-1' ||  $vo['status'] == '-2'}
+							 <button type="button" class="mui-btn" onclick="delete_job({$vo['id']})">删除</button>
+							 {/if} 
+					</div>
+				</div>
+			</div>				
+		</div>
+	</div>
+{/loop}
+<div style="text-align:center;">{$pager}</div>
+<script type="text/javascript">
+	function update_jobuser(id,status) {
+		if(status=='2'){
+			var r = confirm("你确定同意吗？");
+		}else if(status=='-1'){
+			var r = confirm("你确定要拒绝吗？");
+		}else if(status=='3'){
+			var r = 1;
+		}else if(status=='-3'){
+			var r = 1;
+		}
+		if(r) {
+			$.post("{php echo $this->createMobileurl('fabu',array('op'=>'update_jobuser'))}",{
+					id:id,status:status
+				},function(resp) {
+					resp = $.parseJSON(resp);
+					if(resp.message.errno == 0) {
+						mui.toast('操作成功！请以实际情况为准，如有疑问，请联系平台QQ客服：917144573');
+						
+						if(status=='2'){
+							$("#hidden"+id).html('状态：<span style="color:#11B741;">同意兼职报名</span>');
+							$("#hiddenb"+id).html('<button type="button" class="mui-btn mui-btn-warning" onclick="update_jobuser('+id+',-3)">未到</button>&nbsp;<button type="button" class="mui-btn mui-btn-royal" onclick="update_jobuser('+id+',3)">已到</button>');
+
+						}else if(status=='3'){
+							$("#hidden"+id).html('状态：<span style="color:#8A6DE9;">代理点名已到</span>');
+						}else if(status=='-3'){
+							
+							$("#hidden"+id).html('状态：<span style="color:#FFBE00;">点名未到</span>');
+						}else if(status=='-1'){
+							
+							$("#hidden"+id).html('状态：<span style="color:#EB1820;">已拒绝报名</span>');
+							$("#hiddenb"+id).html('');
+						}
+
+						
+					}
+				}
+			);
+		}
+	}
+	function delete_job(id) {
+		var r = confirm("你确定要删除吗？");
+		if(r) {
+			$.post("{php echo $this->createMobileurl('myjob',array('op'=>'cancel_myjob'))}",{
+					id:id,type:'daili_delete'
+				},function(resp) {
+					resp = $.parseJSON(resp);
+					if(resp.message.errno == 0) {
+						mui.toast('删除成功！如有需投诉，请联系平台QQ客服：917144573');
+						$("#delete_"+id).remove();
+					}
+				}
+			);
+		}
+	}
+</script>
+{elseif $operation == 'jobdetail'}
+	<header class="mui-bar mui-bar-nav">
+	    <a class="mui-icon mui-icon-arrowleft mui-pull-left mui-plus-visble" href="javascript:history.go(-1)"></a>
+	    <!--a class="mui-icon mui-icon-phone mui-pull-right"></a-->
+	    <h1 class="mui-title">发布详情</h1>
+	</header>
+	<div class="mui-content">
+  <div class="mui-card">
+    <div class="mui-card-header " >
+      {$list['title']}<br/>
+    </div>
+    <div class="mui-card-content">
+      <div class="mui-card-content-inner">
+       
+        <p>类型：{$lang['type'][$list['type']]}</p>
+        <p>薪酬：{$list['money']}</p>
+        <p>结算时间：{$lang['account_time'][$list['account_time']]}</p>
+        <p>结算方式：{$lang['account_type'][$list['account_type']]}</p>
+        <p>招聘人数：{$list['p_num']} &nbsp;人</p>
+        <p>已报名数：{$list['bm_num']} &nbsp;人</p>
+        <p>工作日期：{php echo date('Y-m-d H:i',$list['job_stime'])}&nbsp;至&nbsp;{php echo date('m-d H:i',$list['job_endtime'])}</p>
+         <p>兼职地点：{$list['job_area']}</p>
+        <p>集合时间：{$list['jihe_time']}
+        <p>
+        <p>集合地点：{$list['jihe_area']}</p>
+        <p>发布时间：{php echo date('Y-m-d H:i',$list['ctime'])}</p>
+      </div>
+    </div>
+    <div class="mui-card-footer">发布人：{$list['realname']}<span>上次刷新：{php echo date('Y-m-d H:i',$list['updat_time'])}</span></div>
+  </div>
+  <div class="mui-card">
+    <div class="mui-card-header borderL" style="text-align:center;">
+      兼职要求
+    </div>
+    <div class="requirelist ">
+      <ul class="des">
+        <li>性别：{$lang['sex'][$list['sex']]}</li>
+        <li>年龄：{$list['age']}</li>
+        <li>身高：{$list['height']}</li>
+        <li>
+          备注：{if mb_strlen($list['job_req'], 'utf8')>500}
+								{php echo mb_substr($list['job_req'], 0, 500, 'utf8').'...';}
+								{else}
+								{$list['job_req']}
+								{/if} 
+        </li>
+      </ul>
+    </div>
+    <div class="mui-card-footer" >报名倒计时
+              <span class="lxftime" starttime="{php echo date('Y-m-d H:i:s',$list['bm_endtime'])}" style="color:#771FC9;"></span>
+     </div>
+    
+  </div>
+  <div class="mui-card" style="margin-bottom:10px;">
+    <div class="mui-card-footer borderL borderB">工作描述</div>
+    <div class="mui-card" style="box-shadow: none;">
+      <span> {if mb_strlen($list['job_desc'], 'utf8')>500}
+								{php echo mb_substr($list['job_desc'], 0, 500, 'utf8').'...';}
+								{else}
+								{$list['job_desc']}
+								{/if} </span>
+    </div>
+  </div>
+  <div class="mui-card  companyAddress"  style="margin-bottom:80px;">
+    <div class="mui-card-footer borderL borderB">兼职地址</div>
+    <div class="mui-card companyDetail">
+      <address>{$list['job_area']}</address>
+      <div class="companyMap">
+          <img src="{OSSURL}/public/mobile/images/map.png" alt="">
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<link rel="stylesheet" href="{OSSURL}/public/mobile/css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="{OSSURL}/public/mobile/css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="{OSSURL}/public/mobile/css/Detail.css" />
+<script type="text/javascript" charset="utf-8">
+
+  function sfpmEndtime(){  
+            $(".lxftime").each(function(){  
+                var starttime = new Date($(this).attr("starttime")).getTime();//取结束日期(毫秒值)  
+                var nowtime = new Date().getTime();//今天的日期(毫秒值)  
+                var youtime = starttime-nowtime;//还有多久(毫秒值)  
+                var seconds = youtime/1000;  
+                var minutes = Math.floor(seconds/60);  
+                var hours = Math.floor(minutes/60);  
+                var days = Math.floor(hours/24);  
+                var CDay= days ;  
+                var CHour= hours % 24;  
+                var CMinute= minutes % 60;  
+                var CSecond= Math.floor(seconds%60);  
+                var c=new Date();  
+                var q=((c.getMilliseconds())%10);  
+                if(starttime<=nowtime){  
+                    
+                    $(this).html("报名时间已过")//结束日期小于当前日期
+
+                }else{     
+                    // $(this).html("<span style='color:green'>"+days+"</span>");//输出有天数的数据 
+
+                     $(this).html("<span>"+days+"天"+CHour+"时"+CMinute+"分"+CSecond+"秒</span>");//输出有天数的数据 
+                }  
+          });  
+       setTimeout("sfpmEndtime()",100);  
+      };  
+    $(function(){  
+          sfpmEndtime();  
+       });  
+</script>
+ 
+{/if}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+	</head>
+<body>
+ 	<div class="page-group">
+		<div id="page-list" class="page page-current bg-white">
+			<header class="bar bar-nav">
+				<h1 class="title">VIP中心</h1>
+			</header>
+			<nav class="bar bar-tab">
+				<a class="external tab-item" href="{php echo $this->createMobileurl('prise')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-movie"></use>
+			        </svg>
+					<span class="tab-label">神器</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('tv')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-tv"></use>
+			        </svg>
+					<span class="tab-label">电视</span>
+				</a>
+				<a class="external tab-item active" href="{php echo $this->createMobileurl('index')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-index"></use>
+			        </svg>
+					<span class="tab-label">推荐</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('vip')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-vip-fill"></use>
+			        </svg>
+					<span class="tab-label">VIP</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('user')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-user"></use>
+			        </svg>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<div class="content">
+				<div class=" tui-pa-30 text-center">
+				{if $config['vip_open'] == 0}
+					<img src="{$_W['account']['qrcode']}" style="width:10rem;" />
+					<p>关注公众号，海量VIP影视任性看</p>
+				{else}
+					<div class="vip-info">
+						<p>亲爱的{if $user['vip_time'] > $_W['timestamp']}VIP会员{else}网友{/if}:</p>
+						{if $user['vip_time'] < $_W['timestamp']}您还不是VIP会员,购买VIP会员可以享受下面特权哟!
+						{else}
+							您的服务到期时间: <em>{php echo date('Y-m-d',$user['vip_time'])}</em>
+						{/if}
+					</div>
+				{/if}
+				
+				
+				</div>
+				<div class="vip-desc">
+					<p>
+						<span class="alert alert-green">
+							本站VIP视频任性看
+						</span>
+					</p>
+					<p>
+						<span class="alert alert-orange">
+							视频地址发给公众号，全网VIP视频看个够
+						</span>
+					</p>
+					{if $config['fx_open'] == 1}
+					<p>
+						<span class="alert alert-red">
+							分享海报，邀请朋友看电影，边看电影边赚
+						</span>
+					</p>
+					{/if}
+					<p>
+						<span class="alert alert-blue">
+							电视台直播，微信变电视机
+						</span>
+					</p>
+					{if !empty($config['fx_point'])}
+					<p class="content-block tui-pl-30 tui-pr-30">
+						<a class="button button-success button-fill external" href="{php echo $this->createMobileUrl('user')}">
+							我的海报
+						</a>
+					</p>
+					{/if}
+					
+				</div>
+			</div>
+		</div>
+	</div>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/iconfont.js'></script>
+    <script src="{$_W['siteroot']}addons/time_tvod/static/js/common.js"></script>
+	{php echo register_jssdk(false);} 
+	<script>
+		wx.ready(function () {
+			wx.hideAllNonBaseMenuItem();
+		});
+	</script>
+</body>
+</html>

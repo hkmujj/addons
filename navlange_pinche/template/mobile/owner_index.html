@@ -1,0 +1,427 @@
+{template 'common/header'}
+<style>
+    body{
+        background-color: {$conf['bg_color']}
+    }
+    .pin{
+        margin:10px;
+        border-radius:5px;
+        border:1px #EFEFEF solid;
+        background-color: white;
+        padding: 10px 10px 0px 10px;
+    }
+    .address{
+        margin:10px 15px;
+        font-size:80%;
+    }
+    .item {
+        margin:0px 10px;
+        border:1px #E0E0E0 solid;
+        padding:8px 5px;
+        font-size:12px;
+    }
+    .item_border_top_0 {
+        border-top:0px;
+    }
+    .item_content {
+        height:20px;
+    }
+    .item_1 {
+        color: grey;
+        border-right:1px #E0E0E0 solid;
+        width:60px;
+        line-height: 20px
+    }
+    .item_2_0 {
+        position: relative;
+        top:-20px;
+        margin-left:60px;
+        margin-right:40px;
+    }
+    .item_2_1 {
+        position: relative;
+        top:-20px;
+        margin-left:60px;
+    }
+    .item_2_2 {
+        position: relative;
+        top:-20px;
+        margin-left:60px;
+        margin-right:50px;
+    }
+    .item_3_0 {
+        position: relative;
+        top:-40px;
+        margin:0px 0px 0px auto;
+        width:40px;
+        text-align: right;
+        margin-right:10px;
+        line-height: 20px
+    }
+    .item_3_1 {
+        position: relative;
+        top:-40px;
+        margin:0px 0px 0px auto;
+        width:50px;
+        line-height: 20px;
+        color:#E0E0E0;
+    }
+</style>
+<div id="step_1">
+    {if count($travel_info) == 0}
+        <div style="margin-top:50px;text-align: center">
+            <i class="fa fa-info-circle"></i>&nbsp;暂无乘客发布出行需求
+        </div>
+    {else}
+        {loop $travel_info $index $item}
+            <div id="travel_{$item['id']}" class="pin">
+                <div style="text-align: center;width: 240px;margin:0px auto"><?php echo date('m-d H:i',$item['departure_time']); ?></div>
+                <div style="width:240px;margin:-10px auto 0px auto">
+                    <div style="width:80px;float:left;text-align: center">
+                        {$item['departure_station']}
+                    </div>
+                    <div style="text-align: center;width:80px;float:left">
+                        <img src="{$_W['siteroot']}addons/navlange_pinche/template/style/img/arrow.png" height="auto" width="80px" />
+                    </div>
+                    <div style="width:80px;float:left;text-align: center">
+                        {$item['terminal_station']}
+                    </div>
+                </div>
+                <div style="clear:both;border-top: 1px #EFEFEF solid"></div>
+                <div class="address">
+                    <div style="width:40px;height:30px;text-align: center">
+                        <img src="{$item['headimgurl']}" width="30px" height="30px" style="border-radius: 15px" />
+                    </div>
+                    <div style="height:30px;line-height: 30px;margin:-30px 150px 0px 40px">
+                        {$item['nickname']}
+                    </div>
+                    <div style="height:30px;margin:-30px 0px 0px auto;width:150px;line-height: 30px">
+                        发布：{php echo date('Y-m-d H:i:s',$item['release_time']);}
+                    </div>
+                </div>
+                <div class="address">
+                    集合地点：{$item['boarding_place']}
+                </div>
+                <div class="address">
+                    联系人：{$item['name']}&nbsp;<a href="tel:{$item['mobile']}">{$item['mobile']}</a>
+                </div>
+                <div style="border-top: 1px #EFEFEF solid"></div>
+                <div style="width:200px;margin:10px auto 0px auto;text-align:center">
+                    <button type="button" class="mui-btn mui-btn-warning mui-btn-block" onclick="accept_travel({$item['id']})" style="background-color: #54BCDE;border:0px">接单</button>
+                </div>
+            </div>
+        {/loop}
+    {/if}
+    <div style="height:50px"></div>
+    <style>
+    .nav_item {
+        color:grey;
+        text-align: center
+    }
+    .nav_item_active {
+        color:#54BCDE;
+    }
+    </style>
+    <div style="position: fixed;bottom:0px;height:50px;background-color: #F7F7F7;width:100%">
+        <div class="nav_item" style="width:50px;height:50px;border-top:1px #ACACAC solid;border-right:1px #ACACAC solid" onclick="location.href='{php echo $this->createMobileurl('index')}'">
+            <div style="height:15px;font-size:12px"><i class="fa fa-send"></i></div>
+            <div style="font-size:12px;height:15px">我是</div>
+            <div style="font-size:12px;height:15px">乘客</div>
+        </div>
+        <div style="margin:0px 0px 0px 50px">
+            <div class="nav_item nav_item_active" style="width:33%;height:50px;border-top:1px #ACACAC solid;margin:-50px auto 0px 0px">
+                <div style="font-size:20px;padding-top:5px"><i class="fa fa-home"></i></div>
+                <div style="font-size:12px">首页</div>
+            </div>
+            <div class="nav_item" style="width:34%;height:50px;border-top:1px #ACACAC solid;margin:-50px auto 0px 33%" onclick="location.href='{php echo $this->createMobileurl('release')}'">
+                <div style="font-size:20px;padding-top:5px"><i class="fa fa-home"></i></div>
+                <div style="font-size:12px">发布</div>
+            </div>
+            <div class="nav_item" style="width:33%;margin:-50px auto 0px 67%;height:50px;border-top:1px #ACACAC solid" onclick="location.href='{php echo $this->createMobileurl('owner')}'">
+                <div style="font-size:20px;padding-top:5px"><i class="fa fa-user"></i></div>
+                <div style="font-size:12px">个人中心</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var selected_travel = 0;
+function accept_travel(id) {
+    if('{php echo empty($owner) ? 1 : 0}' == '1') {
+        alert("请在车主个人中心完善车主信息再接单！");
+    } else {
+        selected_travel = id;
+        $("#step_1").hide();
+        refresh_step_2();
+    }
+}
+function refresh_step_2() {
+    $.post("{php echo $this->createMobileurl('owner_index',array('op'=>'get_owner_pin'))}",function(resp) {
+            resp = $.parseJSON(resp);
+            var pin = resp.message.message;
+            $("#owner_pin").html('');
+            for(var i=0; i<pin.length; i++) {
+                html = '<div class="pin" id="pin_'+pin[i].id+'" onclick="sel_pin('+pin[i].id+')">'+
+                        '<div style="text-align: center;width: 240px;margin:0px auto">'+pin[i].departure_time+'</div>'+
+                        '<div style="width:240px;margin:-10px auto 0px auto">'+
+                            '<div style="width:80px;float:left;text-align: center">'+
+                                    pin[i].departure_station+
+                            '</div>'+
+                            '<div style="text-align: center;width:80px;float:left">'+
+                                '<img src="{$_W['siteroot']}addons/navlange_pinche/template/style/img/arrow.png" height="auto" width="80px" />'+
+                            '</div>'+
+                            '<div style="width:80px;float:left;text-align: center">'+
+                                    pin[i].terminal_station+
+                            '</div>'+
+                        '</div>'+
+                        '<div style="clear:both;border-top: 1px #EFEFEF solid"></div>'+
+                        '<div class="address">'+
+                            '可乘人数：'+pin[i].passenger_count+
+                        '</div>'+
+                    '</div>';
+                $("#owner_pin").append(html);
+            }
+            $("#step_2").show();
+        }
+    );
+}
+var selected_pin = 0;
+function sel_pin(id) {
+    $("div[id^='pin_']").each(function(){
+        $(this).removeClass('pin_active');
+    })
+    $("#pin_"+id).addClass('pin_active');
+    selected_pin = id;
+}
+</script>
+<style>
+.pin_active {
+    border:1px {$conf['owner_color']} solid;
+}
+</style>
+<div id="step_2" style="display: none">
+    <div style="padding:10px;background-color: white" onclick="release_pin()">
+        <div style="height:20px;margin:0px 20px 0px 0px;line-height: 20px">
+            发布新的拼车
+        </div>
+        <div style="margin:-20px 0px 0px auto;line-height: 20px;text-align: center;width:20px">
+            <i class="fa fa-plus-square-o"></i>
+        </div>
+    </div>
+    <div id="owner_pin">
+
+    </div>
+    <div class="container" style="margin-top:20px">
+        <div class="row">
+            <div class="col-xs-6">
+                <button class="mui-btn mui-btn-block" onclick="cancel_pin()">取消</button>
+            </div>
+            <div class="col-xs-6">
+                <button class="mui-btn mui-btn-block" style="background-color: {$conf['owner_color']};color:white" onclick="pin_confirm()">确认选择</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function cancel_pin() {
+    $("#step_2").hide();
+    $("#step_1").show();
+}
+function release_pin() {
+    $("#step_2").hide();
+    $("#step_3").show();
+}
+function pin_confirm() {
+    if(selected_pin == 0) {
+        mui.alert("请选择拼车！");
+    } else {
+        $.post("{php echo $this->createMobileurl('owner_index',array('op'=>'pin_submit'))}",{
+                pin_id:selected_pin,
+                travel_id:selected_travel
+            },function(resp) {
+                resp = $.parseJSON(resp);
+                if(resp.message.errno == '0') {
+                    mui.alert("接单成功！",function(){
+                        $("#step_2").hide();
+                        $("#step_1").show();
+                        $("#travel_"+selected_travel).remove();
+                    })
+                }
+            }
+        );
+    }
+}
+</script>
+<div id="step_3" style="padding-top:20px;background-color:white;display:none">
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                    车&nbsp;&#12288;&nbsp;辆
+            </div>
+            <div class="item_2_1">
+                <input value="{$owner['car_color']} {$owner['car_number_1']}{$owner['car_number_2']}{$owner['car_number_3']} {$owner['car_series']}" style="height:20px;width:100%;border:0px;padding:0px 10px" />
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                出&nbsp;发&nbsp;站
+            </div>
+            <div class="item_2_1">
+                <input id="departure_station" name="departure_station" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入出发站" >
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                终&nbsp;点&nbsp;站
+            </div>
+            <div class="item_2_1">
+                <input id="terminal_station" name="terminal_station" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入出发站" >
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                人&nbsp;&#12288;&nbsp;数
+            </div>
+            <div class="item_2_1">
+                <input id="passenger_count" name="passenger_count" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入拼车人数" >
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                发车时间
+            </div>
+            <div class="item_2_1">
+                <input id="departure_time" name="departure_time" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请选择发车时间" readonly>
+            </div>
+        </div>
+    </div>
+    <link rel="stylesheet" href="{$_W['siteroot']}app/resource/components/datepicker/mui.picker.all.css" />
+    <script type="text/javascript" src="{$_W['siteroot']}app/resource/components/datepicker/mui.picker.all.js"></script>
+    <script>
+        $("input[name='departure_time']").click(function(){
+        　　var dtPicker = new mui.DtPicker(); 
+            dtPicker.show(function (selectItems) { 
+                $("input[name='departure_time']").val(selectItems.y.value+"-"+selectItems.m.value+"-"+selectItems.d.value+" "+selectItems.h.value+":"+selectItems.i.value);
+            })
+        })
+    </script>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                登车地点
+            </div>
+            <div class="item_2_1">
+                <input id="boarding_place" name="boarding_place" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入登车地点" >
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                模&nbsp;&#12288;&nbsp;式
+            </div>
+            <div class="item_2_1">
+                <select id="mode" name="mode" style="height:20px;width:100%;border:0px;padding:0px 10px">
+                    <option value="请选择">请选择</option>
+                    <option value="全程高速">全程高速</option>
+                    <option value="高速优先">高速优先</option>
+                    <option value="不走高速">不走高速</option>
+                    <option value="少收费">少收费</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                价&nbsp;&#12288;&nbsp;格
+            </div>
+            <div class="item_2_1">
+                <input id="price" name="price" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入拼车价格" >
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                线&nbsp;&#12288;&nbsp;路
+            </div>
+            <div class="item_2_1">
+                <input id="line" name="line" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入线路" >
+            </div>
+        </div>
+    </div>
+    <div style="height:10px"></div>
+    <div class="item">
+        <div class="item_content">
+            <div class="item_1">
+                备&nbsp;&#12288;&nbsp;注
+            </div>
+            <div class="item_2_1">
+                <input id="note" name="note" style="height:20px;width:100%;border:0px;padding:0px 10px" placeholder="请输入备注" >
+            </div>
+        </div>
+    </div>
+    <div style="margin:10px">
+        <input type="submit" class="btn btn-default btn-block" name="submit" style="background-color: #54BCDE;color:white;border:1px #54BCDE solid;border-radius: 0px" value="发布" onclick="release_submit()">
+    </div>
+    <div style="height:50px"></div>
+</div>
+<script>
+function release_submit() {
+    if($("#departure_station").val() == '') {
+        alert("请输入出发站！");
+        $("#departure_station").focus();
+    } else if($("#terminal_station").val() == '') {
+        alert("请输入目的站！");
+        $("#terminal_station").focus();
+    } else if($("#passenger_count").val() == '') {
+        alert("请输入可乘人数！");
+        $("#passenger_count").focus();
+    } else if($("#departure_time").val() == '') {
+        alert("请选择出发时间！");
+        $("#departure_time").focus();
+    } else if($("#boarding_place").val() == '') {
+        alert("请输入登车地点！");
+        $("#boarding_place").focus();
+    } else if($("#mode").val() == '请选择') {
+        alert("请选择行车模式！");
+        $("#mode").focus();
+    } else {
+        $.post("{php echo $this->createMobileurl('owner_index',array('op'=>'release_submit'))}",{
+                departure_station: $("#departure_station").val(),
+                terminal_station: $("#terminal_station").val(),
+                passenger_count: $("#passenger_count").val(),
+                departure_time: $("#departure_time").val(),
+                boarding_place: $("#boarding_place").val(),
+                mode: $("#mode").val(),
+                price: $("#price").val(),
+                line: $("#line").val(),
+                note: $("#note").val(),
+            },function(resp) {
+                resp = $.parseJSON(resp);
+                if(resp.message.errno == '0') {
+                    $("#step_3").hide();
+                    refresh_step_2();
+                }
+            }
+        );
+    }
+}
+</script>

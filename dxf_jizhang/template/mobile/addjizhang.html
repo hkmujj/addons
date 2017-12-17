@@ -1,0 +1,97 @@
+{template 'common/header'}
+<style type="text/css">
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;">
+    <h3 class="panel-title">添加共享记账</h3>
+  </div>
+  <div class="panel-body">
+   	<form class="" action="" method="POST" onsubmit="return checkform()">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">花费名称</label>
+    <div class="col-sm-10">
+      <input type="text" name="share_name" class="form-control" id="inputEmail3" placeholder="">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">记账组别</label>
+    <div class="col-sm-10" >
+      <select name="group_id" class="form-control " >
+          {loop $list_group $item}
+          <option value="{$item['group_id']}">{$item['group_name']}</option>
+          {/loop}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">花费分类</label>
+    <div class="col-sm-10" >
+      <select name="share_type" class="form-control " >
+      		<option value="1">三餐所需</option>
+      		<option value="2">家居用品</option>
+          <option value="3">水电气修</option>
+          <option value="4">其他花费</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">花费金额</label>
+    <div class="col-sm-10">
+      <input type="text" name="share_money" class="form-control" id="inputEmail3" placeholder="">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">附加照片</label>
+    <div class="col-sm-10">
+      {php echo tpl_app_form_field_image('share_img', $a)}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">实际日期</label>
+    <div class="col-sm-10">
+      {php echo _tpl_form_field_date('share_time');}
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">备注</label>
+    <div class="col-sm-10">
+      <textarea type="textarea" name="share_desc"></textarea>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10" style="text-align:center;">
+    <input type="hidden" name="token" value="{$_W['token']}">
+      <input type="submit" name="submit" class="btn btn-default" value="提交" />
+    </div>
+  </div>
+</form>
+  </div>
+</div>
+
+<script type="text/javascript">
+	
+function checkform(){
+  if($("input[name='share_name']").val() == ''){
+    alert('花费名称不能为空');
+    return false;
+  }
+  if($("input[name='share_name']").val().length >6){
+    alert('花费名称不能超过6字符');
+    return false;
+  }
+  var regu1 = /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/   
+  var re1 = new RegExp(regu1);    
+  if (!re1.test($("input[name='share_money']").val())) {
+      alert('金额格式不正确');
+      return false;  
+  }
+  return true;
+}
+
+
+
+</script>
+
+{template 'common/footer'}

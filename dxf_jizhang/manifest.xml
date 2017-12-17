@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[生活记账小助手]]></name>
+		<identifie><![CDATA[dxf_jizhang]]></identifie>
+		<version><![CDATA[0.1]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[生活记账，方便！]]></ability>
+		<description><![CDATA[生活记账，方便！]]></description>
+		<author><![CDATA[dxf]]></author>
+		<url><![CDATA[http://bbs.we7.cc/]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="unsubscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="view" />
+			<message type="merchant_order" />
+		</subscribes>
+		<handles>
+			<message type="image" />
+			<message type="voice" />
+			<message type="video" />
+			<message type="shortvideo" />
+			<message type="location" />
+			<message type="link" />
+			<message type="subscribe" />
+			<message type="qr" />
+			<message type="trace" />
+			<message type="click" />
+			<message type="merchant_order" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="生活记账小助手入口" do="index" state="" direct="false" />
+		</cover>
+		
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_daiban`;
+		CREATE TABLE `ims_dxf_jizhang_daiban` (
+		  `d_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `uniacid` varchar(255) DEFAULT NULL,
+		  `from_user` varchar(255) DEFAULT NULL,
+		  `d_name` varchar(255) DEFAULT NULL,
+		  `d_time` int(11) DEFAULT NULL COMMENT '待办时间',
+		  `add_time` int(11) DEFAULT NULL,
+		  PRIMARY KEY (`d_id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='待办事项';
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_friends`;
+		CREATE TABLE `ims_dxf_jizhang_friends` (
+		  `f_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `uniacid` varchar(255) DEFAULT NULL,
+		  `from_user` varchar(255) DEFAULT NULL,
+		  `f_name` varchar(20) DEFAULT NULL COMMENT '好友名字',
+		  `address` varchar(255) DEFAULT NULL COMMENT '家庭住址',
+		  `brithday` char(15) DEFAULT NULL COMMENT '出生日期',
+		  `yearbrithday` int(11) DEFAULT NULL COMMENT '本年生日',
+		  `desc` varchar(255) DEFAULT NULL COMMENT '备注',
+		  `add_time` int(11) DEFAULT NULL,
+		  PRIMARY KEY (`f_id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='好友表';
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_group`;
+		CREATE TABLE `ims_dxf_jizhang_group` (
+		  `group_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `uniacid` varchar(255) DEFAULT NULL,
+		  `from_user` varchar(255) DEFAULT NULL,
+		  `group_name` varchar(255) DEFAULT NULL COMMENT '组名',
+		  `group_status` tinyint(1) DEFAULT '1' COMMENT '1.开启  0.关闭',
+		  `group_desc` varchar(255) DEFAULT NULL COMMENT '描述',
+		  `group_num` int(5) DEFAULT '1' COMMENT '组人数',
+		  `group_ctime` int(11) DEFAULT NULL COMMENT '创建时间',
+		  PRIMARY KEY (`group_id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_group_user`;
+		CREATE TABLE `ims_dxf_jizhang_group_user` (
+		  `gu_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+		  `uniacid` varchar(255) DEFAULT NULL,
+		  `group_id` int(11) DEFAULT NULL COMMENT '所属组id',
+		  `gu_from_user` varchar(255) DEFAULT NULL COMMENT 'open_id',
+		  `gu_manager` tinyint(1) DEFAULT '0' COMMENT '0.普通用户  1.组长',
+		  `gu_ctime` int(11) DEFAULT NULL COMMENT '加入时间',
+		  `gu_type` tinyint(1) DEFAULT '0' COMMENT '1.用户默认组 0.',
+		  PRIMARY KEY (`gu_id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='组对用户';
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_share`;
+		CREATE TABLE `ims_dxf_jizhang_share` (
+		  `share_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `uniacid` int(11) unsigned DEFAULT NULL COMMENT '公众号id',
+		  `from_user` varchar(255) DEFAULT NULL COMMENT '微信 open_id',
+		  `nickname` varchar(255) DEFAULT NULL COMMENT '微信昵称',
+		  `headimgurl` varchar(255) DEFAULT NULL COMMENT '微信头像',
+		  `share_type` tinyint(1) DEFAULT NULL COMMENT '1.三餐所需 2.家居用品 3.水电气修 4其他花费',
+		  `share_name` varchar(255) DEFAULT NULL COMMENT '花费名称',
+		  `share_money` float(10,2) DEFAULT NULL COMMENT '花费金额',
+		  `share_img` text COMMENT '图片',
+		  `share_desc` varchar(255) DEFAULT NULL COMMENT '备注描述',
+		  `share_time` int(11) DEFAULT NULL COMMENT '实际时间',
+		  `add_time` int(11) DEFAULT NULL COMMENT '添加日期',
+		  `group_id` int(11) DEFAULT NULL COMMENT '所属群组',
+		  PRIMARY KEY (`share_id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='dxf';
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_zhang`;
+		CREATE TABLE `ims_dxf_jizhang_zhang` (
+		  `z_id` int(11) NOT NULL AUTO_INCREMENT,
+		  `uniacid` varchar(255) DEFAULT NULL,
+		  `from_user` varchar(255) DEFAULT NULL,
+		  `zhang_type` tinyint(3) DEFAULT NULL COMMENT '1.日常支出 2.日常收入 3.礼金支出 4.朋友借款',
+		  `zhang_name` varchar(255) DEFAULT NULL,
+		  `zhang_desc` varchar(255) DEFAULT NULL,
+		  `zhang_addtime` int(11) DEFAULT NULL,
+		  `zhang_money` float(10,2) DEFAULT NULL COMMENT '金额',
+		  PRIMARY KEY (`z_id`)
+		) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+		]]></install>
+	<uninstall><![CDATA[
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_daiban`;
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_friends`;
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_group`;
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_group_user`;
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_share`;
+		DROP TABLE IF EXISTS `ims_dxf_jizhang_zhang`;
+		]]></uninstall>
+	<upgrade><![CDATA[
+		]]></upgrade>
+</manifest>

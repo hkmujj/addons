@@ -1,0 +1,263 @@
+<!DOCTYPE html><!-- html5标识 -->
+{if !empty($wa['bg'])}
+<html class="html-bg-2" style="background-image: url({php echo tomedia($wa['bg'])}); background-size: 100% 100%;">
+{else}
+{if !empty($set['qcsbk'])}
+<html class="html-bg-2" style="background-image: url({php echo tomedia($set['qcsbk'])}); background-size: 100% 100%;">
+{else}
+<html class="html-bg-2" style="background: #f7f7f7;">
+{/if}
+{/if}
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--每一款手机有不同的分辨率，不同屏幕大小，使我们开发出来的应用或页面大小能适合各种高端手机-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<title>{if !empty($set['name'])}{$set['name']}{else}疯狂拓客码上有客{/if}</title>
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/index.css">
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.cookie.js"></script>
+</head>
+
+<style>
+.img{
+padding: 0.5rem;
+    padding-bottom: 0;
+}
+	.html-bg-2{
+		height: 100%;
+		width: 100%;
+		
+	}
+	.back-user p{
+		padding-top: 0.3rem;
+		padding-left: 0.3rem;
+	}
+	.form{
+		padding: 1.5rem;
+		padding-top: 0.5rem;
+	}
+	.qc{
+		background: #fff;
+	}
+	.qc-a p{
+		/*padding: 0.5rem;*/
+		height: 100%;
+		
+	}
+	.qc-a img{
+		width: 100%;
+		height: 100%;
+	}
+	.qc{
+		box-shadow: 0px 0px 11px rgba(158, 158, 158, 0.65);
+		border-radius: 5px;
+	}
+	.nav-qc{
+    padding: 0.7rem 0.5rem;
+    background: #FFFFFF;
+    text-align: center;
+    color: #505050;
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px dashed #E4E4E4;
+	}
+	.sm{
+	border-top: 1px dashed #E4E4E4;
+	}
+	.sm-t{
+	background: #fff;
+    border-radius: 5px;
+    padding: 0.3rem 0.8rem;
+    /*color: #505050;*/
+	color: #A5A5A5;
+    padding-top: 0.5rem;
+	}
+	.text-sm{
+		font-size: 13px;
+		padding: 0.3rem 0;
+	}
+	.titel-sm{
+	    font-size: 15px;
+	}
+	.okqc{
+		text-align: center;
+		display: none;
+	}
+	.okqc-a{
+	    display: inline-block;
+		height: 20px;
+		vertical-align: text-top;
+	}
+	.okqc-b{
+		display: inline-block;
+		font-size: 14px;
+		color: #00BCD4;
+	}
+	.sdok{
+		text-align: center;
+		display: none;
+	}
+.scok{
+	text-align: center;
+	display: none;
+}
+	.sdok-a{
+	    display: inline-block;
+		height: 20px;
+		vertical-align: text-top;
+	}
+	.sdok-b{
+		display: inline-block;
+		font-size: 14px;
+		color: #FF5722;
+	}
+</style>
+<body>
+<div class="back-user"><p><svg onclick="location.href='javascript:history.go(-1);'" t="1501850514135" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="995" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><defs><style type="text/css"></style></defs><path d="M694.018543 234.845703l-305.960367 277.157367 305.97981 277.137924c10.692526 10.577916 10.692526 27.699875 0 38.259372-10.691503 10.577916-28.004821 10.577916-38.697347 0l-325.613986-294.907637c-5.688559-5.631254-8.124028-13.108552-7.743358-20.48966-0.38067-7.382131 2.054799-14.839986 7.743358-20.48966l325.613986-294.926056c10.692526-10.558473 28.004821-10.558473 38.697347 0C704.710047 207.164247 704.710047 224.286206 694.018543 234.845703z" p-id="996" fill="#8c8c8c"></path></svg>
+</p>
+</div>
+<div class="form">
+	<div class="qc">
+		<div class="qc-a">
+			<div class="nav-qc">{if !empty($title)}{$title['title']}{else}活动二维码{/if}</div>
+			<p class="img" id='1'><img src="{php echo tomedia($set['qcbk'])}"></p>
+			{if empty($set['tx']) == ''}<div class='okqc'><p class="okqc-a"><svg t="1502735696501" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2386" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><defs><style type="text/css"></style></defs><path d="M512 65.984C266.08 65.984 65.984 266.08 65.984 512c0 245.952 200.064 446.016 446.016 446.016 245.952 0 446.016-200.064 446.016-446.016 0-245.92-200.064-446.016-446.016-446.016z m215.232 372.448L471.008 697.44c-0.064 0.064-0.192 0.096-0.256 0.192-0.096 0.064-0.096 0.192-0.192 0.256-2.048 1.984-4.576 3.2-6.944 4.544-1.184 0.672-2.144 1.696-3.392 2.176-3.84 1.536-7.904 2.336-11.968 2.336-4.096 0-8.224-0.8-12.096-2.4-1.28-0.544-2.304-1.632-3.52-2.304-2.368-1.344-4.832-2.528-6.88-4.544-0.064-0.064-0.096-0.192-0.16-0.256-0.064-0.096-0.192-0.096-0.256-0.192L299.328 567.744c-12.32-12.672-12.032-32.928 0.64-45.248 12.672-12.288 32.896-12.064 45.248 0.64L448.48 629.248l233.28-235.84c12.416-12.576 32.704-12.704 45.248-0.256 12.512 12.448 12.64 32.704 0.224 45.28z" fill="#00BCD4" p-id="2387"></path></svg>
+			</p><p class="okqc-b">{$set['tx']}</p>{/if}
+			</div>
+			<div class="sdok">
+			<p class="sdok-a">
+			<svg t="1503108967443" class="icon" style="" viewBox="0 0 1100 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3506" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="18"><defs><style type="text/css"></style></defs><path d="M816 618q0 4-3 7t-7 3l-298 0q-4 0-7-3t-3-7l0-347q0-5 3-7 3-3 7-3l30 0q4 0 7 3 2 2 2 7l0 307 259 0q4 0 7 3t3 7l0 30zM352 61q-88 38-156 107-69 70-106 160-39 94-39 197 0 99 39 190 37 87 106 156 68 68 156 105 91 39 189 39 103 0 197-39 90-37 160-105 69-68 107-156 39-91 39-190 0-103-39-197-38-90-107-160-69-69-160-107-93-39-197-39-99 0-189 39z" p-id="3507" fill="#FF5722"></path></svg>
+			</p>
+			<p class="sdok-b">等待验证</p>
+			</div>
+		{if $wa['status'] == 0}
+<div class="sm">
+	<div class="sm-t">
+		<p class="titel-sm">{$wa['titel']}</p>
+		<p class="text-sm">{$wa['con']}</p>
+	</div>
+</div>
+{/if}
+	</div>
+</div>
+</div>
+<script>
+ qcpost();
+function qcpost(){
+    $.ajax({
+		type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('qc',array('op'=>'poss')),2)}",
+        dataType: "json",
+		success:function(data){
+		    $('.img').html('<img src="'+ data.url + '">');
+			$('.img').attr('id',data.tab);
+			pos();
+		}
+	 });
+}
+//var t = setInterval(pos,6000); 
+function pos(){
+var code = $('.img').attr('id');
+$.ajax({
+		type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('qc',array('op'=>'pos')),2)}&id="+code,
+        dataType: "json",
+        cache: false,
+		success:function(data) {
+		 if(data.code == 200){
+		$('.sdok').fadeOut(100);
+		$('.okqc').fadeIn(100);
+		 iplist();
+		 }else if(data.code == 201){
+			$('.sdok').fadeIn(100);
+		   pos();
+		 }else if(data.code == 408){
+				pos();     
+		 }else if(data.code == 400){
+				qcpost();
+		 }
+		}
+	 });
+}
+$("#cOk").click(function (e) {
+    //清除setInterval
+      clearInterval(t);
+});
+</script>
+{if $pass['tnt'] == '0'}
+<script>
+    function iplist(){
+        var code = $('.img').attr('id');
+        $.ajax({
+            type: "post",
+            url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('qcs'),2)}&tip=1&id="+code,
+            dataType: "json",
+            cache: false,
+            success:function(data) {
+                if(data ==1203){
+                    alert('错误1203,请联系管理员');
+                }else if(data == 1182){
+                    alert('重复参与');
+                }
+            }
+        });
+        setTimeout(function () {
+            window.location.reload();
+        },3000);
+    }
+</script>
+{else if $pass['tnt'] > '0'}
+<script>
+    function iplist(){
+        setTimeout(function () {
+            dt();
+        },3000);
+        var code = $('.img').attr('id');
+        $.ajax({
+            type: "post",
+            url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('qcs'),2)}&tip=1&id="+code,
+            dataType: "json",
+            cache: false,
+            success:function(data) {
+                if(data ==1203){
+                    alert('错误1203,请联系管理员');
+                }else if(data == 1182){
+                    alert('重复参与');
+                }
+				 setTimeout(function () {
+                    window.location.reload();
+                },3000);
+            }
+        });
+    }
+    var t1 = window.setInterval(ds,3000);
+    ds();
+    function dt() {
+        $('.sdok-b').text('正在处理');
+        $('.sdok').fadeIn(100);
+        $('.okqc').fadeOut(100);
+    }
+    function ds(){
+        $.ajax({
+            type:"get",
+            url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('Ds'),2)}",
+            dataType:"json",
+            data:'',
+            success:function(data){
+				if(data.code == '182'){
+                    $('.sdok').fadeOut(100);
+                    $('.okqc-b').text('发送成功');
+                    $('.okqc').fadeIn(100);
+                    setTimeout(function () {
+                        window.location.reload();
+                    },3000);
+				}
+            }
+        });
+    }
+</script>
+{/if}
+</body>
+</html>

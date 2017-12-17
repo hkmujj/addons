@@ -1,0 +1,44 @@
+{template 'common/header'}
+<style type="text/css">
+.btn-success{
+  margin-left:40%; 
+}
+.form-group{
+  margin-top:15px;
+  height:auto;
+}
+.foat_one{
+  float:left;
+  margin-left: 5px;
+}
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;">
+    <h3 class="panel-title">交易列表</h3>
+  </div>
+  <form  action="" method="POST" >
+  <div class="form-group" > 
+    <div style="width:110px;" class="foat_one">{php echo tpl_app_form_field_calendar('add_time', $values =  array('year'=>$time['0'],'month'=>$time['1'],'day'=>$time['2']));}
+    </div>
+    <div style="width:110px;" class="foat_one">{php echo tpl_app_form_field_calendar('add_time_1', $values =  array('year'=>$time1['0'],'month'=>$time1['1'],'day'=>$time1['2']));}
+    </div>
+    <div class="foat_one">
+        <input type="hidden" name="token" value="{$_W['token']}">
+        <input type="submit" name="submit" class="btn btn-default" value="查询" style="height: 40px;"/>
+    </div>
+  </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table" style="margin-top:0px;">
+      <tr style="color:#4e58e8;"><td>交易名称</td><td>分类</td><td>金额</td><td>付款人</td><td>操作</td></tr>
+      {loop $list $key $item}
+      <tr><td>{$item['share_name']}</td><td>{$share_type[$item['share_type']]}</td><td >{$item['share_money']}</td><td >{$item['nickname']}</td><td><a href="{php echo $this->createMobileUrl('tradedetail',array('share_id'=>$item['share_id']))}"><img src="../addons/dxf_jizhang/template/images/see.png"></a></td></tr>
+      {/loop}
+    </table>
+  </div>
+</div>
+
+</script>
+{template './footer_nav'}
+{template 'common/footer'}

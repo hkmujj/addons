@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta name="author" content="lsl">
+<meta name="description" content="">
+<meta name="keywords" content="">
+<meta name="generator" content="webstorm">
+<!--移动端响应式-->
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<!--支持IE的兼容模式-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--让部分国产浏览器默认采用高速模式渲染页面-->
+<meta name="renderer" content="webkit">
+<!--页面style css-->
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}style/css/base.css">
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}style/css/li.css">
+<link rel="stylesheet" type="text/css" href="{MODULE_URL}style/css/swiper.min.css">
+<title>{$content['title']}{if $op == 'dianshi' || $op == 'dongman'}{if $_GPC['jishu']}第{$_GPC['jishu']}集{else}第1集{/if}{/if}</title>
+<!--JQ库-->
+<script src="{MODULE_URL}/weui/zepto.min.js"></script>
+<script src="{MODULE_URL}/weui/iscroll.js"></script>
+<script src="{MODULE_URL}style/js/li.js"></script>
+<script src="{MODULE_URL}/weui/swiper.min.js"></script>
+<script>
+  $(function(){
+    TagNav('#tagnav',{
+        type: 'scrollToFirst',
+    });
+    $('.weui_tab').tab({
+    defaultIndex: 0,
+    activeClass:'weui_bar_item_on',
+    onToggle:function(index){
+    if(index>0){
+    alert(index)
+    }
+    }
+});
+});     
+</script>
+</head>
+<body>
+<section class="logo_box clearfix">
+  <div class="fl"> <a href=""><img class="logo_img" src="{if $settings['logo']}{php echo tomedia($settings['logo'])}{else}{MODULE_URL}style/images/icon_1_06.png{/if}"></a> </div>
+  <div class="sosuo_box fl">
+    <form  action="./index.php" method="get" role="form">
+    <input type="hidden" name="i" value="{$_W['uniacid']}">  
+    <input type="hidden" name="c" value="{$_GPC['c']}">  
+    <input type="hidden" name="do" value="search">  
+    <input type="hidden" name="m" value="{$_GPC['m']}">
+    <input class="btn_com btn_sosuo" type="text" placeholder="请输入影视、电视剧关键词、支持拼音" name="key" value="{$key}">
+    </form>
+  </div>
+  <div class="fr"><a class="tanchu" href="javascript:void(0)"><em class="jilu"></em></a></div>
+</section>
+<div id="tagnav" class="weui-navigator weui-navigator-wrapper">
+  <ul class="weui-navigator-list">
+    <li {if $op == 'index'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index');}">首页</a></li>
+    <li {if $op == 'dianying'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'dianying'));}">电影</a></li>
+    <li {if $op == 'dianshi'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'dianshi'));}">剧集</a></li>
+    <li {if $op == 'zongyi'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'zongyi'));}">综艺</a></li>
+    <li {if $op == 'dongman'}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>'dongman'));}">动漫</a></li>
+    {loop $category $category_list}
+    <li {if $op == $category_list['id']}class="weui-state-active"{/if}><a href="{php echo $this->createMobileUrl('index',array('op'=>$category_list['id'],'pid'=>$category_list['parentid']));}">{$category_list['name']}</a></li>
+    {/loop} 
+  </ul>
+</div>
+<!-- <section class="guanzhu_box">
+<span class="jishu fl">{$settings['subscribe_title']}</span>
+<a class="guanzhu fl" href="javascript:;">点我关注，获取更多精彩！</a>
+<a class="fr" href="javascript:;"><em class="close"></em></a>
+</section> -->
+<section class="shiping_box" style="display: block;"> 
+{if $settings['guanzhu'] && $_W['account']['level'] == 4 && $info['subscribe'] < 1 }
+<a href="javascript:;" style="display: block;background: none;margin: 0px;padding: 0px" class="guanzhu"><img src="{MODULE_URL}style/images/video.jpg" width="100%"></a>
+{else}  
+<iframe src="{$api}" width="100%" height="210px" allowTransparency="true" frameborder="0" scrolling="no"></iframe>  
+{/if}
+{if $settings['ad_thumb']}
+<div style="margin: 10px">
+{if $settings['ad_link']}
+<a href="{$settings['ad_link']}"><img src="{php echo tomedia($settings['ad_thumb'])}" width="100%"></a>
+{else}
+<img src="{php echo tomedia($settings['ad_thumb'])}" width="100%">
+{/if}
+</div>
+{/if}
+</section>
+
+<section class="gonggao_box clearfix">
+  <div class="gonggao_box2 clearfix"> <span class="gonggao fl">公告</span>
+    <p class="fl xianshi" style="width: 80%;height: 27px"><marquee scrollamount="5" direction="left" onMouseOver="this.stop()"><a href="{$settings['index_gg_url']}">{$settings['index_gg']}</a></marquee></p>
+  </div>
+</section>
+<section class="sanguo_box bgfff">
+  <h2 class="sanguo_h2">{if $content['star']}<span class="pingfen_y9 fr">{$content['star']}分</span>{/if}{$content['title']} </h2>
+  <div class="clearfix"> 
+    <div class="fl xiangqing_box_y9">      
+      <!-- <p>{if $content['year']} {$content['year']}年 {/if}</p> --> 
+      <p>{if $content['year']} {$content['year']}{/if} {if $content['area']} {$content['area']} {/if} {if $content['actor']} {$content['actor']} {/if} </p>      
+      <p>播放量：{$click}</p>           
+    </div>
+    <!-- <div class="fr lianjie_box_y9"> <a href=""><em class="fenxiang_icon"></em></a> <a href=""><em class="xiazai_icon"></em></a> </div> -->
+  </div>
+</section>
+{if $id}
+<section class="jishi_box_y9 p_r">
+  <div class="jishu_y9">
+    <ul class="clearfix">     
+      <li class="on"><a href="">1-{php echo count($juji)}</a></li>     
+    </ul>
+  </div>
+  <div class="jishi_box2">
+  <ul class="clearfix">
+  {php $i = 1}
+  {loop $juji $key $v}
+  {if $v['title']} 
+  <li {if $_GPC['jishu'] == $i}class="on"{/if}{if !$_GPC['url']}{if $i == 1}class="on"{/if}{/if} style="width: 45%"><a href="{php echo $this->createMobileUrl('detail',array('op'=>$op,'url'=>$v['link'],'jishu'=>$i,'id'=>$id));}" style="width: 100%">{$v['title']}</a></li>
+  {else} 
+  <li {if $_GPC['jishu'] == $i}class="on"{/if}{if !$_GPC['url']}{if $i == 1}class="on"{/if}{/if}>
+  <a href="{php echo $this->createMobileUrl('detail',array('op'=>$op,'url'=>$v['link'],'jishu'=>$i,'id'=>$id));}">{$i}</a>
+  </li>
+  {/if}
+  {php $i++}
+  {/loop}  
+  </ul>
+  </div>
+
+</section>
+{else}
+{if $juji && $op == 'dianshi' || $op == 'dongman'}
+<style type="text/css">
+  .jishi_box2 ul li:nth-child(5n){ margin-right:0;} 
+</style>
+<section class="jishi_box_y9 p_r">
+  <div class="jishu_y9">
+    <ul class="clearfix">     
+      <li class="on"><a href="">1-{php echo count($juji)}</a></li>     
+    </ul>
+  </div>
+  <div class="jishi_box2">
+  <ul class="clearfix">
+  {php $i = 1}
+  {loop $juji $key $v}
+  {if $v['link'] != '#'}
+  <li {if $_GPC['jishu'] == $i}class="on"{/if}{if !$_GPC['link']}{if $i == 1}class="on"{/if}{/if}>
+  <a href="{php echo $this->createMobileUrl('detail',array('op'=>$op,'url'=>$_GPC['url'],'jishu'=>$i));}&link={$v['link']}">{$i}</a>
+  </li>
+  {/if}
+  {php $i++}
+  {/loop}  
+  </ul>
+  </div>
+</section>
+{/if} 
+{if $juji && $op == 'zongyi' }
+<section class="jishi_box_y9 p_r">
+<em class="jiao_icon"></em>
+  {if $year}
+  <div class="jishu_y9">
+    <ul class="clearfix">
+      {loop $year $v}
+      <li {if $_GPC['year'] == $v['date']}class="on"{/if}><a href="{php echo $this->createMobileUrl('detail',array('op'=>$op,'url'=>$_GPC['url'],'year'=>$v['date']));}">{$v['date']}</a></li>
+      {/loop}
+    </ul>
+  </div>
+  {/if}
+  <div class="jishi_box3">
+  <ul class="clearfix">
+  {php $i = 1}
+  {loop $juji $key $v}
+  {if $v['link'] != '#'}
+  <li {if $_GPC['jishu'] == $i}class="on"{/if}{if !$_GPC['link']}{if $i == 1}class="on"{/if}{/if}><a href="{php echo $this->createMobileUrl('detail',array('op'=>$op,'url'=>$_GPC['url'],'jishu'=>$i,'year'=>$_GPC['year']));}&link={$v['link']}">{$v['title']}</a></li>
+  {/if}
+  {php $i++}
+  {/loop}  
+  </ul>
+  </div>
+</section>
+{/if}
+{/if}
+{if $content['desc']}
+<section class="jianjie_y9 bgfff clearfix">
+<p class="jianjie_y9_p part">{php echo cutstr($content['desc'],60)}...</p>
+<p class="jianjie_y9_p all" style="display: none">{$content['desc']}</p>
+<a class="zhankai fr change down" href="javascript:;"><em class="zhankai_icon"></em>展开详情</a>
+{/if}
+</section>
+
+<section class="banner clearfix"> 
+<!--   Swiper -->
+  <div class="swiper-container swiper-container-horizontal swiper-container-android">
+    <div class="swiper-wrapper">
+      {loop $hdp $v}
+        <div class="swiper-slide">
+            {if $v['out_link']}
+            <a href="{$v['out_link']}">
+            {else} 
+            <a href="{php echo $this->createMobileUrl('detail',array('op'=>$v['type']));}&url={$v['link']}">
+            {/if}
+            <img src="{php echo tomedia($v['thumb'])}" width="100%" >
+            <div style="position: absolute;width: 100%;height: 30px;line-height: 30px;bottom: 0;background: rgba(10, 10, 10, 0.64);color: #fff;">{$v['title']}</div>
+            </a>
+        </div>
+        {/loop}
+    </div>
+ <!--    Add Pagination --> 
+  <div class="swiper-pagination swiper-pagination-clickable"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet"></span></div>
+  </div>
+</section>
+{if $tuijian}
+<section class="">
+ <div class="bgfff cainin_box"> <h2 class="clearfix tuijian caini_xihuan bgfff">猜你喜欢</h2></div> 
+  <div class="dianying_box dianying_box3 clearfix p_r">
+  <em class="jiao_icon"></em>
+    <ul class="clearfix">
+      {loop $tuijian $v}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>$op));}&url={$v['link']}"><img src="{$v['thumb']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <!-- <p class="clearfix leimu"><span class="fl"></span><span class="fr"></span></p> -->
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>$op));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],7)}</span></a></li>
+      {/loop}      
+    </ul>
+  </div>
+</section>
+{/if}
+{if $daoyan} 
+<section class="">
+ <div class="bgfff cainin_box"> <h2 class="clearfix tuijian caini_xihuan bgfff">同导演作品</h2></div>
+  <div class="dianying_box dianying_box3 clearfix p_r">
+  <em class="jiao_icon"></em>
+    <ul class="clearfix">
+      {loop $daoyan $v}
+      <li><a href="{php echo $this->createMobileUrl('detail',array('op'=>$op));}&url={$v['link']}"><img src="{$v['thumb']}"></a>{if $v['s2']}<span class="fenshu">{$v['s2']}</span>{/if}
+        <!-- <p class="clearfix leimu"><span class="fl"></span><span class="fr"></span></p> -->
+        <a href="{php echo $this->createMobileUrl('detail',array('op'=>$op));}&url={$v['link']}"><span class="biaoti">{php echo cutstr($v['title'],7)}</span></a></li>
+      {/loop}      
+    </ul>
+  </div>
+</section>
+{/if}
+<!-- <section class=" bgfff">
+ <div class="bgfff pinglun_box"> <div class="clearfix tuijian caini_xihuan bgfff p_r"><em class="kuai"></em><h2 class="pinglun_h2 clearfix">评论<span class="f14">（189条）</span><a class="fr woyao_shuo" href="">我要说两句</a></h2></div></div>
+<div class="pinglun_box2">
+<ul>
+<li class="clearfix">
+<img class="touxiang_pl fl" src="{MODULE_URL}style/images/icon_y9_07.jpg">
+<div class="fl text_box"><h2 class="yonghuming clearfix">罗定市黑蜂电子商务有限公司<span class="fr f14">2017-10-10 12:30</span></h2>
+<p class="text_P">选择合理的通知方式，知晓用户喜欢那种通知，是提高用户体验的关键。</p>
+<span class="fr"><a href=""><em class="zan_icon"></em>(99+)</a><a href=""><em class="liuyan_icon"></em>(99+)</a></span>
+</div>
+</li>
+<li class="clearfix">
+<img class="touxiang_pl fl" src="{MODULE_URL}style/images/icon_y9_07.jpg">
+<div class="fl text_box"><h2 class="yonghuming clearfix">罗定市黑蜂电子商务有限公司<span class="fr f14">2017-10-10 12:30</span></h2>
+<p class="text_P">选择合理的通知方式，知晓用户喜欢那种通知，是提高用户体验的关键。</p>
+<span class="fr"><a href=""><em class="zan_icon"></em>(99+)</a><a href=""><em class="liuyan_icon"></em>(99+)</a></span>
+</div>
+</li>
+<li class="clearfix">
+<img class="touxiang_pl fl" src="{MODULE_URL}style/images/icon_y9_07.jpg">
+<div class="fl text_box"><h2 class="yonghuming clearfix">罗定市黑蜂电子商务有限公司<span class="fr f14">2017-10-10 12:30</span></h2>
+<p class="text_P">选择合理的通知方式，知晓用户喜欢那种通知，是提高用户体验的关键。</p>
+<span class="fr"><a href=""><em class="zan_icon"></em>(99+)</a><a href=""><em class="liuyan_icon"></em>(99+)</a></span>
+</div>
+</li>
+</ul>
+</div>
+</section> -->
+{template 'news/footer'}
+
+<script>
+    $(".tiyan").click(function(){
+      $(".dh").hide();
+      $(".index_ct").show();
+    })     
+    $(".change").click(function(){
+        if($(this).hasClass("down")){
+            $(this).removeClass("down").addClass("up");
+            $(".all").show();
+            $(".part").hide();
+            $(".up").text('收起详情'); 
+        }else{
+            $(this).removeClass("up").addClass("down");
+            $(".part").show();
+            $(".all").hide();
+            $(".down").text('展开详情'); 
+        }
+    });   
+    var swiper = new Swiper('.swiper-container', {
+          pagination: '.swiper-pagination',
+          nextButton: '.swiper-button-next',
+          prevButton: '.swiper-button-prev',
+          paginationClickable: true,
+          centeredSlides: true,
+          autoplay: 2500,
+          autoplayDisableOnInteraction: false
+      });
+</script>
+<!-- 轮播 效果 JS文件   -->
+<section class="guanyin_box guanyin_box2">
+  <div class="meiyou_box">
+    <p class="zhanshi_p">最近十条观影记录</p>
+    
+    <div class="jilu_box">
+     <ul class="clearfix">
+      {loop $jilu $key $v}     
+      
+      <li class="clearfix">{$v['title']}<span class="fr">
+      <a class="jishu_guankan" href="{if $v['index']}{php echo $this->createMobileUrl('detail',array('op'=>$v['type'],'url'=>$v['video_url']));}{else}{php echo $this->createMobileUrl('detail',array('op'=>$v['type'],'jishu'=>$v['share'],'url'=>$v['yvideo_url'],'link'=>$v['video_url']));}{/if}">继续观看<em class="zhuandao"></em></a></span></li>
+     
+      {/loop}    
+     </ul>
+    </div>
+   
+  </div>
+<div class="fanhui_box2 fanhui_box3">
+<p class="fanhui2_p" style="padding-bottom: 15px"><a class="fanhui_dianji" href="javascript:void(0)" id="clean" style="color: #fff">清空记录</a></p>
+<a class="fanhui_dianji" href="javascript:void(0)"><em class="close_2"></em></a>
+</div>
+</section>
+<section class="guanyin_box index_guanzhu" id="guanzhu" style="display: none">
+  <div class="meiyou_box">
+    <p class="zhanshi_p">长按二维码识别</p>
+    <div class="dianying_box dianying_box2 clearfix" style="padding: 10%">
+      <img src="{if $settings['guanzhu_ewm']}{php echo tomedia($settings['guanzhu_ewm'])}{else}{php echo tomedia($settings['ewm'])}{/if}" width="100%">
+    </div>
+    <div class="jilu_box">
+   
+    </div>
+  </div>
+  <div class="fanhui_box2 fanhui_box3">
+    <a class="fanhui_dianji" href="javascript:void(0)"><em class="close_3"></em></a>
+  </div>
+</section>
+<!-- 轮播 效果 JS文件   -->
+<script>      
+     var swiper = new Swiper('.swiper-container', {
+          pagination: '.swiper-pagination',
+          // autoHeight: true,
+          loop:true,
+          autoplay: 2500, 
+      });
+     $("#shaixuan").click(function(){
+        $(".lebiao_box").toggle();        
+      });      
+      $(".close_a").click(function(){
+        $(".guanzhu_box").hide();
+      });
+
+      $(".tanchu").click(function(){
+        $(".guanyin_box2").show();       
+      });
+      $(".fanhui_dianji").click(function(){
+        $(".guanyin_box2").hide();
+      });
+      $(".guanzhu").click(function(){
+        $("#guanzhu").show();         
+        $(".shiping_box").empty();      
+      }); 
+      $(".close_3").click(function(){
+        $("#guanzhu").hide(); 
+        var html = '{if $settings['guanzhu'] && $_W['account']['level'] == 4 && $info['subscribe'] < 1 }<a href="javascript:;" style="display: block;background: none;margin: 0px;padding: 0px" class="guanzhu"><img src="{MODULE_URL}style/images/video.jpg" width="100%"></a>{else}  {if $settings['api']}    <iframe src="{$settings['api']}{$url}" width="100%" height="250px" allowTransparency="true" frameborder="0" scrolling="no"></iframe>  {else}    {if $id}    <iframe src="http://cyl.go8goo.com/vip/api.php?url={$url}{if $_GPC['link']}&link={$_GPC['link']}{/if}" width="100%" height="210px" allowTransparency="true" frameborder="0" scrolling="no"></iframe>     {else}    <iframe src="http://cyl.go8goo.com/vip/vip.php?op={$op}&do=index&url={$_GPC['url']}{if $_GPC['link']}&link={$_GPC['link']}{/if}" width="100%" height="210px" allowTransparency="true" frameborder="0" scrolling="no"></iframe>    {/if}  {/if}{/if}'
+        $(".shiping_box").html(html);      
+      });   
+      $(".close").click(function(){
+        $(".guanzhu_box").hide();       
+      });   
+      $('#clean').on('click',function(){
+          $.post('{php echo $this->createMobileUrl('clean');}',function(data){
+              alert(data);
+          })
+      })   
+</script>
+</body>
+</html>

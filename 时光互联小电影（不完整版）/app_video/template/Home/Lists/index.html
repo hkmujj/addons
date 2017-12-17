@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>啪啪影院</title>
+		<link rel="stylesheet" href="/public/css/framework7.ios.min.css">
+		<link rel="stylesheet" href="/public/css/app.css">
+	</head>
+
+	<body>
+		<div class="statusbar-overlay"></div>
+		<div class="views">
+			<div class="view view-main">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left">
+				            <a href="#" class="link back">
+				                <i class="icon icon-back"></i><span>返回</span>
+				            </a>
+						</div>
+						<div class="center sliding"><{$cate.t_name}></div>
+						<div class="right"></div>
+						<eq name="cate.t_pid" value="0">
+						<div class="subnavbar">
+							<div class="scroll-bar">
+								<foreach name="childs" item="item">
+									<a href="/lists/index/id/<{$item.t_id}>.html" class="item-link item-content">
+										<{$item.t_name}>
+									</a>
+								</foreach>
+							</div>
+						</div>
+						</eq>
+					</div>
+				</div>	
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="list" class="page">
+						<div class="page-content infinite-scroll pull-to-refresh-content">
+							<!-- Default pull to refresh layer-->
+							<div class="pull-to-refresh-layer">
+								<div class="preloader"></div>
+								<div class="pull-to-refresh-arrow"></div>
+							</div>
+							<input class="currentId" type="hidden" value="<{$cate.t_id}>" />
+							<input class="currentPage" type="hidden" value="1" />
+							<div class="list-block media-list <neq name="cate.t_pid" value="0">ui-ma-0</neq>">
+								<ul class="currentList"></ul>
+							</div>
+							<!-- Preloader -->
+							<div class="infinite-scroll-preloader">
+							    <div class="preloader"></div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+
+		
+		</div>
+	</body>
+</html>

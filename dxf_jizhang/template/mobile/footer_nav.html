@@ -1,0 +1,153 @@
+<style type="text/css">
+    html,body,p,h1,h2,h3,h4,h5,h6,form,input,textarea,select,button,fieldset,legend,img,ul,ol,li,dl,dt,dd,th,td,pre,blockquote{margin:0;padding:0}
+    html{height:100%;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+    body,button,input,select,textarea,h2,h3,h4,h5,h6{font:14px 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', '宋体', \5b8b\4f53, Tahoma, Arial}
+    img,fieldset{border:0;vertical-align:middle}
+    input{padding:0;margin:0;outline:none;}
+    a{text-decoration:none;color:#4c4c4c;}
+    a:hover{text-decoration:none;}
+    ul,li,ol{list-style:none}
+    img{max-width:100%;}
+    .clear{clear:both;height:0;line-height:0;font-size:0;visibility:hidden;overflow:hidden}
+    .clearfix:after{visibility: hidden;display: block;font-size: 0;content: " ";clear: both;height: 0;zoom:1;}
+    .l{float:left;}.r{float:right;}
+    /*reset样式重置*/
+    .btn3{position:fixed;
+      z-index:3;
+      bottom:0px;
+      border-top:1px solid #b3b3b3;
+      background:#e6e6e6;
+      width:100%;
+      text-align:center;
+      box-sizing:border-box;
+      -webkit-box-sizing:border-box;}
+    .menu{position:relative;
+        float:left;
+        width:33.33%;
+        height:50px;
+        line-height:50px;
+        background:#D3D3D3;
+        border-right:1px solid #ebebeb;
+        box-sizing:border-box;
+        -webkit-box-sizing:border-box;}
+    .menu:last-child{border-right:none;}
+    .new-sub{position:absolute;
+          bottom:60px;
+          z-index:10;
+          width:100%;
+          padding: 0px 10px;
+          background: #fff;
+          box-sizing:border-box;
+          -webkit-box-sizing:border-box;
+          border: 1px solid #EEEEEE;
+          border-radius: 5px;
+          display:none;}
+    .new-sub li{width: 100%;
+            background:#fff;
+            float:none;
+            box-sizing:border-box;
+            -webkit-box-sizing:border-box;
+            border-top:1px solid #f2f2f2;}
+    .new-sub li a{display:block;
+              height:50px;
+              line-height:50px;
+              text-align:left;
+              background:#fff;
+              color:#333;
+              border:none;
+              text-align:center;
+              font-size:16px;}
+    .sanjiao{position:absolute;bottom:5px;right:5px;width:0;height:0;border:5px solid transparent;border-right:5px solid #000;border-bottom:5px solid #000;opacity:.5;}
+    .bt-name{font-size:16px;color:#000;}
+    .bt-name a{display:block;font-size:16px;color:#000;}
+    .new-sub .tiggle{
+      width:0px;
+          height:0px;
+          position:absolute;
+          left:50%;
+          margin-left:-10px;
+          bottom:-9px;
+          border-top:10px solid #EEEEEE;
+          border-left:10px solid transparent;
+          border-right:10px solid transparent;
+          z-index:10;
+      }
+      .new-sub .innertiggle{
+        width:0px;
+          height:0px;
+          position:absolute;
+          left:50%;
+          margin-left:-9px;
+          bottom:-8px;
+          border-top:9px solid white;
+          border-left:9px solid transparent;
+          border-right:9px solid transparent;
+          z-index:11;
+      }
+      .panel-body-bg{
+        background-color:#DE5A5A; 
+      }
+      .gx-jz{
+        height:80px;width:80px;
+        border:1px solid #C3C3C3;
+        text-align:center;
+        float:left;
+        margin-left: 0px;
+        font-size:8px;
+      }
+      .gx-jz img{
+        margin-top:10px;
+      }
+</style>
+<!--↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓3列菜单开始↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓-->
+<div class="btn3 clearfix">
+    <div class="menu">
+        <div class="bt-name"><a href="{php echo $this->createMobileUrl('index');}">首页</a></div>
+    </div><!--menu-->
+    <div class="menu">
+        <div class="bt-name">共享记账</div>
+        <div class="sanjiao"></div>
+        <div class="new-sub">
+            <ul >
+                <li><a href="{php echo $this->createMobileUrl('account');}">本月账单</a></li>
+                <li><a href="{php echo $this->createMobileUrl('account',array('op'=>1));}" >历史账单</a></li>
+                <li><a href="{php echo $this->createMobileUrl('grouplist');}" >组别管理</a></li>
+                <li><a href="{php echo $this->createMobileUrl('tradelist');}" >交易列表</a></li>
+
+
+            </ul>
+            <div class="tiggle"></div>
+            <div class="innertiggle"></div>
+        </div>  
+    </div>
+    <div class="menu" >
+      <div class="bt-name">常用功能</div>
+      <div class="sanjiao"></div>
+      <div  class="new-sub">
+          <ul>
+            
+              <li><a href="{php echo $this->createMobileUrl('zhangdan');}">个人账单</a></li>
+              <li><a href="{php echo $this->createMobileUrl('friends');}" >朋友管理</a></li>
+              <li><a href="{php echo $this->createMobileUrl('daiban');}" >待办事项</a></li> 
+               <li><a href="{php echo $this->createMobileUrl('shouce');}" >操作手册</a></li>
+          </ul>
+          <div class="tiggle"></div>
+          <div class="innertiggle"></div>
+      </div>
+    </div><!--menu-->
+</div><!--btn3-->
+<!--↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑3列菜单end↑↑↑↑↑↑↑↑↑↑↑↑↑↑-->
+<script type="text/javascript">
+//弹出垂直菜单
+$(".menu").click(function() {
+    if ($(this).hasClass("cura")) {
+        $(this).children(".new-sub").hide(); //当前菜单下的二级菜单隐藏
+        $(".menu").removeClass("cura"); //同一级的菜单项
+    } else {
+        $(".menu").removeClass("cura"); //移除所有的样式
+        $(this).addClass("cura"); //给当前菜单添加特定样式
+        $(".menu").children(".new-sub").slideUp("fast"); //隐藏所有的二级菜单
+        $(this).children(".new-sub").slideDown("fast"); //展示当前的二级菜单
+    }
+});
+</script>

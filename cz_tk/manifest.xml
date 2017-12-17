@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.zheyitianshi.com" versionCode="0.8,1.0">
+	<application setting="false">
+		<name><![CDATA[疯狂拓客]]></name>
+		<identifie><![CDATA[cz_tk]]></identifie>
+		<version><![CDATA[2.31]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[疯狂拓客！码上有客！]]></ability>
+		<description><![CDATA[疯狂拓客！码上有客！]]></description>
+		<author><![CDATA[折翼天使资源社区]]></author>
+		<url><![CDATA[https://www.zheyitianshi.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="独立面板" do="pclogin" state="" direct="false" />
+			<entry title="手机入口" do="user" state="" direct="false" />
+		</cover>
+		<menu>
+			<entry title="代理账户管理" do="dl" state="" direct="false" />
+			<entry title="数据统计" do="setting" state="" direct="false" />
+			<entry title="短信配置" do="sms" state="" direct="false" />
+			<entry title="商户账户管理" do="user" state="" direct="false" />
+			<entry title="试用账号管理" do="trial" state="" direct="false" />
+			<entry title="基础设置" do="set" state="" direct="false" />
+			<entry title="内容审核" do="status" state="" direct="false" />
+			<entry title="发送通道" do="pass" state="" direct="false" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_cz_tk_bill` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `tid` int(11) NOT NULL,
+  `pio` varchar(255) NOT NULL,
+  `func` varchar(255) NOT NULL,
+  `czname` int(11) DEFAULT NULL,
+  `ye` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_cookie` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `txt` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_dl` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `timeend` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `psw` varchar(255) NOT NULL,
+  `gsname` varchar(255) NOT NULL,
+  `moblie` varchar(255) NOT NULL,
+  `gid` int(11) DEFAULT NULL,
+  `tj` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `sm` varchar(255) NOT NULL,
+  `point` varchar(255) DEFAULT '0',
+  `ntime` int(11) NOT NULL DEFAULT '0',
+  `xs` varchar(255) DEFAULT NULL,
+  `wb` varchar(255) NOT NULL,
+  `sh` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_msg` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `type` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `status` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  `xz` int(11) NOT NULL DEFAULT '0',
+  `sex` int(11) NOT NULL DEFAULT '2',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_pass` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `urls` varchar(255) DEFAULT NULL,
+  `tnt` int(11) NOT NULL DEFAULT '0',
+  `tk` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_sm` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `times` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `nid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  `sname` varchar(255) NOT NULL,
+  `msgid` int(11) NOT NULL,
+  `dl` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_smb` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `times` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `nid` int(11) NOT NULL,
+  `fid` int(11) NOT NULL,
+  `sname` varchar(255) NOT NULL,
+  `bname` varchar(255) NOT NULL,
+  `msgid` int(11) NOT NULL,
+  `dl` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_sms` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `ad` varchar(255) NOT NULL,
+  `as` varchar(255) NOT NULL,
+  `bers` varchar(255) NOT NULL,
+  `code` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_tj` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) unsigned NOT NULL,
+  `qcbk` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `qcsbk` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `tx` varchar(255) NOT NULL,
+  `wb` varchar(255) NOT NULL,
+  `xtb` varchar(255) NOT NULL,
+  `pclogo` varchar(225) DEFAULT NULL,
+  `pcname` varchar(225) DEFAULT NULL,
+  `pcdl` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_tset` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `timeend` int(11) DEFAULT NULL,
+  `tj` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `point` varchar(255) DEFAULT NULL,
+  `ntime` int(11) NOT NULL DEFAULT '0',
+  `xs` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uniacid` int(11) NOT NULL,
+  `timeend` int(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `psw` varchar(255) NOT NULL,
+  `bg` varchar(255) NOT NULL,
+  `gid` int(11) DEFAULT NULL,
+  `tj` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `sm` int(11) NOT NULL DEFAULT '0',
+  `point` varchar(255) DEFAULT '0',
+  `ntime` int(11) NOT NULL DEFAULT '0',
+  `xs` varchar(255) DEFAULT NULL,
+  `dl` int(11) DEFAULT NULL,
+  `dls` int(11) DEFAULT NULL,
+  `mobile` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_cz_tk_wa` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `tid` int(11) unsigned NOT NULL DEFAULT '0',
+  `uniacid` int(11) unsigned NOT NULL,
+  `time` int(11) DEFAULT NULL,
+  `titel` varchar(255) NOT NULL,
+  `con` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  `bg` varchar(255) NOT NULL,
+  `login` int(11) NOT NULL DEFAULT '1',
+  `code` varchar(255) NOT NULL,
+  `dt` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_cz_tk_bill`;
+DROP TABLE IF EXISTS `ims_cz_tk_cookie`;
+DROP TABLE IF EXISTS `ims_cz_tk_dl`;
+DROP TABLE IF EXISTS `ims_cz_tk_msg`;
+DROP TABLE IF EXISTS `ims_cz_tk_pass`;
+DROP TABLE IF EXISTS `ims_cz_tk_sm`;
+DROP TABLE IF EXISTS `ims_cz_tk_smb`;
+DROP TABLE IF EXISTS `ims_cz_tk_sms`;
+DROP TABLE IF EXISTS `ims_cz_tk_tj`;
+DROP TABLE IF EXISTS `ims_cz_tk_tset`;
+DROP TABLE IF EXISTS `ims_cz_tk_user`;
+DROP TABLE IF EXISTS `ims_cz_tk_wa`;
+]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

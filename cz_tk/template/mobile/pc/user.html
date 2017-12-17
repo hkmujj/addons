@@ -1,0 +1,500 @@
+{template 'pc/header'}
+{template 'pc/nav'}
+{if $uutt['gid']=='8'}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
+   <div class="modal-dialog"> 
+    <div class="modal-content"> 
+     <div class="modal-header"> 
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+      <h4 class="modal-title">添加新员工</h4> 
+     </div> 
+     <div class="modal-body"> 
+      <div class="form-group"> 
+       <label for="exampleInputEmail1">用户名</label> 
+       <input type="type" name="name" class="form-control"  placeholder="用户名(数字,字母)" /> 
+      </div> 
+      <div class="form-group"> 
+       <label for="exampleInputPassword1">密码(识别码)</label> 
+       <input type="type" name="psw" class="form-control"  placeholder="密码(数字,字母)" /> 
+      </div> 
+	  	<div class="form-group"> 
+   <label for="exampleInputPassword1">是否启用</label> 
+    <select class="form-control m-bot15" id="addsel"> <option value="0">启用</option> <option value="1">不启用</option></select> 
+  </div>
+     </div>
+     <div class="modal-footer"> 
+      <button data-dismiss="modal" class="btn btn-default" type="button">取消</button> 
+      <button class="btn btn-success mt" onclick="opss();" type="button">确认提交</button> 
+     </div> 
+    </div> 
+   </div> 
+  </div>
+ <section id="main-content">
+          <section class="wrapper">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+							<a class="btn btn-success" onclick="addu();" href="#">
+                                  <i class="icon-plus"></i> 添加新员工
+                              </a>
+							<span style="font-size: 15px;margin-left: 15px;font-weight: 500;">手机操作后台/员工登陆后台:<a href="{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=user&m=cz_tk" target="blank">{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=user&m=cz_tk</a></span>
+                          </header>
+                          <table class="table table-striped table-advance table-hover">
+                              <thead>
+                              <tr>
+                                  <th><i class="icon-user"></i> 员工帐户</th>
+                                  <th class="hidden-phone"><i class="icon-unlock-alt"></i> 密码(识别码)</th>
+                                  <th><i class="icon-minus-sign"></i> 是否生效</th>
+								  <th><i class=" icon-barcode"></i> 扫码量</th>
+                                  <th><i class=" icon-eye-open"></i> 曝光量</th>
+                                  <th><i class=" icon-edit"></i> 操作</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+							  {loop $userlist $row}
+                              <tr id="dels{$row['id']}">
+                                  <td id="pcuser"><a href="#">{$row['name']}</a></td>
+                                  <td id="pcpsw" class="hidden-phone">{$row['psw']}</td>
+                                  <td id="zt{$row['id']}">{$row['status']}</td>
+								  <td>{$row['sm']}</td>
+                                  <td><span class="label label-info label-mini">{$row['smb']}</span></td>
+                                  <td>
+                                     <span id="jq{$row['id']}">{if $row['status'] == '已停用'}<button id="qy{$row['id']}" onclick="qy('{$row['id']}');" class="btn btn-success btn-xs"><i class="icon-ok"></i></button>{else}<button onclick="sx('{$row['id']}');" class="btn btn-danger btn-xs" id="sx{$row['id']}" style="padding: 1px 6px;"><i class=" icon-remove"></i></button>{/if}
+									  </span>
+                                      <button class="btn btn-primary btn-xs" id="{$row['id']}" onclick="dy(this.id);"><i class="icon-pencil"></i></button>
+                                      <button class="btn btn-danger btn-xs" id="{$row['id']}"  onclick="del(this.id);"><i class="icon-trash "></i></button>
+                                  </td>
+                              </tr>
+							  {/loop}
+                              </tbody>
+                          </table>
+                      </section>
+                  </div>
+              </div>
+              <!-- page end-->
+          </section>
+      </section>
+	  <script>
+	function ops(){
+	  var name = $("input[name='name']").val();
+	  var psw = $("input[name='psw']").val();
+	  var status = $("#addsel").val();
+	  var id = $('#inid').val();
+		$.ajax({
+		type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'up')),2)}&id=" +id,
+        dataType: "json",
+        cache: false,
+        data:{name:name,psw:psw,status:status},
+		success:function(data) {
+			if(data.status == 0){
+				$('#myModal').modal('hide');
+				$('#dels'+id).children('#pcuser').text(name);
+				$('#dels'+id).children('#pcpsw').text(psw);
+				if(status == 0){
+				$('#dels'+id).children('#zt'+id).text('已启用');
+				$('#jq'+id).html('<button onclick="sx('+ id +');" class="btn btn-danger btn-xs" id="sx'+id+'" style="padding: 1px 6px;"><i class=" icon-remove"></i></button>');
+				}else if(status == 1){
+				$('#dels'+id).children('#zt'+id).text('已停用');
+				$('#jq'+id).html('<button id="qy'+ id +'" onclick="qy('+ id +');" class="btn btn-success btn-xs"><i class="icon-ok"></i></button>');
+				}
+			$('.pchear').text('修改成功！');
+			$('.pchear').fadeIn(100);
+			setTimeout(function () {
+			$('.pchear').fadeOut(100);
+			},2000);
+			}
+		}
+	 });
+}
+	  function dy(id){
+		$.ajax({
+		type:'post',
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'dy')),2)}&id="+ id,
+		dataType:'json',
+		data:'',
+		success:function(data){
+			$('#inid').remove();
+				$('#myModal').modal('show');
+				$('.mt').attr('onclick','ops()');
+				$("input[name='name']").val(data.name);
+				$("input[name='psw']").val(data.psw);
+				$("#addsel").val(data.status);
+				$('.modal-title').text('编辑员工');
+				$('.modal-body').append("<input type='hidden' value='"+ data.id +"' id='inid'/>");
+		}
+	});	
+}
+	  function addu(){
+		$('#myModal').modal('show');
+		$('.mt').attr('onclick','opss()');
+		$('.form-group input').val('');
+		$('.form-group select').val('0');
+		$('#inid').remove();
+		$('.modal-title').text('添加员工');
+	  }
+	  function sx(id){
+		$.ajax({
+		type:'post',
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'sx')),2)}&id="+ id,
+		dataType:'json',
+		data:'',
+		success:function(data){
+			if(data.status == 1){
+				$('#jq'+id).html('<button id="qy'+ id +'" onclick="qy('+ id +');" class="btn btn-success btn-xs"><i class="icon-ok"></i></button>');
+				$('#zt'+id).text('已停用');
+			$('.pchear').text('停用成功');
+			$('.pchear').fadeIn(100);
+			setTimeout(function () {
+			$('.pchear').fadeOut(100);
+			},2000);
+			}
+		}
+	});
+	  }
+	  function qy(id){
+		$.ajax({
+		type:'post',
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'qy')),2)}&id="+ id,
+		dataType:'json',
+		data:'',
+		success:function(data){
+			if(data.status == 0){
+				$('#jq'+id).html('<button onclick="sx('+ id +');" class="btn btn-danger btn-xs" id="sx'+id+'" style="padding: 1px 6px;"><i class=" icon-remove"></i></button>');
+				$('#zt'+id).text('已启用');
+			$('.pchear').text('启用成功');
+			$('.pchear').fadeIn(100);
+			setTimeout(function () {
+			$('.pchear').fadeOut(100);
+			},2000);
+			}
+		}
+	});
+	  }
+		function opss(){
+	  var name = $("input[name='name']").val();
+	  var psw = $("input[name='psw']").val();
+	  var status = $("#addsel").val();
+		$.ajax({
+		type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'add')),2)}",
+        dataType: "json",
+        cache: false,
+        data:{name:name,paw:psw,status:status},
+		success:function(data) {
+		    if(data.status == '0'){
+		        alert('超过创建限制');
+		        return false
+            }
+			if(data.status == '3'){
+			$('.pchear').text('失败！！帐户重复');
+			$('.pchear').fadeIn(100);
+			setTimeout(function () {
+			$('.pchear').fadeOut(100);
+			},2000);
+			}else if(data.status  == '1'){
+			$('#myModal').modal('hide');
+			$('.pchear').text('添加成功');
+			$('.pchear').fadeIn(100);
+			setTimeout(function () {
+			$('.pchear').fadeOut(100);
+			window.location.reload();
+			},2000);	
+			}
+		}
+	 });
+	  }
+
+	  		function del(id){
+	$.ajax({
+		type:'post',
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'del')),2)}&uid="+ id,
+		dataType:'json',
+		data:'',
+		success:function(data){
+			if(data.status == 1){
+				$('#dels'+id).remove();
+			$('.pchear').text('删除成功');
+			$('.pchear').fadeIn(100);
+			setTimeout(function () {
+			$('.pchear').fadeOut(100);
+			},2000);
+			}
+		}
+			});
+	  }
+	  </script>
+	  {else if $dl['gid'] == '10'} 
+	 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> 
+   <div class="modal-dialog"> 
+    <div class="modal-content"> 
+     <div class="modal-header"> 
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> 
+      <h4 class="modal-title">添加商户</h4> 
+     </div> 
+     <div class="modal-body"> 
+      <div class="form-group"> 
+       <label for="exampleInputEmail1">用户名</label> 
+       <input type="type" name="name" class="form-control"  placeholder="用户名(数字,字母)" /> 
+      </div> 
+      <div class="form-group"> 
+       <label for="exampleInputPassword1">密码(识别码)</label> 
+       <input type="type" name="psw" class="form-control"  placeholder="密码(数字,字母)" /> 
+      </div>
+         <div class="form-group">
+             <label for="exampleInputPassword1">手机号码</label>
+             <input type="type" name="mobile" class="form-control"  placeholder="手机号码" />
+         </div>
+         <div class="form-group">
+       <label for="exampleInputPassword1">点数</label> 
+       <input type="type" name="pio" class="form-control"  placeholder="使用点数上限" /> 
+      </div>
+         <div class="form-group">
+             <label for="exampleInputPassword1">员工控制</label>
+             <input type="type" name="xs" class="form-control"  placeholder="员工上限" />
+         </div>
+         <div class="form-group">
+		<label for="exampleInputPassword1">是否启用时间</label> 
+		<select class="form-control m-bot15" id="addsels"> <option value="1">启用</option> <option value="0">不启用</option></select> 
+		</div>
+			  <div class="form-group"> 
+       <label for="exampleInputPassword1">截止时间</label> 
+       <input  value="" name="time" class="form-control m-bot15" placeholder="截止时间" id="kp" />
+      </div>
+	  	<div class="form-group"> 
+   <label for="exampleInputPassword1">是否启用</label> 
+    <select class="form-control m-bot15" id="addsel"> <option value="0">启用</option> <option value="1">不启用</option></select> 
+  </div>
+     </div>
+     <div class="modal-footer"> 
+      <button data-dismiss="modal" class="btn btn-default" type="button">取消</button> 
+      <button class="btn btn-success mt" onclick="post();" type="button">确认提交</button> 
+     </div> 
+    </div> 
+   </div> 
+  </div>
+	   <section id="main-content">
+          <section class="wrapper">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <header class="panel-heading">
+							<a class="btn btn-success" onclick="addu();" href="#">
+                                  <i class="icon-plus"></i> 添加新商户
+                              </a>
+							<span style="font-size: 15px;margin-left: 15px;font-weight: 500;">商户后台:<a href="{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=pclogin&m=cz_tk" target="blank">{php echo $_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=pclogin&m=cz_tk</a></span>
+                          </header>
+                          <table class="table table-striped table-advance table-hover">
+                              <thead>
+                              <tr>
+                                  <th> 商户帐户</th>
+                                  <th class="hidden-phone">密码(识别码)</th>
+								  <th>点数</th>
+								  <th>时间</th>
+								  <th>时间限制</th>
+                                  <th>是否生效</th>
+								  <th><i class=" icon-barcode"></i> 扫码量</th>
+                                  <th><i class=" icon-eye-open"></i> 曝光量</th>
+                                  <th><i class=" icon-edit"></i> 操作</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+							  {loop $tablist $row}
+                              <tr id="dels{$row['id']}">
+                                  <td id="pcuser"><a href="#">{$row['name']}</a></td>
+                                  <td id="pcpsw" class="hidden-phone">{$row['psw']}</td>
+								  <td class="hidden-phone">{$row['point']}</td>
+								  <td id="pcpsw" class="hidden-phone">{php echo date('Y-m-d H:i',$row['timeend'])}</td>
+								  <!--1开启 0不开启-->
+								  <td id="zt{$row['id']}">{$row['ntime']}</td>
+								  <!--0开启 1不开启-->
+                                  <td id="zt{$row['id']}">{$row['status']}</td>
+								  <td>{$row['sms']}</td>
+                                  <td><span class="label label-info label-mini">{$row['smsb']}</span></td>
+                                  <td>
+                                      <button class="btn btn-primary btn-xs" id="{$row['id']}" onclick="dy(this.id);"><i class="icon-pencil"></i></button>
+                                      <button class="btn btn-danger btn-xs" id="{$row['id']}"  onclick="del(this.id);"><i class="icon-trash "></i></button>
+                                  </td>
+                              </tr>
+							  {/loop}
+                              </tbody>
+                          </table>
+                      </section>
+                  </div>
+              </div>
+              <!-- page end-->
+          </section>
+      </section>
+	  <script>
+	  function del(id){
+	  $.ajax({
+        type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'del')),2)}&id="+id,
+        dataType: "json",
+        data:'',
+		success:function(data){
+			if(data.status == 1){
+			$('#dels'+id).remove();
+			tx('删除成功');
+			}
+		}
+		});
+	  }
+	function dy(id){
+		 $('#inid').remove();
+		$.ajax({
+        type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'dy')),2)}&id="+id,
+        dataType: "json",
+        data:'',
+		success:function(data){
+			$('.mt').attr('onclick','pos()');
+			$('#myModal').modal('show');
+			$('.modal-body').append("<input type='hidden' value='" + data.id + "' id='inid'/>");
+			$("input[name='name']").val(data.name);
+			$("input[name='psw']").val(data.psw);
+			$("input[name='pio']").val(data.point);
+			$("#addsels").val(data.ntime);
+			$("input[name='time']").val(data.timeend);
+			$("#addsel").val(data.status);
+            $("input[name='mobile']").val(data.mobile);
+            $("input[name='xs']").val(data.xs);
+		}
+		});
+	}
+	  function post(){
+	  var name = $("input[name='name']").val();
+	  var psw = $("input[name='psw']").val();
+	  var pio = $("input[name='pio']").val();
+	  if(pio == ''){
+		alert('点数不能为空');
+		exit;
+	  }
+	  var ntime = $("#addsels").val();
+	  var time = $("input[name='time']").val();
+	  var status = $("#addsel").val();
+	  var mobile = $("input[name='mobile']").val();
+	  var xs = $("input[name='xs']").val();
+	  $.ajax({
+        type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'add')),2)}",
+        dataType: "json",
+        data: {
+            name: name,
+            psw: psw,
+            pio: pio,
+            ntime: ntime,
+            status: status,
+            time:time,
+            mobile:mobile,
+            xs:xs,
+        },
+		success:function(data){
+			if(data.status == 1){
+			$('#myModal').modal('hide');
+			tx('提交成功');
+			}else if(data.status == 3){
+			 alert('重复用户名');
+			}else if(data.status == 2){
+				alert('超过自身点数');
+			}else if(data.status == 0){
+			    alert('超过创建限制');
+            }
+		}
+	  });
+	  }
+
+	 function pos(){
+	  var name = $("input[name='name']").val();
+	  var psw = $("input[name='psw']").val();
+	  var pio = $("input[name='pio']").val();
+	  if(pio == ''){
+		alert('点数不能为空');
+		exit;
+	 }
+	  var ntime = $("#addsels").val();
+	  var time = $("input[name='time']").val();
+	  var status = $("#addsel").val();
+	  var id = $('#inid').val();
+	  var mobile = $("input[name='mobile']").val();
+	  var xs = $("input[name='xs']").val();
+	  $.ajax({
+        type: "post",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcuser',array('op'=>'add')),2)}",
+        dataType: "json",
+        data: {
+			id:id,
+            name: name,
+            psw: psw,
+            pio: pio,
+            ntime: ntime,
+            status: status,
+            time:time,
+            mobile:mobile,
+            xs:xs,
+        },
+		success:function(){
+			$('#myModal').modal('hide');
+			tx('修改成功');
+		}
+	  });
+	  }
+	  function addu(){
+		$('.mt').attr('onclick','post()');
+		$('#myModal').modal('show');
+			$("input[name='name']").val('');
+			$("input[name='psw']").val('');
+			$("input[name='pio']").val('');
+            $("input[name='mobile']").val('');
+            $("input[name='xs']").val('');
+			$("#addsels").val('0');
+			$("input[name='time']").val('');
+			$("#addsel").val('0');
+			$('#inid').remove();
+
+	  }
+	  </script>
+	  <script type="text/javascript">
+    !function(){
+        laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+        laydate({elem: '#demo'});//绑定元素
+    }();
+
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY-MM-DD',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+
+    var end = {
+        elem: '#end',
+        format: 'YYYY-MM-DD',
+        min: laydate.now(),
+        max: '2099-06-16',
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            start.max = datas; //结束日选好后，充值开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+
+    //自定义日期格式
+    laydate({
+        elem: '#kp',
+        format: 'YYYY-MM-DD',
+        festival: true, //显示节日
+    });
+</script>
+	  {/if}
+{template 'pc/footer'}

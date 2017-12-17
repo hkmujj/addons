@@ -1,0 +1,114 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+    <li {if $op == 'wx'} class="active"{/if}><a href="{php echo $this->createWeburl('message')}">微信消息</a></li>
+    <li {if $op == 'sm'} class="active"{/if}><a href="{php echo $this->createWeburl('message',array('op'=>'sm'))}">短信</a></li>
+</ul>
+{if $op == 'wx'}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            微信消息
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" role="form" action="" method="POST">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼车发布成功</label>
+                    <div class="col-sm-10">
+                        <input name="release_success" value="{$message['release_success']}" class="form-control" placeholder="请输入车主发布拼车成功模板消息ID" />
+                        <label>行业：IT科技 - 互联网|电子商务</label>
+                        <br>
+                        <label>名称：拼车请求发布成功通知</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼车加入提醒</label>
+                    <div class="col-sm-10">
+                        <input name="join_notice" value="{$message['join_notice']}" class="form-control" placeholder="请输入车主发布拼车成功模板消息ID" />
+                        <label>行业：IT科技 - 互联网|电子商务</label>
+                        <br>
+                        <label>名称：拼车加入提醒</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">拼车结果通知</label>
+                    <div class="col-sm-10">
+                        <input name="join_result" value="{$message['join_result']}" class="form-control" placeholder="请输入车主发布拼车成功模板消息ID" />
+                        <label>行业：IT科技 - 互联网|电子商务</label>
+                        <br>
+                        <label>名称：拼车结果通知</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-default" name="submit" value="设置">
+                        <input type="hidden" name="token" value="{$_W['token']}" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{else if $op == 'sm'}
+<div id="info_panel_1" class="panel panel-default">
+    <div class="panel-heading">
+        启用短信通知：
+        <input type="checkbox" name="sms_on" value="1" {if intval($message['sms_on'])=='1'} checked="checked" {/if} />
+    </div>
+    <div class="panel-body" {if intval($message['sms_on'])=='0'} style="display:none" {/if}>
+        <form class="form-horizontal" role="form" action="" method="POST">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">聚合key</label>
+                <div class="col-sm-10">
+                    <input name="juhe_key" value="{$message['juhe_key']}" class="form-control" placeholder="请输入聚合平台分配的key" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">拼车发布成功模板ID</label>
+                <div class="col-sm-10">
+                    <input name="release_success_juhe_id" value="{$message['release_success_juhe_id']}" class="form-control" placeholder="请输入车主发布拼车成功模板消息ID" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">拼车加入提醒模板ID</label>
+                <div class="col-sm-10">
+                    <input name="join_notice_juhe_id" value="{$message['join_notice_juhe_id']}" class="form-control" placeholder="请输入车主发布拼车成功模板消息ID" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">拼车结果通知模板ID</label>
+                <div class="col-sm-10">
+                    <input name="join_result_juhe_id" value="{$message['join_result_juhe_id']}" class="form-control" placeholder="请输入车主发布拼车成功模板消息ID" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" class="btn btn-default" name="submit" value="设置">
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+$(function(){
+    require(['bootstrap.switch'], function() {
+        $(":checkbox[name='sms_on']").bootstrapSwitch();
+        $(':checkbox').on('switchChange.bootstrapSwitch', function(e, state){
+            $this = $(this);
+            var status = this.checked ? 1 : 0;
+            $.post("{php echo $this->createWeburl('message', array('op' => 'sms_control'));}", {status:status}, function(resp){
+                resp = $.parseJSON(resp);
+                if(resp.message.errno != 0) {
+                    util.message('操作失败, 请稍后重试.')
+                } else {
+                    util.message('操作成功！', '', 'success');
+                    if(status == 1) {
+                        $("#info_panel_1 .panel-body").show();
+                    } else {
+                        $("#info_panel_1 .panel-body").hide();
+                    }
+                }
+            });
+        });
+    })
+})
+</script>
+{/if}

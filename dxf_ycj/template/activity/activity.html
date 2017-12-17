@@ -1,0 +1,173 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	
+	<li {if $operation == 'gushi'}class="active"{/if}><a href="{php echo $this->createWebUrl('activity', array('op' => 'gushi'))}">征集列表</a></li>
+
+</ul>
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+{if $operation == 'gushi'}
+<div class="main" style="margin-top:2px;height:auto;">
+	<div class="panel panel-info">
+	<div class="panel-heading">总计报名人数：<span style="color:red;">{$total}</span></div>
+	<div class="panel-body" style="height:auto;">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="dxf_ycj" />
+			<input type="hidden" name="do" value="activity" />
+			<input type="hidden" name="op" value="gushi" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">区域</label>
+				<div class="col-sm-7 col-xs-12">
+					<select name="status" class='form-control'>
+
+							<option value="0" >全部</option>
+							<option value="1" style="color:#C60A27;" {if $_GPC['status'] ==1 } selected{/if}>未联系</option>
+							<option value="2" style="color:#C60A27;" {if $_GPC['status'] ==2 } selected{/if}>已联系</option>
+							<option value="3" style="color:#C60A27;" {if $_GPC['status'] ==3 } selected{/if}>有效</option>
+							<option value="4" style="color:#C60A27;" {if $_GPC['status'] ==4 } selected{/if}>无效</option>
+							
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">报名日期</label>
+				<div class="col-sm-7 col-xs-12">
+					 {php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d H:i', $starttime),'endtime'=>date('Y-m-d H:i', $endtime)),true);}
+				</div>
+				
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="main">
+	<div class="category">
+
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:12%;">序号</th>
+								<th style="width:12%;">姓名</th>
+								<th style="width:12%;">电话</th>
+								<th style="width:15%;">qq</th>
+								<th style="width:10%;;">微信</th>
+								<th style="width:12%;">状态</th>
+								<th style="width:12%;">报名时间</th>
+								<th style="width:8%;">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $list $row}
+						<tr>
+							<td>{$row['id']}</td>
+							<td>{$row['name']}</td>
+							<td>{$row['phone']}</td>
+							<td>{$row['qq']}</td>
+							<td>{$row['wchat']}</td>
+							<td>
+								{if $row['status']==1}
+								<span class='label label-default'>未联系</span>
+								{elseif $row['status']==2}
+								<span class='label  label-info'>已联系</span>
+								{elseif $row['status']==3}
+								<span class='label label-success'>有效</span>
+								{elseif $row['status']==4}
+								<span class='label label-danger'>无效</span>
+								{/if}
+							</td>
+							<td>{php echo date('Y-m-d H:i:s',$row['ctime'])}</td>
+							<td>
+								<a href="{php echo $this->createWebUrl('activity', array('op' => 'dogushi', 'id' => $row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+							</td>
+						</tr>
+
+						
+						
+						{/loop}
+						
+					
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function setProperty(obj,id,type){
+		$(obj).html($(obj).html() + "..");
+		$.post("{php echo $this->createWebUrl('setstatus')}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("..",""));
+				if(type=='ad_hot'){
+				 $(obj).html( d.data=='1'?'推荐':'推荐');
+				}
+
+				if(type=='ad_status'){
+				 $(obj).html( d.data=='1'?'正常':'违规');
+				}
+				$(obj).attr("data",d.data);
+
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+
+</script>
+{elseif $operation == 'dogushi'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1" onsubmit="return formcheck();">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				编辑招聘信息
+			</div>
+			<div class="panel-body">
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐：</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='1' {if $list['status']==1}checked{/if}/> 未联系
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='2' {if $list['status']=='2'}checked{/if} /> 已联系
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='3' {if $list['status']=='3'}checked{/if} /> 有效
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='status' value='4' {if $list['status']=='4'}checked{/if} /> 无效
+						</label>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1 " />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+
+{/if}
+{template 'common/footer'}

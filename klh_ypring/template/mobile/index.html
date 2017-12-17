@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta content="" name="keywords">
+    <link rel="stylesheet" href="/addons/klh_ypring/public/css/register-wap.css" />
+    <link rel="stylesheet" href="/addons/klh_ypring/public/css/LArea.css">
+    <script type="text/javascript" src="/addons/klh_ypring/public/js/jquery.min.js"></script>
+    <script src="/addons/klh_ypring/public/js/LAreaData1.js"></script>
+    <script src="/addons/klh_ypring/public/js/LAreaData2.js"></script>
+    <script src="/addons/klh_ypring/public/js/LArea.js"></script>
+    <script src="/addons/klh_ypring/public/js/jquery-1.8.3-min.js"></script>
+    <style type="text/css">
+        .register-item{
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin:0 auto;width:90%;">
+        {if $operation == 'display'}
+        <form action="#" id="register_form" autocomplete="off" method="post">
+        <section class="register-btn" style="text-align:center;font-size:20px;font-weight:600;">
+            提取门票填写
+        </section>
+         <section class="phone-register">
+            <div class="register-item">
+                <div class="inputs ">
+                    <label for="phone">姓名：</label>
+                    <input type="text" class="form-control" id="uname" name="uname" />
+                </div>
+                <div class="tip"></div>
+            </div>
+            <div class="register-item">
+                <div class="inputs ">
+                    <label for="phone">手机号：</label>
+                    <input type="text" class="form-control" id="phone" name="phone" />
+                </div>
+                <div class="tip"></div>
+            </div>
+            
+            <div class="register-item ">
+                <div class="inputs verifycode-inputs">
+                    <label for="phone_vcode">验证码：</label>
+                    <input type="text" name="code" class="form-control" id="code">
+                    <input id="getcode" class="zphone" type="button" value="获取验证码" onclick="get_mobile_code();"/>
+                   
+                    
+                </div>
+                <div class="tip"></div>
+            </div>
+            <!-- 用户名 -->
+            <div class="register-item">
+                <div class="inputs ">
+                    <label for="username" style="width:80px;">公司名称：</label>
+                    <input type="text" class="form-control" name="company" id="company" />
+                </div>
+                <div class="tip"></div>
+            </div>
+            <div class="register-item">
+                <div class="inputs ">
+                    <label for="username">地址：</label>
+                    <input id="demo1" type="text" readonly="" placeholder="选择城市"  value="" />
+                    <input id="value1" type="hidden" value=""/>
+                </div>
+                <div class="tip"></div>
+            </div>
+            <div class="register-item">
+                <div class="inputs ">
+                    <label for="username">街道：</label>
+                    <input type="text" class="form-control" name="address" id="address" />
+                </div>
+                <div class="tip"></div>
+            </div>
+        </section>
+        <section class="register-btn">
+            <button type="button" id="submit" onClick="ressumit();" style="background-color:#FF7F00;">领取门票</button>
+        </section>
+        </form>
+        {elseif $operation == 'complete'}
+         <section class="register-btn" style="text-align:center;font-size:20px;font-weight:600;margin-top:100px;color:green;">
+            恭喜你，信息提交成功！
+        </section>
+        {/if}
+    </div>
+
+<script type="text/javascript">
+function ressumit(){
+
+    var reg =/^1[34578]\d{9}$/;
+    if($('#uname').val()==''){
+        alert("名字不能为空！");
+        return false;
+    }
+    else if(!reg.test($('#phone').val())){
+        alert("电话格式不正确！");
+        return false;
+    }
+
+    else if($('#code').val()==''){
+        alert("验证码不能为空！");
+        return false;
+    }
+    else if($('#company').val()==''){
+        alert("公司名称不能为空！");
+        return false;
+    }
+    else if($('#demo1').val()==''){
+        alert("地址不能为空！");
+        return false;
+    }
+    else if($('#address').val()==''){
+        alert("街道不能为空！");
+        return false;
+    }
+    else {
+            $.post("{php echo $this->createMobileurl('index',array('op'=>'doindex'))}",{
+                    uname:$('#uname').val(),
+                    phone:$('#phone').val(),
+                    code:$('#code').val(),
+                    company:$('#company').val(),
+                    location:$('#demo1').val(),
+                    address:$('#address').val(),
+                },function(resp) {
+                    resp = $.parseJSON(resp);
+                    if(resp.message.errno == '0') {
+                        alert("信息提交成功！");
+                        location.href="{php echo $this->createMobileurl('index',array('op'=>'complete'))}";
+                        
+                    }else{
+                        alert(resp.message.message);
+                    }
+                }
+            );
+        }
+}
+    /*验证码*/
+function get_mobile_code(){
+   
+    var phone=$("#phone").val();
+   var reg=/^1[34578]\d{9}$/;
+    if (!reg.test(phone)){
+        alert("电话格式不正确");
+    }else{
+        
+        $.post("{php echo $this->createMobileurl('sms')}",{phone:$("#phone").val()}, function(msg){
+            msg = $.parseJSON(msg);
+            if(msg.message.errno==0){
+                alert('发送成功,请注意查收短信');
+                RemainTime();
+            }else{
+                RemainTime();
+                alert('测试验证码-'+msg.message.message);
+            }
+        });
+    }
+  
+    
+}
+/*验证码倒计时*/
+var iTime = 59;
+var Account;
+function RemainTime(){
+    document.getElementById('getcode').disabled = true;
+    var iSecond,sSecond="",sTime="";
+    if (iTime >= 0){
+        iSecond = parseInt(iTime%60);
+        iMinute = parseInt(iTime/60);
+        if (iSecond >= 0){
+            if(iMinute>0){
+                sSecond = iMinute + "分" + iSecond + "秒";
+            }else{
+                sSecond = iSecond + "秒后重发";
+            }
+        }
+        sTime=sSecond;
+        if(iTime==0){
+            clearTimeout(Account);
+            sTime='获取验证码';
+            iTime = 59;
+            document.getElementById('getcode').disabled = false;
+        }else{
+            Account = setTimeout("RemainTime()",1000);
+            iTime=iTime-1;
+        }
+    }else{
+        sTime='获取验证码';
+    }
+    document.getElementById('getcode').value = sTime;
+}
+
+var area1 = new LArea();
+    area1.init({
+        'trigger': '#demo1', //触发选择控件的文本框，同时选择完毕后name属性输出到该位置
+        'valueTo': '#value1', //选择完毕后id属性输出到该位置
+        'keys': {
+            id: 'id',
+            name: 'name'
+        }, //绑定数据源相关字段 id对应valueTo的value属性输出 name对应trigger的value属性输出
+        'type': 1, //数据源类型
+        'data': LAreaData //数据源
+    });
+    area1.value=[1,13,3];//控制初始位置，注意：该方法并不会影响到input的value
+</script>
+</body>
+</html>

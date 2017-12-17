@@ -1,0 +1,341 @@
+{template 'common/header'}
+<ul class="nav nav-tabs" role="tablist">
+	<li role="presentation" class="active"><a href="#setting" aria-controls="setting" role="tab" data-toggle="tab">通用设置</a></li>
+	<li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">首页设置</a></li>
+	<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">费用设置</a></li>
+	<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">会员中心设置</a></li>
+	<li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">其他设置</a></li>
+	<li role="presentation"><a href="#guanzhu" aria-controls="guanzhu" role="tab" data-toggle="tab">强制关注</a></li>
+</ul>
+<div class="main">
+<form action="" method="post" class="form-horizontal form" id="setting-form">
+  <div class="tab-content">
+  	<div role="tabpanel" class="tab-pane active" id="setting">    	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">网站名称</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[site_title]" class="form-control" value="{$settings['site_title']}" />
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">网站分享标题</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[share_title]" class="form-control" value="{$settings['share_title']}" />
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">网站分享描述</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[share_desc]" class="form-control" value="{$settings['share_desc']}" />
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">网站分享图标</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_image('data[share_thumb]', $settings['share_thumb']);}						
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">网站分享外部链接</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[share_url]" class="form-control" value="{$settings['share_url']}" placeholder="不填则粉丝分享后打开首页" />
+				<div class="help-block">如果这里填写的百度网站，粉丝分享后，其他人打开就是百度网站</div>
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">关注文字</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[subscribe_title]" class="form-control" value="{$settings['subscribe_title']}" placeholder="" />
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">关注二维码</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_image('data[ewm]', $settings['ewm']);}	
+			</div>
+		</div>			
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">关注链接</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[subscribe_url]" class="form-control" value="{$settings['subscribe_url']}" placeholder="" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">全站公告设置</label>
+			<div class="col-sm-8">
+				 <textarea  name="data[index_gg]" type="text" style='height:150px' class="form-control richtext-clone" placeholder="" name="content">{$settings['index_gg']}</textarea>				
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">全站公告链接</label>
+			<div class="col-sm-8">				
+				 <input type="text" name="data[index_gg_url]" class="form-control" value="{$settings['index_gg_url']}" placeholder="" />
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">全站版权设置</label>
+			<div class="col-sm-8">				
+				 <input type="text" name="data[copyright]" class="form-control" value="{$settings['copyright']}" placeholder="" />
+			</div>
+		</div>		
+    </div>
+    <div role="tabpanel" class="tab-pane" id="home">
+    	<div class="form-group">
+		<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">首页顶部左上角logo设置</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_image('data[logo]', $settings['logo']);}	
+				<div class="help-block">87px*18px</div>						
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">首页推荐个数</label>
+			<div class="col-sm-8">
+				 <input  name="data[list]" type="text"  class="form-control richtext-clone" placeholder="" name="list" value="{$settings['list']}">
+				 <div class="help-block">最多20个,默认6个,3的倍数</div>
+			</div>
+		</div>		
+    </div>
+    <div role="tabpanel" class="tab-pane" id="profile">
+    		
+				<div class="panel panel-info">
+				<div class="panel-heading">费用说明</div>  
+				<div class="panel-body">
+					支付参数如果全部开启，必须所有开通的项目都要有价格和积分，如果开启单独一个，设置对应的积分或者金额<br>
+					开通费用按天购买，如果填写 前台会员开通处会出现按天购买，否则不会出现
+				</div>
+				</div> 
+			
+
+    		<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">支付参数设置</label>
+				<div class="col-sm-8">
+				<label class="radio-inline"><input type="radio" value="0"  name="data[pay_settings]" {if !$settings['pay_settings']}checked{/if}>全部开启</label>
+	            <label class="radio-inline"><input type="radio" value="1" name="data[pay_settings]"  {if $settings['pay_settings'] == 1 }checked{/if}>只开启金额兑换</label>
+	            <label class="radio-inline"><input type="radio" value="2" name="data[pay_settings]"  {if $settings['pay_settings'] == 2 }checked{/if}>只开启积分兑换</label>
+				<span class="help-block">这里设置的是 会员开通界面，用什么来兑换会员</span>
+				</div>
+			</div>
+
+    		<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">免费看视频次数</label>
+					<div class="col-sm-8">
+						<input type="text" name="data[free_num]" class="form-control" value="{$settings['free_num']}" />
+					</div>
+				</div>	
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">开通会员费用设置/天</label>
+				<div class="col-sm-8">
+					<input type="text" name="data[fee]" class="form-control" value="{$settings['fee']}" placeholder="每天多少元" />
+
+				</div>
+			</div>	
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">积分开通会员费用设置/天</label>
+				<div class="col-sm-8">
+					<input type="text" name="data[credit_vip]" class="form-control" value="{$settings['credit_vip']}" placeholder="每天多少积分,建议设置整数" />
+					<div class="help-block">不填会员开通界面不会显示</div>
+				</div>
+			</div>			
+			{php $card = iunserializer($settings['card'])}  
+			{php $card_day = 'card_day[]'}
+			<div id="card-url">
+				{loop $card $key $val}
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员卡开通，填写数字即可</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon">文字</span>
+							<input type="text" name="card_title[]" class="form-control" value="{$val['card_title']}">
+							<span class="input-group-addon">天数</span>
+							<input type="text" name="card_day[]" class="form-control" value="{$val['card_day']}">
+							<span class="input-group-addon">价格</span>
+							<input type="text" name="card_fee[]" class="form-control" value="{$val['card_fee']}">
+							<span class="input-group-addon">兑换积分</span>
+							<input type="text" name="card_credit[]" class="form-control" value="{$val['card_credit']}">
+						</div>
+					</div>
+					<div class="col-sm-1" style="margin-top:5px">
+						<a href="javascript:;" class="card-url-del"><i class="fa fa-times-circle"></i> </a>
+					</div>
+				</div>
+				{/loop}
+			</div>
+			<div id="card_tpl" {if $card}style="display: none"{/if}>
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员卡</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon">文字</span>
+							<input type="text" name="card_title[]" class="form-control">
+							<span class="input-group-addon">天数</span>
+							<input type="text" name="card_day[]" class="form-control" value="">
+							<span class="input-group-addon">价格</span>
+							<input type="text" name="card_fee[]" class="form-control" value="">
+							<span class="input-group-addon">兑换积分</span>
+							<input type="text" name="card_credit[]" class="form-control" value="">
+						</div>
+					</div>
+					<div class="col-sm-1" style="margin-top:5px">
+						<a href="javascript:;" class="card-url-del"><i class="fa fa-times-circle"></i> </a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9 col-xs-12">
+					<a href="javascript:;" id="card-url-add"><i class="fa fa-plus-circle"></i> 继续添加</a>						
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">开通会员费用说明</label>
+				<div class="col-sm-8">
+					{php echo tpl_ueditor('data[shuoming]', $settings['shuoming']);}		
+				</div>
+			</div>			
+    </div>
+    <div role="tabpanel" class="tab-pane" id="messages">	
+    		<!-- <div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">是否关闭会员中心</label>
+				<div class="col-sm-8">
+				<label class="radio-inline"><input type="radio" value="0"  name="data[member_settings]" {if !$settings['member_settings']}checked{/if}>开启</label>
+	            <label class="radio-inline"><input type="radio" value="1" name="data[member_settings]"  {if $settings['member_settings'] == 1 }checked{/if}>关闭</label>	           
+				<span class="help-block">这里设置的是 会员中心关闭</span>
+				</div>
+			</div>	 -->	
+			{php $member = iunserializer($settings['member'])}  
+			{php $link = 'member_link[]'}
+			<div id="custom-url">
+				{loop $member $key $val}
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员页面自定义链接</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon">链接文字</span>
+							<input type="text" name="member_title[]" class="form-control" value="{$val['member_title']}">
+							<span class="input-group-addon">链接地址</span>
+							{php echo tpl_form_field_link($link, $val['member_link'] ,array('css'=>array('input'=>'class1', 'btn'=>'class2')));}
+						</div>
+					</div>
+					<div class="col-sm-1" style="margin-top:5px">
+						<a href="javascript:;" class="custom-url-del"><i class="fa fa-times-circle"></i> </a>
+					</div>
+				</div>
+				{/loop}
+			</div>
+			<div id="tpl" {if $member}style="display: none"{/if}>
+				<div class="form-group item">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员页面自定义链接</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon">链接文字</span>
+							<input type="text" name="member_title[]" class="form-control">
+							<span class="input-group-addon">链接地址</span>
+							{php echo tpl_form_field_link($link,'' ,array('css'=>array('input'=>'class1', 'btn'=>'class2')));}
+						</div>
+					</div>
+					<div class="col-sm-1" style="margin-top:5px">
+						<a href="javascript:;" class="custom-url-del"><i class="fa fa-times-circle"></i> </a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+				<div class="col-sm-9 col-xs-12">
+					<a href="javascript:;" id="custom-url-add"><i class="fa fa-plus-circle"></i> 继续添加</a>
+					<span class="help-block">该链接将在会员页面显示</span>
+				</div>
+			</div>
+   		 </div>
+    <div role="tabpanel" class="tab-pane" id="settings">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">管理员openid</label>
+			<div class="col-sm-8">
+			<input type="text" name="data[kf_id]" class="form-control" value="{$settings['kf_id']}" />
+			<span class="help-block">请在粉丝营销->粉丝->右侧列表查看内->复制粉丝编号</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">模板消息</label>
+			<div class="col-sm-8">
+			<input type="text" name="data[tpl_id]" class="form-control" value="{$settings['tpl_id']}" />
+			<span class="help-block">请在“微信公众平台”选择行业为：“IT科技 - 互联网|电子商务”，添加标题为：”任务处理通知“，编号为：“OPENTM200605630”的模板</span>
+			<span class="help-block">提醒会员到期或者开通通知，不填且公众号是认证订阅号或者认证服务号，会发送客服消息</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">自定义解析接口</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[api]" class="form-control" value="{$settings['api']}" />					
+			<span class="help-block">不懂忽填</span>
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">百度云解析接口</label>
+			<div class="col-sm-8">
+				<input type="text" name="data[baidu_api]" class="form-control" value="{$settings['baidu_api']}" />					
+			<span class="help-block">需要自行购买，如果使用请联系</span>
+			</div>
+		</div>					
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">内容页广告链接</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_link('data[ad_link]', $settings['ad_link']);}	
+			</div>
+		</div>	
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">内容页广告图片</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_image('data[ad_thumb]', $settings['ad_thumb']);}	
+			</div>
+		</div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="guanzhu">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">是否开启</label>
+			<div class="col-sm-8">
+			<label class="radio-inline"><input type="radio" value="0"  name="data[guanzhu]"  {if !$settings['guanzhu']}checked{/if}>关闭</label>
+            <label class="radio-inline"><input type="radio" value="1" name="data[guanzhu]"  {if $settings['guanzhu'] == 1 }checked{/if}>开启</label>
+			<span class="help-block">这里的关注只适用于，视频观看页，备注（认证服务号才能使用），其他号请忽视</span>
+			</div>
+		</div>		
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">关注图片二维码</label>
+			<div class="col-sm-8">
+				{php echo tpl_form_field_image('data[guanzhu_ewm]', $settings['guanzhu_ewm']);}	
+				<span class="help-block">强制关注，容易封号，请尽量设计一个不会引起粉丝反感的图片，进行关注，否则容易封号</span>
+			</div>
+		</div>
+    </div>
+  </div>
+</div>
+<div class="panel panel-default">
+	
+	<div class="panel-body">				
+		<div class="form-group">
+			<div class="col-xs-12 col-sm-9 col-md-10 col-lg-10 col-sm-offset-3 col-md-offset-2 col-lg-offset-2">
+				<input name="submit" type="submit" value="提交" class="btn btn-primary" />
+				<input type="hidden" name="token" value="{$_W['token']}" />
+			</div>
+		</div>
+	</div>
+</div>
+</form>
+</div>
+<script type="text/javascript">
+	$('#custom-url-add').click(function(){
+			var html = $("#tpl").html();
+			$('#custom-url').append(html);
+		});
+	$('#card-url-add').click(function(){
+			var html = $("#card_tpl").html();
+			console.log(html);
+			$('#card-url').append(html);
+		});
+	$(document).on('click', '.remind-reply-del, .comment-reply-del, .times-del, .custom-url-del, .card-url-del', function(){
+			$(this).parent().parent().remove();
+			return false;
+		});
+
+</script>
+{template 'common/footer'}

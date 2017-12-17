@@ -1,0 +1,163 @@
+{template 'common/header'}
+<style>
+.head{
+	line-height: 40px;
+	background-color: #FEB930;
+	color:white;
+	font-weight: bold;
+}
+body {
+	background-color: #F8F8F8;
+}
+</style>
+<div style="height:40px;background-color: #707070">
+   	<div style="width:40px;height:40px;line-height: 40px;text-align: center;color:white" onclick="history.go(-1)">
+       	<i class="fa fa-arrow-left"></i>
+   	</div>
+   	<div style="height:40px;line-height: 40px;font-size:17px;position: relative;top:-40px;color:white;margin-left:40px;font-weight: bold">
+        确认拼车
+   	</div>
+</div>
+<div style="padding:10px;color:#5373EE">出行信息</div style="padding:10px">
+<form class="mui-input-group">
+    <div class="mui-input-row">
+        <label>出发站</label>
+        <input type="text" value="{$travel['departure_station']}" disabled class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label>终点站</label>
+        <input type="text" value="{$travel['terminal_station']}" disabled class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label>人数</label>
+        <input type="text" value="{$travel['amount']}" disabled class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label>发车时间</label>
+        <input type="text" value="{php echo date('Y-m-d H:i:s',$travel['departure_time']);}" disabled class="mui-input-clear">
+    </div>
+    <div class="mui-input-row">
+        <label>登车地点</label>
+        <input type="text" value="{$travel['boarding_place']}" disabled class="mui-input-clear">
+    </div>
+</form>
+<style>
+    .member {
+        margin:0px 10px 10px 10px;
+        border-radius:5px;
+        border:1px #EFEFEF solid;
+        background-color: white;
+        padding: 10px 10px 10px 10px;
+    }
+    .member div:nth-child(2) {
+        color:#F3F3F3;
+    }
+    .member_active {
+        border:1px {$conf['color']} solid;
+    }
+    .member_active div:nth-child(2) {
+        color:{$conf['color']};
+    }
+</style>
+<label style="margin-top:20px"><i class="fa fa-star"></i>请确认车主信息，选择要拼的车辆</label>
+{loop $member $index $item}
+    <div class="member" id="member_{$item['id']}" onclick="sel_member({$item['id']})">
+        <div style="margin:0px 40px 0px 0px;border-right: 1px #F3F3F3 solid">
+            <div>
+                车型：{$item['car_series']}
+            </div>
+            <div>
+                可拼乘客数：{$item['passenger_count']}
+            </div>
+            <div>
+                车主：{$item['owner_name']}&nbsp;<a href="tel:{$item['owner_tel']}">{$item['owner_tel']}</a>
+            </div>
+            <div>
+                价格：¥<span style="color:red" id="price_{$item['id']}">{$item['price']}</span>
+            </div>
+        </div>
+        <div style="margin: -50px 0px 0px auto;width:40px;height:50px;text-align: center">
+            <span class="mui-icon mui-icon-checkmarkempty"></span>
+        </div>
+    </div>
+{/loop}
+<script>
+var selected_member = 0;
+function sel_member(id) {
+    $("div[id^='member_']").each(function(){
+        $(this).removeClass('member_active');
+    })
+    $("#member_"+id).addClass('member_active');
+    $("#price").html(parseFloat($("#price_"+id).html())*parseInt({$travel['amount']}));
+    $("#need_pay").html(parseFloat($("#price_"+id).html())*parseInt({$travel['amount']}));
+    selected_member = id;
+}
+</script>
+<div>
+    <ul class="mui-table-view mui-table-view-radio">
+        <li value="9" class="mui-table-view-cell mui-selected">
+            <a class="mui-navigate-right">线下支付</a>
+        </li>
+        <li value="0" class="mui-table-view-cell">
+            <a class="mui-navigate-right">余额支付</a>
+        </li>
+        <li value="1" class="mui-table-view-cell">
+            <a class="mui-navigate-right">微信支付</a>
+        </li>
+    </ul>
+</div>
+<script>
+    var list = document.querySelector('.mui-table-view.mui-table-view-radio');
+    var pay_mode = 9;
+    list.addEventListener('selected',function(e){
+        pay_mode = e.detail.el.value;
+    });
+</script>
+<div style="height:200px"></div>
+<div style="position: fixed;height:120px;bottom:0px;width:100%;background-color: white">
+    <div style="height:30px;line-height: 30px;margin:0px 10px">
+        拼车价格：¥<span id="price" style="color:red">--</span>
+    </div>
+    <div style="height:30px;line-height: 30px;margin:0px 10px">
+        需支付：¥<span id="need_pay" style="color:red">--</span>
+   	</div>
+    <form id="pay_form" action="{php echo url('mc/cash/wechat');}" method="post">
+        <input type="hidden" name="params" value="" />
+        <input type="hidden" name="code" value="" />
+        <input type="hidden" name="coupon_id" value="" />
+    </form>
+   	<div style="margin:0px 10px">
+        <button type="button" class="mui-btn mui-btn-block mui-disabled js-wechat-pay" style="background-color: #5373EE;color:white">确认</button>
+   	</div>
+</div>
+<script>
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    $('.js-wechat-pay').removeClass('mui-disabled');
+    $('.js-wechat-pay').click(function(){
+        if(selected_member == 0) {
+            alert("请选择拼车！");
+        } else {
+            $.post("{php echo $this->createMobileurl('confirm',array('op'=>'confirm'))}",{
+                    member_id:selected_member,
+                    pay_mode:pay_mode,
+                    travel_id:{$_GPC['id']},
+                    to_pay:parseFloat($("#need_pay").html())
+                },function(resp) {
+                    resp = $.parseJSON(resp);
+                    if(resp.message.errno == '0') {
+                        mui.alert("恭喜你，拼车成功！",function(){
+                            location.href="{php echo $this->createMobileurl('my_travel')}"
+                        });
+                    } else if (resp.message.errno == '1') {
+                        mui.alert(resp.message.message);
+                    } else if (resp.message.errno == '2') {
+                        reply = resp.message.message;
+                        $("input[name='params']").val(reply.params);
+                        $("#pay_form").submit();
+                    }
+                }
+            );
+        }
+    });
+});
+</script>

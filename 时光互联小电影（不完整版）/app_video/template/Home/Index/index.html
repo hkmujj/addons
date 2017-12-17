@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	    <meta name="mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-capable" content="yes">
+	    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>啪啪影院</title>
+		<link rel="stylesheet" href="/public/css/framework7.ios.min.css">
+		<link rel="stylesheet" href="/public/css/framework7.ios.colors.min.css">
+		<link rel="stylesheet" href="/public/css/app.css">
+		<script src="/public/js/iconfont.js"></script>
+	</head>
+
+	<body>
+		<div class="statusbar-overlay"></div>
+		
+		<div class="views tabs toolbar-fixed">
+			<div id="tab1" class="view tab view-main active index-view">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left"></div>
+						<div class="center sliding">啪啪影院</div>
+						<div class="right">
+							<a href="/search/index.html">
+						        <svg class="icon icon-search" aria-hidden="true">
+						            <use xlink:href="#icon-search"></use>
+						        </svg>
+							</a>
+						</div>		
+						<div class="subnavbar">
+							<foreach name="cates" item="item">
+							<eq name="item.t_pid" value="0">
+							<a href="/lists/index/id/<{$item.t_id}>.html" class="item-link item-content">
+								<{$item.t_name}>
+							</a>
+							</eq>
+							</foreach>
+							<a href="/cates/index.html">
+						        <svg class="icon icon-cate" aria-hidden="true">
+						            <use xlink:href="#icon-cate"></use>
+						        </svg>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="index" class="page">
+						<div class="page-content with-subnavbar">
+							
+							<div class="index-swiper swiper-container swiper-init"  data-autoplay="2000"  data-speed="400" data-space-between="40" data-pagination=".swiper-pagination">
+								<div class="swiper-wrapper">
+									<foreach name="slide" item="item">
+									<div onclick="showPlay('<{$item.id}>');" class="swiper-slide">
+										<img src="<{$item.pic}>" />
+									</div>
+									</foreach>
+								</div>
+								<div class="swiper-pagination color-white"></div>
+							</div>
+
+							<div class="index-block-title">热门推荐</div>
+							<div class="list-block media-list ui-ma-0">
+								<ul>
+									<foreach name="hot" item="item">
+									<li>
+										<a href="/play/index/id/<{$item.d_id}>.html" class="item-link item-content">
+											<div class="item-media">
+												<img class="lazy lazy-fadeIn" data-src="<{$item.d_pic}>" width="75">
+											</div>
+											<div class="item-inner">
+												<div class="item-title"><{$item.d_name}></div>
+												<div class="item-subtitle">
+													<lt name="item.d_state" value="1">
+														<{$item.d_remarks}>
+													<else />
+														<if condition="$item['d_state'] lt 1000 AND $item['d_state'] gt 0">	
+															第<{$item['d_state']}>集
+														</if>
+														<if condition="$item['d_state'] gt 1000">	
+															<{$item['d_state']}>期
+														</if>
+														<if condition="$item['d_state'] eq 0 AND empty($item['d_remarks'])">	
+															大结局
+														</if>
+													</lt>
+												</div>
+												<div class="item-text">
+													年份：<eq name="item.d_year" value="0">未知<else /><{$item.d_year}></eq><br />
+													主演：<{$item.d_starring}></p>
+												</div>
+											</div>
+										</a>
+									</li>
+									</foreach>
+								</ul>
+							</div>
+							<div class="index-block-title ui-mt-10">最新更新</div>
+							<div class="list-block media-list ui-ma-0">
+								<ul>
+									<foreach name="new" item="item">
+									<li>
+										<a href="/play/index/id/<{$item.d_id}>.html" class="item-link item-content">
+											<div class="item-media">
+												<img class="lazy lazy-fadeIn" data-src="<{$item.d_pic}>" width="75" />
+											</div>
+											<div class="item-inner">
+												<div class="item-title"><{$item.d_name}></div>
+												<div class="item-subtitle">
+													<lt name="item.d_state" value="1">
+														<{$item.d_remarks}>
+													<else />
+														<if condition="$item['d_state'] lt 1000 AND $item['d_state'] gt 0">	
+															第<{$item['d_state']}>集
+														</if>
+														<if condition="$item['d_state'] gt 1000">	
+															<{$item['d_state']}>期
+														</if>
+														<if condition="$item['d_state'] eq 0 AND empty($item['d_remarks'])">	
+															大结局
+														</if>
+													</lt>
+												</div>
+												<div class="item-text">
+													年份：<eq name="item.d_year" value="0">未知<else /><{$item.d_year}></eq><br />
+													主演：<{$item.d_starring}></p>
+												</div>
+											</div>
+										</a>
+									</li>
+									</foreach>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<php>$i=1;</php>
+			<foreach name="navbar" item="nav">
+			<php>$i++;</php>
+			<div id="tab<{$i}>" class="view tab nav<{$i}>-view">
+				<div class="pages">
+					<div data-page="home" class="page">
+						<div class="navbar">
+							<div class="navbar-inner">
+								<div class="left"></div>
+								<div class="center">
+									<{$nav.name}>
+								</div>
+								<div class="right"></div>
+			
+								<div class="subnavbar">
+									<div class="buttons-row">
+										<a href="#tab<{$i}>1" class="tab-link active button">热门</a>
+										<a href="#tab<{$i}>2" class="tab-link button">最新</a>
+										<a href="#tab<{$i}>3" class="tab-link button">评分</a>
+									</div>
+								</div>
+			
+							</div>
+						</div>
+						<div class="page-content with-subnavbar tabs">
+							<div id="tab<{$i}>1" class="tab active">
+								<div class="content-block">
+									<php>$lst = $navlist[$nav['id']]['hot']</php>
+									<div class="list-block media-list">
+										<ul>
+											<foreach name="lst" item="item">
+											<li>
+												<a href="javascript:showPlay('<{$item.d_id}>')" class="item-link item-content">
+													<div class="item-media">
+														<img class="lazy lazy-fadeIn" data-src="<{$item.d_pic}>" width="75" />
+													</div>
+													<div class="item-inner">
+														<div class="item-title"><{$item.d_name}></div>
+														<div class="item-subtitle">
+															<lt name="item.d_state" value="1">
+																<{$item.d_remarks}>
+															<else />
+																<if condition="$item['d_state'] lt 1000 AND $item['d_state'] gt 0">	
+																	第<{$item['d_state']}>集
+																</if>
+																<if condition="$item['d_state'] gt 1000">	
+																	<{$item['d_state']}>期
+																</if>
+																<if condition="$item['d_state'] eq 0 AND empty($item['d_remarks'])">	
+																	大结局
+																</if>
+															</lt>
+														</div>
+														<div class="item-text">
+															年份：<eq name="item.d_year" value="0">未知<else /><{$item.d_year}></eq><br />
+															主演：<{$item.d_starring}></p>
+														</div>
+													</div>
+												</a>
+											</li>
+											</foreach>
+										</ul>
+									</div>
+									<div class="text-center">
+										<a href="javascript:showMore('<{$nav.id}>')">更多精彩<{$nav.name}></a>
+									</div>
+								</div>
+							</div>
+							<div id="tab<{$i}>2" class="tab">
+								<div class="content-block">
+									<php>$lst = $navlist[$nav['id']]['new']</php>
+									<div class="list-block media-list">
+										<ul>
+											<foreach name="lst" item="item">
+											<li>
+												<a href="javascript:showPlay('<{$item.d_id}>')" class="item-link item-content">
+													<div class="item-media">
+														<img class="lazy lazy-fadeIn" data-src="<{$item.d_pic}>" width="75" />
+													</div>
+													<div class="item-inner">
+														<div class="item-title"><{$item.d_name}></div>
+														<div class="item-subtitle">
+															<lt name="item.d_state" value="1">
+																<{$item.d_remarks}>
+															<else />
+																<if condition="$item['d_state'] lt 1000 AND $item['d_state'] gt 0">	
+																	第<{$item['d_state']}>集
+																</if>
+																<if condition="$item['d_state'] gt 1000">	
+																	<{$item['d_state']}>期
+																</if>
+																<if condition="$item['d_state'] eq 0 AND empty($item['d_remarks'])">	
+																	大结局
+																</if>
+															</lt>
+														</div>
+														<div class="item-text">
+															年份：<eq name="item.d_year" value="0">未知<else /><{$item.d_year}></eq><br />
+															主演：<{$item.d_starring}></p>
+														</div>
+													</div>
+												</a>
+											</li>
+											</foreach>
+										</ul>
+									</div>
+									<div class="text-center">
+										<a href="javascript:showMore('<{$nav.id}>')">更多精彩<{$nav.name}></a>
+									</div>
+								</div>
+							</div>
+							<div id="tab<{$i}>3" class="tab">
+								<div class="content-block">
+									<php>$lst = $navlist[$nav['id']]['fen']</php>
+									<div class="list-block media-list">
+										<ul>
+											<foreach name="lst" item="item">
+											<li>
+												<a href="javascript:showPlay('<{$item.d_id}>')" class="item-link item-content">
+													<div class="item-media">
+														<img class="lazy lazy-fadeIn" data-src="<{$item.d_pic}>" width="75" />
+													</div>
+													<div class="item-inner">
+														<div class="item-title"><{$item.d_name}></div>
+														<div class="item-subtitle">
+															<lt name="item.d_state" value="1">
+																<{$item.d_remarks}>
+															<else />
+																<if condition="$item['d_state'] lt 1000 AND $item['d_state'] gt 0">	
+																	第<{$item['d_state']}>集
+																</if>
+																<if condition="$item['d_state'] gt 1000">	
+																	<{$item['d_state']}>期
+																</if>
+																<if condition="$item['d_state'] eq 0 AND empty($item['d_remarks'])">	
+																	大结局
+																</if>
+															</lt>
+														</div>
+														<div class="item-text">
+															年份：<eq name="item.d_year" value="0">未知<else /><{$item.d_year}></eq><br />
+															主演：<{$item.d_starring}></p>
+														</div>
+													</div>
+												</a>
+											</li>
+											</foreach>
+										</ul>
+									</div>
+									<div class="text-center">
+										<a href="javascript:showMore('<{$nav.id}>')">更多精彩<{$nav.name}></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</foreach>
+			
+			<div class="toolbar tabbar tabbar-labels">
+				<div class="toolbar-inner">
+					<a href="#tab1" class="tab-link active">
+				        <svg class="icon normal" aria-hidden="true">
+				            <use xlink:href="#icon-index"></use>
+				        </svg>
+				        <svg class="icon fill" aria-hidden="true">
+				            <use xlink:href="#icon-index-fill"></use>
+				        </svg>
+				        <span class="tabbar-label">推荐</span>
+					</a>
+					<php>$i=1;</php>
+					<foreach name="navbar" item="item">
+					<php>$i++;</php>
+					<a href="#tab<{$i}>" class="tab-link">
+				        <svg class="icon normal" aria-hidden="true">
+				            <use xlink:href="#icon-<{$item.icon}>"></use>
+				        </svg>
+				        <svg class="icon fill" aria-hidden="true">
+				            <use xlink:href="#icon-<{$item.icon}>-fill"></use>
+				        </svg>
+						<span class="tabbar-label"><{$item.name}></span>
+					</a>
+					</foreach>
+				</div>
+			</div>	
+		</div>
+
+		
+		<script type="text/template7" id="vodTepmlate">		
+			{{#each result}}
+				<li>
+					<a href="/play/index/id/{{d_id}}.html" class="item-link item-content">
+						<div class="item-media">
+							<img src="{{d_pic}}" width="75" />
+						</div>
+						<div class="item-inner">
+							<div class="item-title">{{d_name}}</div>
+							<div class="item-subtitle">
+								<lt name="item.d_state" value="1">
+									<{$item.d_remarks}>
+								<else />
+									<if condition="$item['d_state'] lt 1000 AND $item['d_state'] gt 0">	
+										第<{$item['d_state']}>集
+									</if>
+									<if condition="$item['d_state'] gt 1000">	
+										<{$item['d_state']}>期
+									</if>
+									<if condition="$item['d_state'] eq 0 AND empty($item['d_remarks'])">	
+										大结局
+									</if>
+								</lt>
+							</div>
+							<div class="item-text">
+								年份：{{d_year}}
+								主演：{{d_starring}}</p>
+							</div>
+						</div>
+					</a>
+				</li>
+			{{/each}}
+		</script>
+		
+		
+		<script src="/public/js/framework7.min.js"></script>
+		<script src="/public/js/sdk.js"></script>
+		<script>
+			var myApp = new Framework7({
+				precompileTemplates: true,
+				imagesLazyLoadSequential:true,
+				modalTitle:'友情提示',
+				modalButtonOk:'确定'
+			});
+			var $$ = Dom7;
+		   
+			var mainView = myApp.addView('.view-main', {
+		 		dynamicNavbar: true,
+			});
+			
+			
+			$$(document).on('pageInit', '.page[data-page="list"]', function (e) {	
+				var currentPage =$$(this);	
+				var cateId = currentPage.find(".currentId").val();
+				var loading = false;
+				var lastIndex = currentPage.find(".currentList li").length;
+				var p = currentPage.find(".currentPage").val();
+				var loadUrl = '/lists/ajaxlist.html';
+				$$.post(loadUrl,{'p':p,'cat':cateId},function(response){
+					currentPage.find(".currentList").html("");
+					var resArr = JSON.parse(response);
+					var html = Template7.templates.vodTepmlate(resArr);
+					currentPage.find(".currentList").append(html);
+					var pNext = parseInt(p) + 1;
+					currentPage.find(".currentPage").val(pNext);
+					var length =  currentPage.find(".currentList li").length;
+					if(length >= resArr.total){
+				      myApp.detachInfiniteScroll();
+				      currentPage.find(".infinite-scroll-preloader").remove();
+				      return;
+					}
+					loading = false;
+				});
+
+				currentPage.find('.infinite-scroll').on('infinite', function() {
+					var cateId = currentPage.find(".currentId").val();
+					if(loading) return;
+					loading = true;
+					var p = currentPage.find(".currentPage").val();
+					var loadUrl = '/lists/ajaxlist.html';
+					$$.post(loadUrl,{'p':p,'cat':cateId},function(response){
+						var resArr = JSON.parse(response);
+						var html = Template7.templates.vodTepmlate(resArr);
+						currentPage.find(".currentList").append(html);
+						var pNext = parseInt(p) + 1;
+						currentPage.find(".currentPage").val(pNext);
+						var length =  currentPage.find(".currentList li").length;
+						if(length >= resArr.total){
+					      myApp.detachInfiniteScroll();
+					      currentPage.find(".infinite-scroll-preloader").remove();
+					      return;
+						}
+						loading = false;
+					});
+				});
+				
+			});
+			
+			$$(document).on('submit', '.searchbar', function (e) {	
+				e.preventDefault();
+				var currentPage =$$("#search-page");	
+				var keyword = currentPage.find("#keyword").val();
+				var loading = false;
+				var lastIndex = currentPage.find(".currentList li").length;
+				var p = currentPage.find(".currentPage").val();
+				var loadUrl = '/search/ajaxlist.html';
+				$$.post(loadUrl,{'p':p,'keyword':keyword},function(response){
+					currentPage.find(".currentList").html("");
+					var resArr = JSON.parse(response);
+					if(resArr.result == ''){		
+						myApp.alert("没有找到内容","友情提示");
+						return false;
+					}
+					var html = Template7.templates.vodTepmlate(resArr);
+					currentPage.find(".currentList").append(html);
+					var pNext = parseInt(p) + 1;
+					currentPage.find(".currentPage").val(pNext);
+					var length =  currentPage.find(".currentList li").length;
+					if(length >= resArr.total){
+				      myApp.detachInfiniteScroll();
+				      currentPage.find(".infinite-scroll-preloader").remove();
+				      return;
+					}
+					loading = false;
+				});
+			
+				currentPage.find('.infinite-scroll').on('infinite', function() {
+					var keyword = currentPage.find("#keyword").val();
+					if(loading) return;
+					loading = true;
+					var p = currentPage.find(".currentPage").val();
+					var loadUrl = '/search/ajaxlist.html';
+					$$.post(loadUrl,{'p':p,'keyword':keyword},function(response){
+						var resArr = JSON.parse(response);
+						var html = Template7.templates.vodTepmlate(resArr);
+						currentPage.find(".currentList").append(html);
+						var pNext = parseInt(p) + 1;
+						currentPage.find(".currentPage").val(pNext);
+						var length =  currentPage.find(".currentList li").length;
+						if(length >= resArr.total){
+					      myApp.detachInfiniteScroll();
+					      currentPage.find(".infinite-scroll-preloader").remove();
+					      return;
+						}
+						loading = false;
+					});
+				});
+			
+			
+			});
+	
+			$$(document).on("click","#playList .item",function(){
+				var playUrl = $$(this).attr("rel-link");
+				console.log(playUrl);
+				$$("#playBox").attr("src",playUrl);
+			});
+
+
+			function showMore(id){
+				var url = "/lists/index/id/" + id + ".html";
+				mainView.router.loadPage(url);
+				myApp.showTab('#tab1');
+			}
+
+			function showPlay(id){
+				var url = "/play/index/id/" + id + ".html";
+				mainView.router.loadPage(url);
+				myApp.showTab('#tab1');
+			}
+
+        
+
+		</script>
+	</body>
+</html>

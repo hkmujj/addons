@@ -1,0 +1,68 @@
+<!DOCTYPE html><!-- html5标识 -->
+<html class="html-bg-2"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--每一款手机有不同的分辨率，不同屏幕大小，使我们开发出来的应用或页面大小能适合各种高端手机-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<title>{if !empty($set['name'])}{$set['name']}{else}疯狂拓客码上有客{/if}</title>
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/index.css">
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+</head>
+<body>
+  <style>
+      .html-bg-2{
+          width: 100%;
+          height: 100%;
+          /**background: -webkit-gradient(linear, left top, left bottom, from(#0BCCBA), to(#64BAFF));**/
+          background: -webkit-gradient(linear, left center, left bottom, from(#00BCD4),to(#03A9F4));
+          background: -moz-linear-gradient(top, #00BCD4, #03A9F4);
+      }
+  </style>
+<div class="back">
+    <header><div class="header-logo">用户登入</div></header>
+    <div   class="fom_info">
+        <ul class="index-reg-ul">
+            <li>
+                <i class="glyphicon glyphicon-user"></i>
+                <input type="text" name="user_name" value=""  class="login-inp user-input"  placeholder="填写账户">
+            </li>
+            <li>
+                <i class="glyphicon glyphicon-look"></i>
+                <input type="password" name="password" value=""  class="login-inp password-input" placeholder="填写授权码">
+            </li>
+        </ul>
+        <button type="button" class="post-form pull-right pos">立即登录</button>
+    </div>
+
+</div>
+<script>
+$('.pos').click(function(){
+	 var params = $("input").serialize();
+	 $.ajax({
+		type: "post",
+        url: "{php echo $this->createMobileUrl('user')}",
+        dataType: "json",
+        cache: false,
+        data: params,
+		success:function(data) {
+		if(data.status ==0){
+				window.location.href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs'),2)}";
+		}else if(data.status == 1){
+			  window.location.href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('index'),2)}";
+		  }else if (data.status==2){
+		    alert('登陆失败,请检查账号密码');
+		  }else if(data.status ==3){
+			alert('权限错误');
+		  }else if(data.status==4){
+			alert('帐号已失效,请联系管理员');
+		  }else if(data.status ==  5){
+			alert('账号服务期满,请联系管理员');
+		  }
+		}
+	 });
+});
+</script>
+</body>
+</html>

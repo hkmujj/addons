@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+	</head>
+<body>
+	
+ 	<div class="page-group">
+		<div class="page page-current">
+			
+			<header class="bar bar-nav">
+				<a class="button button-link button-nav pull-left back">
+					<span class="icon icon-left"></span>
+				</a>
+				<h1 class="title">视频分类</h1>
+			</header>
+			<nav class="bar bar-tab">
+				<a class="external tab-item" href="{php echo $this->createMobileurl('prise')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-movie"></use>
+			        </svg>
+					<span class="tab-label">神器</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('tv')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-tv"></use>
+			        </svg>
+					<span class="tab-label">电视</span>
+				</a>
+				<a class="external tab-item active" href="{php echo $this->createMobileurl('index')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-index-fill"></use>
+			        </svg>
+					<span class="tab-label">推荐</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('vip')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-vip"></use>
+			        </svg>
+					<span class="tab-label">VIP</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('user')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-user"></use>
+			        </svg>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<div class="content">
+				<div class="cate-list">
+					<ul>
+						{loop $types $item}
+						{if $item['t_pid'] == 0}
+						<li>
+							<dl>
+								<dt>
+									<h4>{$item['t_name']}</h4>
+									<a class="external" href="{php echo $this->createMobileurl('list',array('id' => $item['t_id']))}">
+										更多 >
+									</a>
+								</dt>
+								<dd>
+									{loop $types $var}
+									{if $var['t_pid'] == $item['t_id']}
+									<a class="external" href="{php echo $this->createMobileurl('list',array('id' => $var['t_id']))}">
+										{$var['t_name']}
+									</a>
+									{/if}
+									{/loop}
+								</dd>
+							</dl>
+						</li>
+						{/if}
+						{/loop}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/iconfont.js'></script>
+    <script src="{$_W['siteroot']}addons/time_tvod/static/js/common.js"></script>
+	{php echo register_jssdk(false);} 
+	<script>
+		wx.ready(function () {
+			wx.hideAllNonBaseMenuItem();
+		});
+	</script>
+</body>
+</html>

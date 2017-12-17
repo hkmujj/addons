@@ -1,0 +1,1105 @@
+<!DOCTYPE html><!-- html5标识 -->
+<html class="html-bg-2"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--每一款手机有不同的分辨率，不同屏幕大小，使我们开发出来的应用或页面大小能适合各种高端手机-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<title>{if !empty($set['name'])}{$set['name']}{else}疯狂拓客码上有客{/if}</title>
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/index.css">
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+	<script  src="{MODULE_URL}template/mobile/css/js/ajaxfileupload.js"></script>
+	<script  src="{MODULE_URL}template/mobile/css/js/fec.js"></script>
+	</head>
+<style>
+	.header-user div{
+		display:inline-block;
+		width: 49%;
+	}
+	.header-user{
+		background:-webkit-linear-gradient(30deg,#7dcdf8,#1298f1);
+		background:linear-gradient(30deg,#7dcdf8,#1298f1);
+		padding: 0.2rem 0.3rem;
+		color: #fff;
+		box-shadow: 0px 0px 6px rgba(53, 170, 244, 0.55);
+	}
+	.back-user{
+		display: inline-block;
+		vertical-align: middle;
+		line-height: 1rem;
+	}
+	.add-user{
+		text-align: right;
+	}
+	.add-user p{
+		display: inline-block;
+		background: rgba(0, 130, 214, 0.48);
+		padding: 0.2rem 0.5rem;
+		border-radius: 5px;
+		font-size: 15px;
+		vertical-align: middle;
+	}
+		.nav-user ul{
+		display: -webkit-box;
+		text-align: center;
+    	font-size: 14px;
+	}
+	.nav-user li{
+		width: 34%;
+	}
+	
+	.nav-user{
+		width: 100%!important;
+    	border-top: 1px solid rgba(255, 255, 255, 0.34);
+    /* padding-top: 0.3rem; */
+    	padding: 0.2rem 0.3rem 0 0.3rem;
+    	text-align: center;
+		font-size: 14px;
+		margin-top: 0.2rem;
+	}
+	.user-form{
+		padding: 0.2rem 0.5rem;
+	}
+	.user-form ul{
+		border-bottom: 1px solid rgba(187, 187, 187, 0.15);
+	}
+	.user-list{
+		line-height: 2rem;
+	}
+		.user-list ul{
+		display: -webkit-box;
+     	text-align: center; 
+    	font-size: 14px;
+	}.user-list ul li{
+		width: 34%;
+	}
+	.footer{
+	background: #f3f3f3;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: -225px;
+    color: #3a3a3a;
+    font-size: 14px;
+	display:none;
+	box-shadow: 0 0 6px rgba(117, 117, 117, 0.47);
+	}
+	.msg-nav{
+	border-bottom: 1px solid #fff;
+    padding: 0.5rem 0;
+	}
+	#msg-qx{
+	    background: #2ca5f3;
+    padding: 0.5rem 0;
+    color: #ffffff;
+	}
+		button{
+		outline: none;
+		border:none;
+		background: none;
+	}
+	.but-user{
+		text-align: center;
+    	margin-top: 2rem;
+		padding: 0 3rem;
+	}
+	.but-user button{
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-size: 15px;
+	}
+	.but-su{
+		background: rgb(241, 110, 101);
+	}
+	.but-wa{
+		background: rgba(31, 212, 38, 0.78);
+	}
+		.tc-users{
+		position: fixed;
+    	width: 100%;
+    	height: 100%;
+	}
+	.tc-u-a{
+    width: 80%;
+    margin: auto;
+    margin-top: 50%;
+    background: rgb(68, 181, 255);
+    color: #fff;
+    padding: 0.5rem 0.3rem;
+    /* border: 5px; */
+    /* border-top: 5px; */
+    border-radius: 5px 5px 0 0;
+	}
+	#msg-titel{
+		text-align: center;
+	}
+	#msg-content{
+		font-size: 15px;
+    	text-align: center;
+		margin: 0.5rem 0;
+	}
+	.but-tc{
+		width: 80%;
+    	margin: auto;
+    	text-align: center;
+    	color: #fff;
+	}
+	#esc{
+		 width: 50%;
+    	display: inline-block;
+    	background: #a0a0a0;
+    	padding: 0.4rem;
+    	border-radius: 0 0 0 5px;
+	}
+	#ok{
+		width: 50%;
+    display: inline-block;
+    background: #FF9800;
+    padding: 0.4rem;
+    border-radius: 0 0 5px 0;
+	}
+	.hide{
+	display:none;
+}
+.text-msg{
+    height: 275px;
+    width: 100%;
+    background: #f3f3f3;
+	    position: fixed;
+    bottom: -275px;
+	    box-shadow: 0 0 6px rgba(117, 117, 117, 0.47);
+
+}
+.text-msg-a{
+    padding: 0.5rem 1rem;
+}
+.text-titel{
+    margin-bottom: 0.5rem;
+	font-size: 15px;
+}
+.text-titel p{
+	display: inline-block;
+    width: 50%;
+}
+.text-titel p span{
+    background: #dcdcdc;
+    padding: 0.1rem 0.3rem;
+    border-radius: 5px;
+    color: #989898;
+}
+.out{
+    width: 100%;
+    height: 90px;
+    border-radius: 5px;
+	border: 1px solid #dcdcdc;
+}
+.text-wa{
+    font-size: 14px;
+    color: red;
+    width: 39%;
+    display: inline-block;
+	    
+}
+#selsadd{
+    width: 59%;
+    display: inline-block;
+    height: 35px;
+    /* text-align: center; */
+    border-radius: 5px;
+	margin-top: 0.3rem;
+	    border: 1px solid #dcdcdc;
+    color: #6d6d6d;
+}
+.post-msg{
+    background: #28a3f2;
+    text-align: center;
+    padding: 0.46rem 0;
+    color: #fff;
+    /*margin-top: 0.8rem;*/
+
+}
+#text-msg-i{
+    width: 100%;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    padding-left: 0.3rem;
+}
+.img-msg{
+    height: 200px;
+    width: 100%;
+    background: #f3f3f3;
+	position: fixed;
+    bottom: -275px;
+	    box-shadow: 0 0 6px rgba(117, 117, 117, 0.47);
+
+}
+.post-img{
+    width: 100%;
+    /* height: 35px; */
+    padding: 0.6rem;
+    background: #00BCD4;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+}
+.imgurl img{
+	width:100%;
+}
+#text-msg-is{
+	width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid #a5a5a5;
+    padding-left: 0.3rem;
+}
+.tar{
+	/*margin: 0.5rem 0;*/
+}
+#selsadds{
+    width: 59%;
+    display: inline-block;
+    height: 35px;
+    /* text-align: center; */
+    border-radius: 5px;
+    margin-top: 0.3rem;
+    border: 1px solid #dcdcdc;
+    color: #6d6d6d;
+}
+.imgurl::-webkit-scrollbar{
+  display:none;
+}
+#imggb{
+	position: absolute;
+    width: 90%;
+    text-align: right;
+    margin-top: 0.3rem;
+	display: none;
+}
+	.fcae{
+		font-size: 13px;
+		/* float: right; */
+		text-align: right;
+	}
+	.qq_face {
+		display:none;
+		overflow-x: hidden;
+		width: 100%;
+		height: 85px;
+		margin-right: -1px;
+	}
+	.qq_face  a {
+		float: left;
+		width: 28px;
+		height: 28px;
+		font-size: 0;
+		text-indent: -999em;
+		border-bottom: 1px solid #f0f0f0;
+		border-right: 1px solid #f0f0f0;
+		cursor: pointer;
+		background: url(//res.wx.qq.com/a/wx_fed/webwx/res/static/img/15BPafa.png) no-repeat;
+	}
+	.qq_face .qqface0 {
+		background-position: 0 0;
+	}
+	.qq_face .qqface1 {
+		background-position: -29px 0;
+	}
+	.qq_face .qqface2 {
+		background-position: -58px 0;
+	}
+	.qq_face .qqface3 {
+		background-position: -87px 0;
+	}
+
+	.qq_face .qqface4 {
+		background-position: -116px 0;
+	}
+
+	.qq_face .qqface5 {
+		background-position: -145px 0;
+	}
+
+	.qq_face .qqface6 {
+		background-position: -174px 0;
+	}
+
+	.qq_face .qqface7 {
+		background-position: -203px 0;
+	}
+
+	.qq_face .qqface8 {
+		background-position: -232px 0;
+	}
+
+	.qq_face .qqface9 {
+		background-position: -261px 0;
+	}
+
+	.qq_face .qqface10 {
+		background-position: -290px 0;
+	}
+
+	.qq_face .qqface11 {
+		background-position: -319px 0;
+	}
+
+	.qq_face .qqface12 {
+		background-position: -348px 0;
+	}
+
+	.qq_face .qqface13 {
+		background-position: -377px 0;
+	}
+
+	.qq_face .qqface14 {
+		background-position: -406px 0;
+	}
+
+	.qq_face .qqface15 {
+		background-position: 0 -29px;
+	}
+
+	.qq_face .qqface16 {
+		background-position: -29px -29px;
+	}
+
+	.qq_face .qqface17 {
+		background-position: -58px -29px;
+	}
+
+	.qq_face .qqface18 {
+		background-position: -87px -29px;
+	}
+
+	.qq_face .qqface19 {
+		background-position: -116px -29px;
+	}
+
+	.qq_face .qqface20 {
+		background-position: -145px -29px;
+	}
+
+	.qq_face .qqface21 {
+		background-position: -174px -29px;
+	}
+
+	.qq_face .qqface22 {
+		background-position: -203px -29px;
+	}
+
+	.qq_face .qqface23 {
+		background-position: -232px -29px;
+	}
+
+	.qq_face .qqface24 {
+		background-position: -261px -29px;
+	}
+
+	.qq_face .qqface25 {
+		background-position: -290px -29px;
+	}
+
+	.qq_face .qqface26 {
+		background-position: -319px -29px;
+	}
+
+	.qq_face .qqface27 {
+		background-position: -348px -29px;
+	}
+
+	.qq_face .qqface28 {
+		background-position: -377px -29px;
+	}
+
+	.qq_face .qqface29 {
+		background-position: -406px -29px;
+	}
+
+	.qq_face .qqface30 {
+		background-position: 0 -58px;
+	}
+
+	.qq_face .qqface31 {
+		background-position: -29px -58px;
+	}
+
+	.qq_face .qqface32 {
+		background-position: -58px -58px;
+	}
+
+	.qq_face .qqface33 {
+		background-position: -87px -58px;
+	}
+
+	.qq_face .qqface34 {
+		background-position: -116px -58px;
+	}
+
+	.qq_face .qqface35 {
+		background-position: -145px -58px;
+	}
+
+	.qq_face .qqface36 {
+		background-position: -174px -58px;
+	}
+
+	.qq_face .qqface37 {
+		background-position: -203px -58px;
+	}
+
+	.qq_face .qqface38 {
+		background-position: -232px -58px;
+	}
+
+	.qq_face .qqface39 {
+		background-position: -261px -58px;
+	}
+
+	.qq_face .qqface40 {
+		background-position: -290px -58px;
+	}
+
+	.qq_face .qqface41 {
+		background-position: -319px -58px;
+	}
+
+	.qq_face .qqface42 {
+		background-position: -348px -58px;
+	}
+
+	.qq_face .qqface43 {
+		background-position: -377px -58px;
+	}
+
+	.qq_face .qqface44 {
+		background-position: -406px -58px;
+	}
+
+	.qq_face .qqface45 {
+		background-position: 0 -87px;
+	}
+
+	.qq_face .qqface46 {
+		background-position: -29px -87px;
+	}
+
+	.qq_face .qqface47 {
+		background-position: -58px -87px;
+	}
+
+	.qq_face .qqface48 {
+		background-position: -87px -87px;
+	}
+
+	.qq_face .qqface49 {
+		background-position: -116px -87px;
+	}
+
+	.qq_face .qqface50 {
+		background-position: -145px -87px;
+	}
+
+	.qq_face .qqface51 {
+		background-position: -174px -87px;
+	}
+
+	.qq_face .qqface52 {
+		background-position: -203px -87px;
+	}
+
+	.qq_face .qqface53 {
+		background-position: -232px -87px;
+	}
+
+	.qq_face .qqface54 {
+		background-position: -261px -87px;
+	}
+
+	.qq_face .qqface55 {
+		background-position: -290px -87px;
+	}
+
+	.qq_face .qqface56 {
+		background-position: -319px -87px;
+	}
+
+	.qq_face .qqface57 {
+		background-position: -348px -87px;
+	}
+
+	.qq_face .qqface58 {
+		background-position: -377px -87px;
+	}
+
+	.qq_face .qqface59 {
+		background-position: -406px -87px;
+	}
+
+	.qq_face .qqface60 {
+		background-position: 0 -116px;
+	}
+
+	.qq_face .qqface61 {
+		background-position: -29px -116px;
+	}
+
+	.qq_face .qqface62 {
+		background-position: -58px -116px;
+	}
+
+	.qq_face .qqface63 {
+		background-position: -87px -116px;
+	}
+
+	.qq_face .qqface64 {
+		background-position: -116px -116px;
+	}
+
+	.qq_face .qqface65 {
+		background-position: -145px -116px;
+	}
+
+	.qq_face .qqface66 {
+		background-position: -174px -116px;
+	}
+
+	.qq_face .qqface67 {
+		background-position: -203px -116px;
+	}
+
+	.qq_face .qqface68 {
+		background-position: -232px -116px;
+	}
+
+	.qq_face .qqface69 {
+		background-position: -261px -116px;
+	}
+
+	.qq_face .qqface70 {
+		background-position: -290px -116px;
+	}
+
+	.qq_face .qqface71 {
+		background-position: -319px -116px;
+	}
+
+	.qq_face .qqface72 {
+		background-position: -348px -116px;
+	}
+
+	.qq_face .qqface73 {
+		background-position: -377px -116px;
+	}
+
+	.qq_face .qqface74 {
+		background-position: -406px -116px;
+	}
+
+	.qq_face .qqface75 {
+		background-position: 0 -145px;
+	}
+
+	.qq_face .qqface76 {
+		background-position: -29px -145px;
+	}
+
+	.qq_face .qqface77 {
+		background-position: -58px -145px;
+	}
+
+	.qq_face .qqface78 {
+		background-position: -87px -145px;
+	}
+
+	.qq_face .qqface79 {
+		background-position: -116px -145px;
+	}
+
+	.qq_face .qqface80 {
+		background-position: -145px -145px;
+	}
+
+	.qq_face .qqface81 {
+		background-position: -174px -145px;
+	}
+
+	.qq_face .qqface82 {
+		background-position: -203px -145px;
+	}
+
+	.qq_face .qqface83 {
+		background-position: -232px -145px;
+	}
+
+	.qq_face .qqface84 {
+		background-position: -261px -145px;
+	}
+
+	.qq_face .qqface85 {
+		background-position: -290px -145px;
+	}
+
+	.qq_face .qqface86 {
+		background-position: -319px -145px;
+	}
+
+	.qq_face .qqface87 {
+		background-position: -348px -145px;
+	}
+
+	.qq_face .qqface88 {
+		background-position: -377px -145px;
+	}
+
+	.qq_face .qqface89 {
+		background-position: -406px -145px;
+	}
+
+	.qq_face .qqface90 {
+		background-position: 0 -174px;
+	}
+
+	.qq_face .qqface91 {
+		background-position: -29px -174px;
+	}
+
+	.qq_face .qqface92 {
+		background-position: -58px -174px;
+	}
+
+	.qq_face .qqface93 {
+		background-position: -87px -174px;
+	}
+
+	.qq_face .qqface94 {
+		background-position: -116px -174px;
+	}
+
+	.qq_face .qqface95 {
+		background-position: -145px -174px;
+	}
+
+	.qq_face .qqface96 {
+		background-position: -174px -174px;
+	}
+
+	.qq_face .qqface97 {
+		background-position: -203px -174px;
+	}
+
+	.qq_face .qqface98 {
+		background-position: -232px -174px;
+	}
+
+	.qq_face .qqface99 {
+		background-position: -261px -174px;
+	}
+
+	.qq_face .qqface100 {
+		background-position: -290px -174px;
+	}
+
+	.qq_face .qqface101 {
+		background-position: -319px -174px;
+	}
+
+	.qq_face .qqface102 {
+		background-position: -348px -174px;
+	}
+
+	.qq_face .qqface103 {
+		background-position: -377px -174px;
+	}
+
+	.qq_face .qqface104 {
+		background-position: -406px -174px;
+	}
+</style>
+<body>
+	<div class="tc-users hide">
+		<div class="tc-u-a">
+			<p id="msg-titel"></p>
+			<p id="msg-content"></p>
+		</div>
+		<div class="but-tc"><div id="esc" onclick="esc();">取消</div><div id="ok" onclick="ok();">确定</div></div>
+	</div>
+<div class="header-user">
+	<div class="back-user"><p><svg onclick="location.href='javascript:history.go(-1);'" t="1501850514135" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="995" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><defs><style type="text/css"></style></defs><path d="M694.018543 234.845703l-305.960367 277.157367 305.97981 277.137924c10.692526 10.577916 10.692526 27.699875 0 38.259372-10.691503 10.577916-28.004821 10.577916-38.697347 0l-325.613986-294.907637c-5.688559-5.631254-8.124028-13.108552-7.743358-20.48966-0.38067-7.382131 2.054799-14.839986 7.743358-20.48966l325.613986-294.926056c10.692526-10.558473 28.004821-10.558473 38.697347 0C704.710047 207.164247 704.710047 224.286206 694.018543 234.845703z" p-id="996" fill="#fff"></path></svg>
+	</p></div>
+	<div class="add-user"><p id="reg-add" onclick="msgs();">创建模式</p></div>
+			<div class="nav-user">
+			<ul><li>群发标题</li><li>内容类型</li><li >状态</li></ul>
+		</div>
+</div>
+<div class="user-form">
+{loop $msglist $row}
+    <div class="user-list" id='{$row['id']}' onclick="del(this.id);"><ul><li id="usp">{$row['title']}</li><li id="type">{$row['type']}</li><li id="zt">{$row['status']}</li></div>
+	{/loop}
+    </div>
+<div class="but-user">
+<button type="button" class="but-su" onclick="su();" id="0">开启删除模式</button>
+<button type="button" class="but-wa" onclick="wa();" id="0">开启编辑模式</button>
+</div>
+	<div class="footer">
+	<p class="msg-nav" id="text-msg" onclick="textmsg();">文字消息</p>
+	<p class="msg-nav" onclick='msgi();' id="img-msg">图片消息</p>
+	<!-- <p class="msg-nav" onclick='on();' id="vc-msg">分享图文</p> -->
+	<!-- <p class="msg-nav" onclick='on();' id="mr-msg">个人名片</p> -->
+	<!-- <p class="msg-nav" onclick='on();' id="gz-msg">推荐公众号</p> -->
+	<p id="msg-qx" onclick="msgt();">取消</p>
+	</div>
+	<div class="text-msg hide">
+	<div class="text-msg-a">
+	<div class = "text-titel"><p>文字消息</p><p style="text-align:right;"><span onclick="qxmsg();">取消操作<span></P></div>
+	<input type="text" value="" name="title" placeholder="标题" id="text-msg-i">
+	<p class = "tar"><textarea class="out" id="comment" name="msg" rows="" cols=""  placeholder="群发内容....."></textarea></p>
+	<div class="fcae"><u><a id="ad" onclick="ad()">插入表情</a></u></div>
+		<div class="qq_face">
+			<a title="微笑" type="qq" class="face qqface0">微笑</a> <a title="撇嘴" type="qq" class="face qqface1">撇嘴</a> <a title="色" type="qq" class="face qqface2">色</a> <a title="发呆" type="qq" class="face qqface3">发呆</a> <a title="得意" type="qq" class="face qqface4">得意</a> <a title="流泪" type="qq" class="face qqface5">流泪</a> <a title="害羞" type="qq" class="face qqface6">害羞</a> <a title="闭嘴" type="qq" class="face qqface7">闭嘴</a> <a title="睡" type="qq" class="face qqface8">睡</a> <a title="大哭" type="qq" class="face qqface9">大哭</a> <a title="尴尬" type="qq" class="face qqface10">尴尬</a> <a title="发怒" type="qq" class="face qqface11">发怒</a> <a title="调皮" type="qq" class="face qqface12">调皮</a> <a title="呲牙" type="qq" class="face qqface13">呲牙</a> <a title="惊讶" type="qq" class="face qqface14">惊讶</a> <a title="难过" type="qq" class="face qqface15">难过</a> <a title="酷" type="qq" class="face qqface16">酷</a> <a title="冷汗" type="qq" class="face qqface17">冷汗</a> <a title="抓狂" type="qq" class="face qqface18">抓狂</a> <a title="吐" type="qq" class="face qqface19">吐</a> <a title="偷笑" type="qq" class="face qqface20">偷笑</a> <a title="愉快" type="qq" class="face qqface21">愉快</a> <a title="白眼" type="qq" class="face qqface22">白眼</a> <a title="傲慢" type="qq" class="face qqface23">傲慢</a> <a title="饥饿" type="qq" class="face qqface24">饥饿</a> <a title="困" type="qq" class="face qqface25">困</a> <a title="惊恐" type="qq" class="face qqface26">惊恐</a> <a title="流汗" type="qq" class="face qqface27">流汗</a> <a title="憨笑" type="qq" class="face qqface28">憨笑</a> <a title="悠闲" type="qq" class="face qqface29">悠闲</a> <a title="奋斗" type="qq" class="face qqface30">奋斗</a> <a title="咒骂" type="qq" class="face qqface31">咒骂</a> <a title="疑问" type="qq" class="face qqface32">疑问</a> <a title="嘘" type="qq" class="face qqface33">嘘</a> <a title="晕" type="qq" class="face qqface34">晕</a> <a title="疯了" type="qq" class="face qqface35">疯了</a> <a title="衰" type="qq" class="face qqface36">衰</a> <a title="骷髅" type="qq" class="face qqface37">骷髅</a> <a title="敲打" type="qq" class="face qqface38">敲打</a> <a title="再见" type="qq" class="face qqface39">再见</a> <a title="擦汗" type="qq" class="face qqface40">擦汗</a> <a title="抠鼻" type="qq" class="face qqface41">抠鼻</a> <a title="鼓掌" type="qq" class="face qqface42">鼓掌</a> <a title="糗大了" type="qq" class="face qqface43">糗大了</a> <a title="坏笑" type="qq" class="face qqface44">坏笑</a> <a title="左哼哼" type="qq" class="face qqface45">左哼哼</a> <a title="右哼哼" type="qq" class="face qqface46">右哼哼</a> <a title="哈欠" type="qq" class="face qqface47">哈欠</a> <a title="鄙视" type="qq" class="face qqface48">鄙视</a> <a title="委屈" type="qq" class="face qqface49">委屈</a> <a title="快哭了" type="qq" class="face qqface50">快哭了</a> <a title="阴险" type="qq" class="face qqface51">阴险</a> <a title="亲亲" type="qq" class="face qqface52">亲亲</a> <a title="吓" type="qq" class="face qqface53">吓</a> <a title="可怜" type="qq" class="face qqface54">可怜</a> <a title="菜刀" type="qq" class="face qqface55">菜刀</a> <a title="西瓜" type="qq" class="face qqface56">西瓜</a> <a title="啤酒" type="qq" class="face qqface57">啤酒</a> <a title="篮球" type="qq" class="face qqface58">篮球</a> <a title="乒乓" type="qq" class="face qqface59">乒乓</a> <a title="咖啡" type="qq" class="face qqface60">咖啡</a> <a title="饭" type="qq" class="face qqface61">饭</a> <a title="猪头" type="qq" class="face qqface62">猪头</a> <a title="玫瑰" type="qq" class="face qqface63">玫瑰</a> <a title="凋谢" type="qq" class="face qqface64">凋谢</a> <a title="嘴唇" type="qq" class="face qqface65">嘴唇</a> <a title="爱心" type="qq" class="face qqface66">爱心</a> <a title="心碎" type="qq" class="face qqface67">心碎</a> <a title="蛋糕" type="qq" class="face qqface68">蛋糕</a> <a title="闪电" type="qq" class="face qqface69">闪电</a> <a title="炸弹" type="qq" class="face qqface70">炸弹</a> <a title="刀" type="qq" class="face qqface71">刀</a> <a title="足球" type="qq" class="face qqface72">足球</a> <a title="瓢虫" type="qq" class="face qqface73">瓢虫</a> <a title="便便" type="qq" class="face qqface74">便便</a> <a title="月亮" type="qq" class="face qqface75">月亮</a> <a title="太阳" type="qq" class="face qqface76">太阳</a> <a title="礼物" type="qq" class="face qqface77">礼物</a> <a title="拥抱" type="qq" class="face qqface78">拥抱</a> <a title="强" type="qq" class="face qqface79">强</a> <a title="弱" type="qq" class="face qqface80">弱</a> <a title="握手" type="qq" class="face qqface81">握手</a> <a title="胜利" type="qq" class="face qqface82">胜利</a> <a title="抱拳" type="qq" class="face qqface83">抱拳</a> <a title="勾引" type="qq" class="face qqface84">勾引</a> <a title="拳头" type="qq" class="face qqface85">拳头</a> <a title="差劲" type="qq" class="face qqface86">差劲</a> <a title="爱你" type="qq" class="face qqface87">爱你</a> <a title="NO" type="qq" class="face qqface88">NO</a> <a title="OK" type="qq" class="face qqface89">OK</a> <a title="爱情" type="qq" class="face qqface90">爱情</a> <a title="飞吻" type="qq" class="face qqface91">飞吻</a> <a title="跳跳" type="qq" class="face qqface92">跳跳</a> <a title="发抖" type="qq" class="face qqface93">发抖</a> <a title="怄火" type="qq" class="face qqface94">怄火</a> <a title="转圈" type="qq" class="face qqface95">转圈</a> <a title="磕头" type="qq" class="face qqface96">磕头</a> <a title="回头" type="qq" class="face qqface97">回头</a> <a title="跳绳" type="qq" class="face qqface98">跳绳</a> <a title="投降" type="qq" class="face qqface99">投降</a> <a title="激动" type="qq" class="face qqface100">激动</a> <a title="乱舞" type="qq" class="face qqface101">乱舞</a> <a title="献吻" type="qq" class="face qqface102">献吻</a> <a title="左太极" type="qq" class="face qqface103">左太极</a> <a title="右太极" type="qq" class="face qqface104">右太极</a>
+		</div>
+	<p class="text-wa">是否设为启用</p>
+	<select id="selsadd">
+	<option value="0">不启用</option>
+	<option value="1">启用</option>
+	</select>
+	</div>
+	<div class="post-msg" onclick="post();">提交</div>
+	</div>
+	<div class="img-msg hide">
+	<div class="text-msg-a">
+	<div class = "text-titel"><p>图片消息</p><p style="text-align:right;"><span onclick="qximg();">取消操作<span></P></div>
+	<input type="text" value="" name="titlei" placeholder="标题" id="text-msg-is">
+	<p class = "tar"><input type="file" name="file" id="file" onchange="ajaxFileUpload()" /></p>
+	<p id="imggb">
+	<svg onclick="qximgurl();" t="1502532818336" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="998" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25"><defs><style type="text/css"></style></defs><path d="M512 0C229.262222 0 0 229.233778 0 512S229.262222 1024 512 1024s512-229.262222 512-512S794.766222 0 512 0zM731.221333 691.000889l-40.220444 40.220444L512 552.220444l-179.000889 179.000889-40.220444-40.220444L471.779556 512l-179.000889-179.000889 40.220444-40.220444L512 471.751111l178.972444-179.000889 40.220444 40.220444L552.220444 512 731.221333 691.000889z" p-id="999" fill="#a7a7a7"></path></svg>
+	</p>
+	<p class="imgurl" style="-webkit-overflow-scrolling:touch;"></p> 
+	<p class="text-wa">是否设为启用</p>
+	<select id="selsadds">
+	<option value="0">不启用</option>
+	<option value="1">启用</option>
+	</select>
+	</div>
+	<div class="post-img" onclick="nq();">提交</div>
+	</div>
+</body>
+
+<script>
+    function ad() {
+		$('#ad').attr('onclick','td()');
+        $('.text-msg').animate({height:365 +'px'});
+        $('.qq_face').fadeIn(100);
+    };
+    function td() {
+        $('#ad').attr('onclick','ad()');
+        $('.text-msg').animate({height:275 +'px'});
+        $('.qq_face').fadeOut(100);
+	}
+    $('.face').click(function(){
+        var nq = $(this).attr('title');
+        var id = '['+nq+']';
+    });
+    $('.face').click(function(){
+        var nq = $(this).attr('title');
+        var id = '['+nq+']';
+        $('#comment').insertAtCaret(id);
+    })
+function nq(){
+	var title = $('#text-msg-is').val();
+	var content =$('#imgtt')[0].src;
+	var sta = $('#selsadds').val();
+	var types = '3';
+	//var url = $('#imgtt')[0].src;
+		$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('Cons',array('op'=>'st')),2)}",
+			dataType:"json",
+			cache:false,
+			data:{title:title,content:content,sta:sta,types:types},
+			success:function(data){
+			  window.location.reload();
+		}
+	});
+}
+		function ajaxFileUpload() {
+			$.ajaxFileUpload({
+				url: "{php echo url('utility/file',array('do'=>'upload','type'=>'image'),true)}",
+				secureuri: false,
+				fileElementId: 'file',
+				dataType: 'json',
+				success: function(dat, status) {
+					$('.imgurl').html('<img id="imgtt" src="'+ dat.url+'"/>');
+					setTimeout(function () {
+					var s = $('.imgurl').height()+ 200;
+					var hs =$(window).height();
+					var ws = hs-200;
+					if(s > hs){
+					$('.imgurl').css({height:ws + 'px',overflowX:'hidden'});
+					$('#imggb').fadeIn(100);
+					$('.img-msg').animate({height:hs +'px'});					
+					}else{
+					$('#imggb').fadeIn(100);
+					$('.img-msg').animate({height:s +'px'});
+					}
+					},500);
+					
+				},
+				error: function(data, status, e) {
+					console.log(e);
+				}
+
+			})
+		}
+		$('#imggb').click(function(){
+			$('#imggb').fadeOut(100);
+			
+		})
+function msgi(){
+	$('.img-msg').fadeIn(100);
+	$('.img-msg').animate({bottom:0 +'px'});
+	imgset();
+}
+function imgset(){
+	setTimeout(function () {
+	var s = $('.imgurl').height()+ 200;
+	var hs =$(window).height();
+	var ws = hs-200;
+	if(s > hs){
+	$('.imgurl').css({height:ws + 'px',overflowX:'hidden'});
+	$('#imggb').fadeIn(100);
+	$('.img-msg').animate({height:hs +'px'});					
+	}else{
+	if(!($('.imgurl').html()=='')){
+	$('#imggb').fadeIn(100);
+	}
+	$('.img-msg').animate({height:s +'px'});
+	}
+	},200);
+}
+function qximg(){
+    $('.img-msg').animate({bottom:-200 + 'px'});
+	$('.img-msg').animate({height:200 + 'px'});
+	$('.img-msg').fadeOut(100);
+	$('#imggb').fadeOut(100);
+	qximgurl();
+}
+function qximgurl(){
+	var file = $("#file") ;
+	$('.imgurl').attr('style',''); 	
+	$('.imgurl img').remove();
+	file.after(file.clone().val("")); 
+	file.remove();  
+	imgset();
+}
+
+function post(){
+	var title = $('#text-msg-i').val();
+	var content = $('#comment').val();
+	var sta = $('#selsadd').val();
+	var types = '1';
+	$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('Cons',array('op'=>'st')),2)}",
+			dataType:"json",
+			cache:false,
+			data:{title:title,content:content,sta:sta,types:types},
+			success:function(data){
+			  window.location.reload();
+		}
+	});
+}
+function del(id){
+var is = $('.but-su').attr('id');
+var zs = $('.but-wa').attr('id');
+var type = $('#' + id).children().children('#type').text();
+if(is == 1){
+  		$.ajax({
+	     type:"post",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('cons',array('op'=>'del')),2)}&id="+id,
+		dataType:"json",
+		data:'',
+		success:function(data){
+			  $('#'+ id).remove();
+			}
+			});
+			}
+		if(zs == 1){
+		 qkval();
+		 if(type == '文本类型'){
+		 $('.post-msg').attr('onclick','ups('+id+');');
+			$.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('cons',array('op'=>'dy')),2)}&id="+id,
+			dataType:"json",
+			data:'',
+			success:function(data){
+			if(data.sta == 2){
+				alert('当前内容正在审核,请勿编辑');
+			}else{
+				$('#text-msg-i').val(data.title);
+				$('#comment').val(data.content);
+				$('#selsadd').val(data.status);
+				 textmsg();}
+			}
+			});
+			}else if(type == '图片类型'){
+			$('.post-img').attr('onclick','nqs('+id+');');
+			$.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('cons',array('op'=>'dy')),2)}&id="+id,
+			dataType:"json",
+			data:'',
+			success:function(data){
+			if(data.sta == 2){
+				alert('当前内容正在审核,请勿编辑');
+			}else{
+				$('#text-msg-is').val(data.title);
+				$('.imgurl').html('<img id="imgtt" src="'+ data.content+'"/>');
+				$('#selsadds').val(data.status);
+				 msgi();}
+			}
+			});
+			 
+			}
+		}
+			}
+function nqs(id){
+	var title = $('#text-msg-is').val();
+	var content =	$('#imgtt')[0].src;
+	var sta = $('#selsadds').val();
+	var types = '3';
+		$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('Cons',array('op'=>'up')),2)}&id="+id,
+			dataType:"json",
+			cache:false,
+			data:{title:title,content:content,types:types,sta:sta},
+			success:function(data){
+			 $('#'+ id).children().children('#usp').text(data.title);
+			 if(data.status == 0){
+			  $('#'+ id).children().children('#zt').text('不启用');
+			 }else if(data.status == 1){
+			  $('#'+ id).children().children('#zt').text('启用');
+			 }else if(data.status == 2){
+			  $('#'+ id).children().children('#zt').text('审核中');
+			 }
+			 qximg();
+		}
+	});
+}
+function ups(id){
+	var title = $('#text-msg-i').val();
+	var content = $('#comment').val();
+	var sta = $('#selsadd').val();
+	var types = '1';
+	$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('Cons',array('op'=>'up')),2)}&id="+id,
+			dataType:"json",
+			cache:false,
+			data:{title:title,content:content,types:types,sta:sta},
+			success:function(data){
+			 $('#'+ id).children().children('#usp').text(data.title);
+			 if(data.status == 0){
+			  $('#'+ id).children().children('#zt').text('不启用');
+			 }else if(data.status == 1){
+			  $('#'+ id).children().children('#zt').text('启用');
+			 }else if(data.status == 2){
+			  $('#'+ id).children().children('#zt').text('审核中');
+			 }
+			 qxmsg();
+		}
+	});
+}
+function qkval(){
+	$('#text-msg-i').val('');
+	$('#comment').val('');
+	$('#selsadd').val('0');
+}
+function qxmsg(){
+    $('.text-msg').animate({bottom:-275 + 'px'});
+	$('.text-msg').fadeOut(100);
+}
+function textmsg(){
+   	$('.text-msg').fadeIn(100);
+	$('.text-msg').animate({bottom:0 +'px'});
+}
+function imgmsg(){
+	$('img-msg').fadeIn(100);
+	$('img-msg').animate({bottom:0 +'px'});
+}
+function qximgmsg(){
+   	$('.img-msg').fadeIn(100);
+	$('.img-msg').animate({bottom:0 +'px'});
+}
+function on(){
+alert('管理员未开启此服务！');}
+function msgt(){
+	$('#reg-add').attr('onclick','msgs();')
+    $('.footer').animate({bottom:-225 + 'px'});
+	$('.footer').fadeOut(100);
+}
+function msgs(){
+		qkval();
+		$('.post-msg').attr('onclick','post();')
+	$('.footer').fadeIn(100);
+	$('.footer').animate({bottom:0 +'px'});
+	$('#reg-add').attr('onclick','msgt();');
+}
+  function su(){
+	  var tex = $('.but-wa').attr('id');
+	  if(tex == 1){alert('请关闭编辑模式！')}else{
+	  $('.tc-users').fadeIn(100);
+	  $('#msg-titel').text('提示信息');
+	  $('#msg-content').text('开始后,点击列表即可删除对应项目');
+	   $('#esc').attr('onclick','esc();');
+	  $('#ok').attr('onclick','ok();');
+	  }
+  }
+  function esc(){
+	  $('.tc-users').fadeOut(100);
+  };
+    function escs(){
+	  $('.tc-users').fadeOut(100);
+  };
+ function ok(){
+	  $('.tc-users').fadeOut(100);
+	  $('.but-su').attr('id','1');
+	  $('.but-su').attr('onclick','sus();');
+	  $('.but-su').text('已开启删除模式');
+  };
+    function oks(){
+	  $('.tc-users').fadeOut(100);
+	  $('.but-wa').attr('id','1');
+	  $('.but-wa').attr('onclick','suss();');
+	  $('.but-wa').text('已开启编辑模式');
+  };
+  function sus(){
+	  $('.but-su').attr('onclick','su();');
+	  $('.but-su').attr('id','0');
+	  $('.but-su').text('开启删除模式');
+  }
+    function suss(){
+	  $('.but-wa').attr('onclick','wa();');
+	  $('.but-wa').attr('id','0');
+	  $('.but-wa').text('开启编辑模式');
+  }
+  function wa(){
+	  var tex = $('.but-su').attr('id');
+	  if(tex == 1){alert('请关闭删除模式！')}else{
+	  $('#msg-titel').text('提示信息');
+	  $('#msg-content').text('开始后,点击列表即可修改对应项目');
+	  $('#esc').attr('onclick','escs();');
+	  $('#ok').attr('onclick','oks();');
+	  $('.tc-users').fadeIn(100);
+	  }
+  }
+</script>
+</html>

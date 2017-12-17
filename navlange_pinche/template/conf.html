@@ -1,0 +1,92 @@
+{template 'common/header'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		系统配置
+	</div>
+	<div class="panel-body">
+		<form class="form-horizontal" role="form" action="" method="POST">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">系统色调</label>
+				<div class="col-sm-10">
+					{php echo tpl_form_field_color('color',$conf['color']);}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">车主色调</label>
+				<div class="col-sm-10">
+					{php echo tpl_form_field_color('owner_color',$conf['owner_color']);}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">背景色调</label>
+				<div class="col-sm-10">
+					{php echo tpl_form_field_color('bg_color',$conf['bg_color']);}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">启用会员</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="member_on" value="1" {if intval($conf['member_on'])=='1'} checked="checked" {/if} />
+				</div>
+			</div>
+			<div id="member_panel" {if $conf['member_on'] != '1'}style="display:none"{/if}>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">会员类型</label>
+					<div class="col-sm-10">
+						<select class="form-control" name="member_type">
+							<option {if $conf['member_type'] == '0'}selected{/if} value="0">折扣会员</option>
+							<option {if $conf['member_type'] == '1'}selected{/if} value="1">差价会员</option>
+							<option {if $conf['member_type'] == '2'}selected{/if} value="2">计数会员</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">车主需要审核才能发布</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="release_need_license" value="1" {if intval($conf['release_need_license'])=='1'} checked="checked" {/if} />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">启用协议</label>
+				<div class="col-sm-10">
+					<input type="checkbox" name="agreement_on" value="1" {if intval($conf['agreement_on'])=='1'} checked="checked" {/if} />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">协议标题</label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="agreement_title" value="{$conf['agreement_title']}" />
+				</div>
+			</div>
+			<div class="form-group">
+                <label class="col-sm-2 control-label">协议内容</label>
+                <div class="col-sm-10">
+                    {php echo tpl_ueditor('agreement_content', $conf['agreement_content']);}
+                </div>
+            </div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" class="btn btn-default" name="submit" value="设置">
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script>
+$(function(){
+	require(['bootstrap.switch'], function() {
+		$(":checkbox[name='member_on']").bootstrapSwitch();
+		$(":checkbox[name='release_need_license']").bootstrapSwitch();
+		$(":checkbox[name='agreement_on']").bootstrapSwitch();
+		$(":checkbox[name='member_on']").on('switchChange.bootstrapSwitch', function(e, state){
+			if(state == true) {
+				$("#member_panel").show();
+			} else {
+				$("#member_panel").hide();
+			}
+		});
+	})
+})
+</script>

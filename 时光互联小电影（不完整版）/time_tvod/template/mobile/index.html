@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/time_tvod/static/css/swiper.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+	</head>
+<body>
+ 	<div class="page-group">
+		<div class="page page-current">
+			<header class="bar bar-nav">
+				<h1 class="title">视频推荐</h1>
+				<a class="button button-link button-nav pull-right" href="#page-search">
+					<span class="icon icon-search"></span>
+				</a>
+			</header>
+			<div class="bar bar-header-secondary">
+				<div class="row">
+					<div class="col-90">
+						<div class="swiper-container" id="swiper-naver">
+							<div class="swiper-wrapper">
+								{loop $types $item}
+								{if $item['t_pid'] == 0}
+								<a class="swiper-slide external" href="{php echo $this->createMobileurl('list',array('id' => $item['t_id']))}">{$item['t_name']}</a>
+								{/if}
+								{/loop}
+							</div>
+						</div>
+					</div>
+					<div class="col-10">
+						<a class="cate-naver external" href="{php echo $this->createMobileurl('cate')}">
+							<i class="icon icon-cate"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<nav class="bar bar-tab">
+				<a class="external tab-item" href="{php echo $this->createMobileurl('prise')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-movie"></use>
+			        </svg>
+					<span class="tab-label">神器</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('tv')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-tv"></use>
+			        </svg>
+					<span class="tab-label">电视</span>
+				</a>
+				<a class="external tab-item active" href="{php echo $this->createMobileurl('index')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-index-fill"></use>
+			        </svg>
+					<span class="tab-label">推荐</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('vip')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-vip"></use>
+			        </svg>
+					<span class="tab-label">VIP</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('user')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-user"></use>
+			        </svg>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<div class="content">
+				<div class="index-swiper">
+					<div class="swiper-container" data-space-between='10' data-pagination='.swiper-pagination' data-autoplay="1000">
+						<div class="swiper-pagination"></div>
+						<div class="swiper-wrapper">
+							{loop $swiper $row}
+							<a class="swiper-slide adv-block external" href="{$row['url']}" target="_blank">
+								<img src="{$row['pic']}" />
+							</a>
+							{/loop}
+						</div>
+					</div>
+				</div>
+
+				<div class="index-title tui-border-b tui-mt-10">
+					<i></i>
+					<h4>正在热播</h4>
+				</div>
+				<ul class="vod-list">
+					{loop $list['hot'] $row}
+					<li>
+						<a class="item external" href="{php echo $this->createMobileurl('play',array('id' => $row['d_id']))}">
+							<div class="pic">
+								<span class="holder"></span>
+								<img src="{$row['d_pic']}" />
+							</div>
+							<div class="name">
+								{$row['d_name']}
+							</div>
+							<div class="desc">
+								{$row['d_name']}
+							</div>
+						</a>
+					</li>
+					{/loop}
+				</ul>
+				
+				<div class="index-title tui-border-b tui-mt-10">
+					<i></i>
+					<h4>最新更新</h4>
+				</div>
+				<ul class="vod-list">
+					{loop $list['new'] $row}
+					<li>
+						<a class="item external" href="{php echo $this->createMobileurl('play',array('id' => $row['d_id']))}">
+							<div class="pic">
+								<span class="holder"></span>
+								<img src="{$row['d_pic']}" />
+							</div>
+							<div class="name">
+								{$row['d_name']}
+							</div>
+							<div class="desc">
+								{$row['d_name']}
+							</div>
+						</a>
+					</li>
+					{/loop}
+				</ul>
+				
+			</div>
+		</div>
+		
+		<div id="page-search" class="page">
+			<header class="bar bar-nav">
+				<a class="button button-link button-nav pull-left back">
+					<span class="icon icon-left"></span>
+				</a>
+				<h1 class="title">视频搜索</h1>
+			</header>
+			<div class="bar bar-header-secondary">
+				<form class="searchbar">
+					<input type="hidden" id='uniacid' value="{$uniacid}" />
+					<a class="searchbar-cancel">取消</a>
+					<div class="search-input">
+						<label class="icon icon-search" for="search"></label>
+						<input type="search" id='search' placeholder='你想看啥...' />
+					</div>
+				</form>
+			</div>
+			<div class="content infinite-scroll infinite-scroll-bottom" data-distance="100">
+				<ul class="vod-list data-box"></ul>
+			</div>
+		</div>
+	</div>
+	<script id="vodTepmlate" type="text/html">
+		<li>
+			<a class="item external" href="{{url}}">
+				<div class="pic">
+					<span class="holder"></span>
+					<img src="{{d_pic}}" />
+				</div>
+				<div class="name">
+					{{d_name}}
+				</div>
+				<div class="desc">
+					{{d_name}}
+				</div>
+			</a>
+		</li>
+	</script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/iconfont.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/swiper.js'></script>
+    <script src="{$_W['siteroot']}addons/time_tvod/static/js/common.js"></script>
+	{php echo register_jssdk(false);} 
+	<script>
+		wx.ready(function () {
+			wx.hideAllNonBaseMenuItem();
+		});
+
+		var naver = new Swiper('#swiper-naver',{
+		  direction : 'horizontal',
+		  slidesPerView : 4,
+		  initialSlide :0,
+		  freeMode : true,
+		  freeModeSticky : true,
+		  centeredSlides : false,
+		  mousewheelControl : true,
+		  slideToClickedSlide:true,
+	 });
+	</script>
+</body>
+</html>

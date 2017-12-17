@@ -1,0 +1,101 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<title>金梧桐群英网</title>
+<meta name="keywords" content="金梧桐群英网" />
+<meta name="description" content="金梧桐群英网." />
+<link href="{OSSURL}/public/mobile/css/css.css" rel="stylesheet" type="text/css" />
+<script src="{OSSURL}/public/mobile/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+        function AutoScroll(obj) {
+
+            $(obj).find("ul:first").animate({
+                marginTop: "-22px"
+            }, 500, function() {
+                $(this).css({ marginTop: "0px" }).find("li:first").appendTo(this);
+            });
+        }
+        $(document).ready(function() {
+            var myar = setInterval('AutoScroll("#scrollDiv")', 3000)
+            $("#scrollDiv").hover(function() { clearInterval(myar); }, function() { myar = setInterval('AutoScroll("#scrollDiv")', 3000) }); //当鼠标放上去的时候，滚动停止，鼠标离开的时候滚动开始，-22px是行高
+        });
+</script>
+
+</head>
+<body>
+    <header style="background:#2786da;margin-top:0px;">
+        <div id="logo" ><a href="javascript:;"><h1>金梧桐群英网</h1></a></div>
+        <nav>
+            <ul id="menu">
+                 {template 'common_header'}
+            </ul>
+        </nav>
+    </header>
+    <article id="content">
+        <div id="scrollDiv">
+            <ul>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">李*丽</span> 入职 上海达丰</li>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">赖险峰</span> 入职 英华达(上海)电子有限公司</li>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">王灿灿</span> 入职 仁宝电子科技(昆山)有限公司</li>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">张秋阳</span> 入职 苏州华硕电子厂</li>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">杜珍珍</span> 入职 瑞仪光电苏州有限公司-五厂</li>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">刘大龙</span> 入职 苏州三星电子有限公司</li>
+                <li><span class="red">喜报：</span> 祝贺 <span class="red">马先锋</span> 入职 
+                上海昌硕</li>
+              
+            </ul>
+        </div>
+        <div id="topic" style="margin-top:0.5rem;">
+            {loop $list $row}
+            <dl>
+                <dt>
+                    <a href="curriculum/1.html">
+                    {if mb_strlen($row['title'], 'utf8')>15}
+                        {php echo mb_substr($row['title'], 0, 15, 'utf8').'...';}
+                    {else}
+                        {$row['title']}
+                    {/if} 
+                    </a>
+                </dt>
+                <dd>
+                    <a  href="{php echo $this->createMobileUrl('index', array('op' => 'detail','id'=>$row['id']))}"><img  src="{php echo tomedia($row['f_img']);}" style="width:280px;height:100px;"></a>
+                    <p>
+                    {if mb_strlen($row['contents'], 'utf8')>80}
+                        {php echo mb_substr($row['contents'], 0, 80, 'utf8').'......';}
+                    {else}
+                        {$row['title']}
+                    {/if}
+                    </p>
+                    <div class="online">
+                    <a  href="{php echo $this->createMobileUrl('index', array('op' => 'detail','id'=>$row['id']))}">了解详情</a><a  href="{php echo $this->createMobileUrl('baoming', array('op' => 'detail','title'=>$row['title']))}">我要找工作，（点击报名）</a><a class="on" href="tel:13015510995">电话咨询</a>
+                    </div>
+                </dd>
+            </dl>
+            {/loop}
+           
+        </div>
+        <h3 class="h3">公司新闻</h3>
+        <ul class="list">
+            {loop $listnews $row}
+            <li><a  href="{php echo $this->createMobileUrl('news', array('op' => 'newsdetail','id'=>$row['id']))}">{if mb_strlen($row['title'], 'utf8')>25}
+                        {php echo mb_substr($row['title'], 0, 25, 'utf8').'...';}
+                    {else}
+                        {$row['title']}
+                    {/if} </a></li>
+            {/loop}
+        </ul>
+    </article>
+
+    <footer>
+        <div id="tel400">
+           <a href="tel:13015510995" >咨询电话：400-6335-885（点击拨打）</a>
+        </div>
+
+        {template 'common_footer'}
+       
+    </footer>
+</body>
+</html>
+

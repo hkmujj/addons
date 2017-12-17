@@ -1,0 +1,136 @@
+{template 'common/header'}
+
+
+<script>
+	require(['bootstrap'],function($){
+		$('.btn').hover(function(){
+			$(this).tooltip('show');
+		},function(){
+			$(this).tooltip('hide');
+		});
+	});
+</script>
+
+<div class="main" style="margin-top:2px;height:auto;">
+	<div class="panel panel-info">
+	<div class="panel-heading">总计报名人数：<span style="color:red;">{$total}</span><span style="float:right;"><a href="{php echo $this->createWebUrl('yupring', array('op' => 'down','start'=>$starttime,'end'=>$endtime))}"  class="btn btn-default btn-sm"><i class="glyphicon glyphicon-download-alt"></i> 数据导出</a></span></div>
+	<div class="panel-body" style="height:auto;">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="klh_ypring" />
+			<input type="hidden" name="do" value="yupring" />
+			<input type="hidden" name="op" value="display" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">状态</label>
+				<div class="col-sm-6 col-xs-12">
+					<select name="status" class='form-control'>
+
+							<option value="0" >全部</option>
+							<option value="1" style="color:#C60A27;" {if $_GPC['status'] ==1 } selected{/if}>未查看</option>
+							<option value="2" style="color:#C60A27;" {if $_GPC['status'] ==2 } selected{/if}>已查看</option>
+							
+							
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">姓名</label>
+				<div class="col-xs-10 col-sm-6 col-lg-8">
+					<input class="form-control" name="uname" id="" type="text" value="{$_GPC['uname']}">
+				</div>
+			</div>
+			<div class="form-group">
+				
+				<label class="col-xs-10 col-sm-2 col-md-2 col-lg-1 control-label">电话</label>
+				<div class="col-xs-10 col-sm-6 col-lg-8">
+					<input class="form-control" name="phone" id="" type="text" value="{$_GPC['phone']}">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">提交日期</label>
+				<div class="col-sm-7 col-xs-12">
+					 {php echo tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d H:i', $starttime),'endtime'=>date('Y-m-d H:i', $endtime)),true);}
+				</div>
+				
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="main">
+	<div class="category">
+
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<!-- <th style="width:12%;">微信头像</th> -->
+								<!-- <th style="width:12%;">微信昵称</th> -->
+								<th style="width:10%;">姓名</th>
+								<th style="width:10%;">电话</th>
+								<th style="width:12%;">公司名称</th>
+								<th style="width:15%;">公司地址</th>
+								<th style="width:10%;;">街道</th>
+								<th style="width:20%;">提交时间</th>
+								<th style="width:12%;">状态</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $list $row}
+						<tr>
+							<!-- <td><img src="{$row['headimgurl']}" width="50px" height="50px" /></td>
+							<td>{$row['wxname']}</td> -->
+							<td>{$row['uname']}</td>
+							<td>{$row['phone']}</td>
+							<td>{$row['company']}</td>
+							<td>{$row['location']}</td>
+							<td>{$row['address']}</td>
+							
+							<td>{php echo date('Y-m-d H:i:s',$row['ctime'])}</td>
+							<td>
+								<label data='{$row[status]}' class='label label-default {if $row['status']==2}label-info{else}{/if}' onclick="setProperty(this,{$row['id']})">{if $row['status']==1}未查看{else}已查看{/if}</label>
+							</td>
+						</tr>
+
+						
+						
+						{/loop}
+						
+					
+						</tbody>
+					</table>
+					{$pager}
+				</div>
+			</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function setProperty(obj,id){
+		$(obj).html($(obj).html() + "..");
+		$.post("{php echo $this->createWebUrl('setstatus')}"
+			,{id:id, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("..",""));
+			
+				$(obj).html( d.data=='1'?'未查看':'已查看');
+				
+
+				$(obj).attr("data",d.data);
+
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+
+</script>
+
+{template 'common/footer'}

@@ -1,0 +1,44 @@
+<section class="heifeng_p bgfff">{$settings['copyright']}</section>
+<footer class="footer">
+  <ul class="clearfix">
+    <li><a href="{php echo $this->createMobileUrl('discover');}"><em class="sopian"></em>
+      <p>搜片</p>
+      </a></li>
+    <li><a href="{php echo $this->createMobileUrl('tv');}"><em class="dianshi"></em>
+      <p>电视</p>
+      </a></li>
+    <li><a href="{php echo $this->createMobileUrl('index');}"><em class="shexiang"></em></a></li>
+    <li><a href="{php echo $this->createMobileUrl('search');}"><em class="faxian"></em>
+      <p>发现</p>
+      </a></li>
+    <li><a href="{php echo $this->createMobileUrl('member');}"><em class="wode"></em>
+      <p>我的</p>
+      </a></li>
+  </ul>
+</footer>
+{php echo register_jssdk();} 
+<script type="text/javascript">
+   wx.ready(function () {
+        sharedata = {
+            {if $_GPC['do'] == 'detail'}
+            title: '我正在收看{$content['title']}-{$settings['share_title']}',
+            desc: '{php echo cutstr($content['desc'],10)}',            
+            imgUrl: '{php echo tomedia($content['thumb'])}',
+            {else}
+            title: '{$settings['share_title']}',            
+            desc: '{$settings['share_desc']}',            
+            imgUrl: '{php echo tomedia($settings['share_thumb'])}',
+            {/if}
+            link: '{$settings['share_url']}',            
+            success: function(){                
+            },
+            cancel: function(){
+                
+            }
+        };
+    wx.onMenuShareAppMessage(sharedata);
+    wx.onMenuShareTimeline(sharedata);
+    wx.onMenuShareQQ(sharedata);
+    wx.onMenuShareWeibo(sharedata);
+  });
+</script>

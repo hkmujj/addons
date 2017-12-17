@@ -1,0 +1,70 @@
+{template 'common/header'}
+<ul class="nav nav-tabs" role="tablist">
+			<li {if $op == 'display'}class="active"{/if} ><a href="{php echo $this->createWebUrl('xsdl', array('op' => 'display','id'=>$user['id']))}">{$user['name']}的分支帐号</a> </li>
+			{if $usert['id']}<li {if $op == 'msg'}class="active"{/if} ><a href="#">{$usert['name']}群发内容</a> </li>{/if}
+</ul>
+<div class="main">
+{if $op == 'display'}	
+	<div class="panel panel-default">
+		<div class="panel-body">			
+			<table class="table table-hover">
+				<thead>
+					<th width="100">#id</th>
+					<th width="200">帐户名</th>
+					<th width="150">扫码次数</th>
+					<th width="300">曝光次数</th>
+					<th style="text-align:right;">操作</th>
+				</thead>
+				<tbody>
+				{loop $userlist $row}
+					<tr>
+					    <td>{$row['id']}</td>
+						<td>{$row['name']}</td>
+						<td>{$row['num']}</td>
+						<td>{$row['numb']}</td>
+						<td style="text-align:right;">
+			<button class="btn btn-success" onclick="window.location.href='{php echo $this->createWebUrl('xsdl', array('op' => 'msg','id' => $row['id'],'ids'=> $row['dl']))}'"><i class="fa fa-plus"></i>详情</button>
+					<button class="btn btn-danger" onclick="window.location.href='{php echo $this->createWebUrl('xsdl', array('op' => 'deluser', 'ids' => $row['id'],'userid' => $row['id'],'id' => $row['tj']))}'"><i class="fa fa-check"></i>删除</button>
+						 </td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div> <ul class="pagination pagination-centered"><li>{$pager}</li></ul></div>
+	{elseif $op == 'msg'}
+			<div class="panel panel-default">
+		<div class="panel-body">			
+			<table class="table table-hover">
+				<thead>
+					<th width="100">#id</th>
+					<th width="200">消息标题</th>
+					<th width="150">消息类型</th>
+					<th width="100">消息状态</th>
+					<th width="150">扫描次数</th>
+					<th width="150">爆光次数</th>
+					<th style="text-align:right;">操作</th>
+				</thead>
+				<tbody>
+				{loop $msg $row}
+					<tr>
+					    <td>{$row['id']}</td>
+						<td>{$row['title']}</td>
+						<td>{$row['type']}</td>
+						<td>{$row['status']}</td>
+						<td>{$row['tns']}</td>
+						<td>{$row['tnsq']}</td>
+						<td style="text-align:right;">
+						<button class="btn btn-danger" onclick="window.location.href='{php echo $this->createWebUrl('xsdl', array('op' => 'del', 'ids' => $row['id'],'id' => $row['fid']))}'"><i class="fa fa-check"></i>删除</button>
+						 </td>
+					</tr>
+				{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div>
+	{/if}
+</div>
+{template 'common/footer'}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/core.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}addons/time_tvod/static/css/common.css">
+		<script>var homepage = "{php echo $this->createMobileurl('index')}";</script>
+	</head>
+<body>
+ 	<div class="page-group">
+		<div id="user-recharge" class="page page-current">
+			<header class="bar bar-nav">
+				<h1 class="title">用户中心</h1>
+			</header>
+			<nav class="bar bar-tab">
+				<a class="external tab-item" href="{php echo $this->createMobileurl('prise')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-movie"></use>
+			        </svg>
+					<span class="tab-label">神器</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('tv')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-tv"></use>
+			        </svg>
+					<span class="tab-label">电视</span>
+				</a>
+				<a class="external tab-item active" href="{php echo $this->createMobileurl('index')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-index"></use>
+			        </svg>
+					<span class="tab-label">推荐</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('vip')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-vip"></use>
+			        </svg>
+					<span class="tab-label">VIP</span>
+				</a>
+				<a class="external tab-item" href="{php echo $this->createMobileurl('user')}">
+			        <svg class="icon" aria-hidden="true">
+			            <use xlink:href="#icon-user-fill"></use>
+			        </svg>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+			<div class="content">
+				<div class="uc-index-header">
+					<div class="list-block media-list tui-ma-0">
+						<ul class="tui-border-none">
+							<li class="tui-border-none">
+								<a class="item-content item-link external" href="#">
+									<div class="item-media">
+										<img src="{$member['avatar']}" />
+									</div>
+									<div class="item-inner">
+										<div class="item-title">{$member['nickname']} ({$uid})</div>
+										<div class="item-subtitle">{if $user['vip_time'] > $_W['timestamp']}VIP会员{else}普通会员{/if}</div>
+									</div>
+								</a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="header-ft">
+						<a class="external" href="javascript:;">
+							<em>{$user['point']}</em>
+							<p>积分</p>
+						</a>
+						<a class="external" href="javascript:;">
+							<em>{$user['money']}</em>
+							<p>奖励</p>
+						</a>
+						<a class="external" href="javascript:;">
+							<em>{$leadnum}</em>
+							<p>朋友</p>
+						</a>
+					</div>
+				</div>
+				
+				<div class="list-block tui-mt-10">
+					<ul>
+						<li>
+							<a class="item-content item-link external" href="{php echo $this->createMobileUrl('user',array('op' => 'recharge'))}">
+								<div class="item-media"><i class="icon icon-f7"></i></div>
+								<div class="item-inner">
+									<div class="item-title">充值会员</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="item-content item-link external"  href="{php echo $this->createMobileUrl('user',array('op' => 'paper'))}">
+								<div class="item-media"><i class="icon icon-f7"></i></div>
+								<div class="item-inner">
+									<div class="item-title">我的海报</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="item-content item-link external"  href="{php echo $this->createMobileUrl('user',array('op' => 'order'))}">
+								<div class="item-media"><i class="icon icon-f7"></i></div>
+								<div class="item-inner">
+									<div class="item-title">充值记录</div>
+								</div>
+							</a>
+						</li>
+						
+						{if $config['tx_open'] == 1}
+						<li>
+							<a class="item-content item-link external" href="{php echo $this->createMobileUrl('user',array('op' => 'cash'))}">
+								<div class="item-media"><i class="icon icon-f7"></i></div>
+								<div class="item-inner">
+									<div class="item-title">提现申请</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="item-content item-link external"  href="{php echo $this->createMobileUrl('user',array('op' => 'cashlog'))}">
+								<div class="item-media"><i class="icon icon-f7"></i></div>
+								<div class="item-inner">
+									<div class="item-title">提现记录</div>
+								</div>
+							</a>
+						</li>
+						{/if}
+					</ul>
+				</div>
+			</div>
+		</div>
+
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/jquery.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/core.js'></script>
+    <script src='{$_W['siteroot']}addons/time_tvod/static/js/iconfont.js'></script>
+    <script src="{$_W['siteroot']}addons/time_tvod/static/js/common.js"></script>
+	{php echo register_jssdk(false);} 
+	<script>
+		wx.ready(function () {
+			wx.hideAllNonBaseMenuItem();
+		});
+	</script>
+</body>
+</html>

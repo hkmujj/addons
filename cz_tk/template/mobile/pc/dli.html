@@ -1,0 +1,38 @@
+{template 'pc/header'}
+{template 'pc/nav'}
+<section id="main-content">
+          <section class="wrapper">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <section class="panel">
+                          <table class="table table-striped table-advance table-hover">
+                              <thead>
+                              <tr>
+                                  <th></i> #</th>
+                                  <th class="hidden-phone">收支商户</th>
+                                  <th>收支时间</th>
+								  <th>收支事项</th>
+                                  <th>收支点数</th>
+								  <th>余额</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+							  {loop $dldi $row}
+                              <tr id="dels{$row['id']}">
+                                  <td id="pcuser"><a href="#">{$row['id']}</a></td>
+                                  <td id="pcpsw" class="hidden-phone">{$row['name']}</td>
+                                  <td id="zt{$row['id']}">{php echo date('Y-m-d H:i',$row['time'])}</td>
+								  <td>{$row['func']}</td>
+                                  <td>{$row['pio']}</td>
+								   <td>{$row['ye']}</td>
+                              </tr>
+							  {/loop}
+                              </tbody>
+                          </table>
+                      </section>
+                  </div>
+              </div>
+              <!-- page end-->
+          </section>
+      </section>
+{template 'pc/footer'}

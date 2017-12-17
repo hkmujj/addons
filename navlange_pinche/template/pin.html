@@ -1,0 +1,194 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+  	<li{if $op == 'index'} class="active"{/if}><a href="{php echo $this->createWeburl('pin')}">拼车管理</a></li>
+  	{if $id>0}
+  		<li{if $op == 'detail'} class="active"{/if}><a href="{php echo $this->createWeburl('pin',array('op'=>'detail','id'=>$_GPC['id']))}">拼车详情</a></li>
+  	{/if}
+</ul>
+{if $op == 'index'}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		拼车管理
+	</div>
+	<div class="panel-body">
+		<table class="table table-condensed table-striped" style="background-color: white;table-layout:fixed;word-wrap:break-word">
+			<thead style="border-top-left-radius: 3px;border-top-right-radius: 3px;">
+				<tr>
+					<th style="text-align: center">始发站</th>
+					<th style="text-align: center">目的地</th>
+					<th style="text-align: center">可乘人数</th>
+					<th style="text-align: center">集合地点</th>
+					<th style="text-align: center;width:50px">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $pin $index $item}
+					<tr id="pin_1_{$item['id']}">
+						<td colspan="5">
+							<div style="margin:0px 100px 0px 0px;height:32px">
+								车主：{$item['owner_name']}&#12288;联系电话：{$item['owner_tel']}&#12288;车型：{$item['car_color']}&nbsp;{$item['car_series']}&nbsp;{$item['car_number_1']}{$item['car_number_2']}{$item['car_number_3']}
+							</div>
+							<div style="width:100px;margin:-32px 0px 0px auto">
+								<button type="button" class="btn btn-default btn-xs" onclick="location.href='{php echo $this->createWeburl('pin',array('op'=>'detail','id'=>$item['id']))}'">拼车详情</button>
+							</div>			
+						</td>
+					</tr>
+					<tr id="pin_2_{$item['id']}">
+						<td style="text-align: center">{$item['departure_station']}</td>
+						<td style="text-align: center">{$item['terminal_station']}</td>
+						<td style="text-align: center">{$item['passenger_count']}</td>
+						<td style="text-align: center">{$item['boarding_place']}</td>
+						<td style="text-align: center">
+							<a href="javascript:delete_pin({$item['id']})" style="color:red"><i class="fa fa-minus-square"></i></a>
+						</td>
+					</tr>
+				{/loop}
+			</tbody>
+		</table>
+	</div>
+</div>
+<script>
+function delete_pin(id) {
+	var r = confirm("删除拼车！");
+	if(r) {
+		$.post("{php echo $this->createWeburl('pin',array('op'=>delete_pin))}",{
+				id:id
+			},
+			function(resp) {
+				resp = $.parseJSON(resp);
+				if(resp.message.errno == 0) {
+					alert("删除拼车成功！");
+					$("#pin_1_"+id).remove();
+					$("#pin_2_"+id).remove();
+				}
+			}
+		);
+	}
+}
+</script>
+{else if $op == 'detail'}
+	<div class="alert alert-info">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					出发地：
+				</div>
+				<div class="col-sm-6">
+					{$pin['departure_station']}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					目的地：
+				</div>
+				<div class="col-sm-6">
+					{$pin['terminal_station']}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					出发时间：
+				</div>
+				<div class="col-sm-6">
+					{php echo date('Y-m-d H:i:s',$pin['departure_time']);}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					登车地点：
+				</div>
+				<div class="col-sm-6">
+					{$pin['boarding_place']}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					可乘人数：
+				</div>
+				<div class="col-sm-6">
+					{$pin['passenger_count']}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					车主：
+				</div>
+				<div class="col-sm-6">
+					{$pin['owner_name']}({$pin['owner_tel']})
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-2" style="text-align: right">
+					车型：
+				</div>
+				<div class="col-sm-6">
+					{$pin['car_color']}&nbsp;{$pin['car_series']}&nbsp;{$pin['car_number_1']}{$pin['car_number_2']}{$pin['car_number_3']}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			乘客
+		</div>
+		<div class="panel-body">
+			<table class="table table-condensed table-striped" style="background-color: white;table-layout:fixed;word-wrap:break-word">
+				<thead style="border-top-left-radius: 3px;border-top-right-radius: 3px;">
+					<tr>
+						<th style="text-align: center">姓名</th>
+						<th style="text-align: center">联系电话</th>
+						<th style="text-align: center">人数</th>
+						<th style="text-align: center">登车地点</th>
+						<th style="text-align: center">状态</th>
+						<th style="text-align: center;width:50px">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $travel $index $item}
+						<tr id="member_{$item['id']}">
+							<td style="text-align: center">
+								{$item['name']}
+							</td>
+							<td style="text-align: center">
+								{$item['mobile']}
+							</td>
+							<td style="text-align: center">
+								{$item['amount']}
+							</td>
+							<td style="text-align: center">
+								{$item['boarding_place']}
+							</td>
+							<td style="text-align: center">
+								{if $item['status'] == '0'}
+									待确认
+								{else if $item['status'] == '1'}
+									已确认
+								{/if}
+							</td>
+							<td style="text-align: center">
+								<a href="javascript:delete_member({$item['id']})" style="color:red"><i class="fa fa-minus-square"></i></a>
+							</td>
+						</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<script>
+	function delete_member(id) {
+		var r = confirm("删除成员！");
+		if(r) {
+			$.post("{php echo $this->createWeburl('pin',array('op'=>'delete_member'))}",{
+					id:id
+				},function(resp) {
+					resp = $.parseJSON(resp);
+					if(resp.message.errno == 0) {
+						alert("删除成员成功！");
+						$("#member_"+id).remove();
+					}
+				}
+			);
+		}
+	}
+	</script>
+{/if}

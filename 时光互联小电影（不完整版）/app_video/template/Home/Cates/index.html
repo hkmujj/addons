@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>频道</title>
+		<link rel="stylesheet" href="/public/css/framework7.ios.min.css">
+		<link rel="stylesheet" href="/public/css/app.css">
+	</head>
+
+	<body>
+		<div class="statusbar-overlay"></div>
+		<div class="views">
+			<div class="view view-main">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left">
+				            <a href="#" class="link back">
+				                <i class="icon icon-back"></i><span>返回</span>
+				            </a>
+						</div>
+						<div class="center sliding">频道</div>
+					</div>
+				</div>
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="cates" class="page">
+						<div class="page-content">
+							<div class="cate-list">
+								<ul>
+									<foreach name="cates" item="item">
+									<eq name="item.t_pid" value="0">
+									<li>
+										<dl>
+											<dt>
+												<h4><{$item.t_name}></h4>
+												<a href="/lists/index/id/<{$item.t_id}>.html">
+													更多 >
+												</a>
+											</dt>
+											<dd>
+												<foreach name="cates" item="var">
+												<eq name="var.t_pid" value="$item['t_id']">
+												<a href="/lists/index/id/<{$item.t_id}>.html">
+													<{$var.t_name}>
+												</a>
+												</eq>
+												</foreach>
+											</dd>
+										</dl>
+									</li>
+									</eq>
+									</foreach>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>

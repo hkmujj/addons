@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>频道</title>
+		<link rel="stylesheet" href="/public/css/framework7.ios.min.css">
+		<link rel="stylesheet" href="/public/css/app.css">
+	</head>
+
+	<body>
+		<div class="statusbar-overlay"></div>
+		<div class="views">
+			<div class="view view-main">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left">
+				            <a href="#" class="link back">
+				                <i class="icon icon-back"></i><span>返回</span>
+				            </a>
+						</div>
+						<div class="center sliding">播放视频</div>
+						<div class="right">
+				            <a href="javascript:share('<{$detail.d_name}><{$detail.d_remarks}>', '<{$detail.d_pic}>', 'http://app.zmpic.com/app.html', '<{$detail.d_name}>')" class="link back">
+				               <span>分享</span>
+				            </a>
+						</div>
+					</div>
+				</div>
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="play" class="page">
+						<div class="page-content">
+							<iframe id="playBox" class="playbox" src="<{$list[0]['data'][0]['url']}>"></iframe>	
+							<div id="playList" class="playlist">		
+							    <div class="buttons-row">
+							    	<foreach name="list" key="key" item="item">
+							    	<a href="#tab-play-<{$key}>" class="tab-link button <eq name="key" value="0">active</eq>"><{$item.name}></a>
+							    	</foreach>
+							    </div>
+								
+								<div class="tabs">
+									<foreach name="list" key="key" item="item">
+								    <div id="tab-play-<{$key}>" class="tab <eq name="key" value="0">active</eq>">
+										<foreach name="item.data" item="var">
+										<a class="item" href="#" rel-link="<{$var.url}>"><{$var.name}></a>
+										</foreach>
+								    </div>
+								    </foreach>
+							    </div>
+								
+
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</body>
+</html>

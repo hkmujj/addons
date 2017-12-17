@@ -1,0 +1,15 @@
+﻿
+<style type="text/css">
+    .homeone{
+        border-bottom:2px solid #CA2837 ; 
+    }
+</style>
+<li id="home" {if $operation == ''}class="homeone"{/if}><a href="{php echo $this->createMobileUrl('index')}"><span>首页</span></a></li>
+                <li {if $city == '-1'}class="homeone"{/if}><a  href="{php echo $this->createMobileUrl('index', array('op' => 'list','city'=>-1))}">全部</a></li>
+                <li {if $city == 1}class="homeone"{/if}><a  href="{php echo $this->createMobileUrl('index', array('op' => 'list','city'=>1))}">苏州</a></li>
+                <li {if $city == 2}class="homeone"{/if}><a  href="{php echo $this->createMobileUrl('index', array('op' => 'list','city'=>2))}">上海</a></li>
+               <li {if $city == 3}class="homeone"{/if}><a  href="{php echo $this->createMobileUrl('index', array('op' => 'list','city'=>3))}">南京</a></li>
+               <li {if $city == 4}class="homeone"{/if}><a  href="{php echo $this->createMobileUrl('index', array('op' => 'list','city'=>4))}">无锡</a></li>
+    
+    
+

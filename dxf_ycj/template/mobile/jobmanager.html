@@ -1,0 +1,134 @@
+{template 'common/header'}
+<style>
+body{
+	background-color: #F3F3F3;
+}
+.express{
+	margin:10px;
+	border-radius:5px;
+	border:1px #EFEFEF solid;
+	background-color: white;
+	padding: 10px;
+}
+.address{
+	margin:10px 15px;
+	font-size:80%;
+}
+.send .goods {
+	color:#EA7F17;
+}
+.send .express-time {
+	color:#EA7F17;
+}
+.send .money {
+	color:#EA7F17;
+	text-align: right
+}
+.send .info {
+	background-color: #EA7F17;
+}
+.status {
+	height:24px;
+	line-height: 24px;
+	font-size:80%;
+}
+.status-0 {
+	color:#397ADB;
+}
+.status-1 {
+	color:#EA7F17;
+}
+.status-2 {
+	color:green;
+}
+</style>
+
+
+
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-arrowleft mui-pull-left mui-plus-visble" href="javascript:history.go(-1)"></a>
+    <!--a class="mui-icon mui-icon-phone mui-pull-right"></a--> <a href="{php echo $this->createMobileUrl('user')}"><span class="mui-icon mui-pull-right mui-icon-person"></span></a>
+    <h1 class="mui-title">发布管理({$total})</h1>
+
+</header>
+<div style="height:44px"></div>
+
+{loop $list $index $row}
+	<div id="delete_{$vo['id']}" class='express send' style="font-size:15px;" >
+		<div style="width:260px;margin:0px auto;font-weight:800;">
+			{if mb_strlen($row['title'], 'utf8')>20}
+								{php echo mb_substr($row['title'], 0, 20, 'utf8').'...';}
+								{else}
+								{$row['title']}
+								{/if} 
+		</div>
+		<div style="border-top:1px #EFEFEF solid;">
+		</div>
+		<div class="address" >
+			发布时间： {php echo date('Y-m-d H:i',$row['ctime'])}&nbsp;<span style="float:right;"> 上次刷新：{php echo date('Y-m-d H:i',$row['updat_time'])}</span>
+		</div>
+
+		<div class="address" >
+			地区：{$row['cname']}-{$row['name']}
+		</div>
+		<div class="address" >
+		薪资：{$row['money']}
+		</div>
+		<div class="address" >
+		招聘数：{$row['p_num']}<span style="float:right;">报名人数：{$row['bm_num']} </span>
+		</div>
+		<div class="address" >
+		发布人：{$row['realname']}
+		</div>
+		
+		<div style="border-top: 1px #EFEFEF solid"></div>
+		<div style="margin:10px auto 0px auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-5 status" style="line-height: 33px;" id="hidden{$row['id']}">
+						状态：
+						{if $row['status'] == '1'}
+						<span style="color:#000000;">
+						{else if $row['status'] == '-1'}
+						<span style="color:#EB1820;">
+						{/if}
+						{$lang['status'][$row['status']]}
+						</span>
+					</div>
+					<div class="col-xs-7" style="text-align:right" >
+							<label data='{$row[ad_hot]}' class='label label-default {if $row['ad_hot']==1}label-info{else}{/if}' onclick="setProperty(this,{$row['id']},'ad_hot')">推荐</label>
+							<label data='{$row[ad_status]}' class='label label-default {if $row['ad_status']==1}label-info{else}{/if}' onclick="setProperty(this,{$row['id']},'ad_status')">
+								{if $row['ad_status']==1}正常{else}违规{/if}
+								</label>
+					</div>
+				</div>
+			</div>				
+		</div>
+	</div>
+{/loop}
+<div style="text-align:center;">{$pager}</div>
+<script>
+function setProperty(obj,id,type){
+	
+		$(obj).html($(obj).html() + ".");
+		$.post("{php echo $this->createMobileUrl('setstatus')}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("..",""));
+				if(type=='ad_hot'){
+				 $(obj).html( d.data=='1'?'推荐':'推荐');
+				}
+
+				if(type=='ad_status'){
+				 $(obj).html( d.data=='1'?'正常':'违规');
+				}
+				$(obj).attr("data",d.data);
+
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+</script>

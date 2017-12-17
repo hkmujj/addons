@@ -1,0 +1,92 @@
+{template 'common/header'}
+<style>
+	body{
+		background-color: #EEECED
+	}
+</style>
+<script>
+	mui('body').on('tap','a',function(){document.location.href=this.href;});  
+</script>
+
+<style>
+.mui-bar-tab .mui-tab-item.mui-active {
+    color: {$conf['color']};
+}
+a:hover {
+    text-decoration: none
+}
+</style>
+<div style="background:url({$_W['siteroot']}addons/navlange_pinche/template/style/img/person_head.png) no-repeat;background-size:100% 160px;height:160px">
+	<div style="height:100px;padding-top:20px;text-align: center">
+		<img src="{$_W['fans']['headimgurl']}" width="80px" height="80px" style="border-radius: 40px;border:5px #D6CAC6 solid" />
+	</div>
+	<div style="height:60px;text-align: center;color:white;font-size:20px;font-weight: bold;padding-top:15px">
+		{$_W['fans']['nickname']}
+        {if $conf['member_on'] == '1'}<span style="color:#FBC400;font-size:12px">({$member['level']})</span>{/if}
+	</div>
+</div>
+<ul class="mui-table-view">
+    {if $conf['member_on'] == '1'}
+        <li class="mui-table-view-cell">
+            <a class="mui-navigate-right" href="./index.php?i={$_W['uniacid']}&c=entry&do=index&m=navlange_member">
+            	<div style="height:21px;line-height: 21px;width:50px;text-align: center">
+    				<img src="{$_W['siteroot']}addons/navlange_pinche/template/style/img/member.png" width="21px" height="21px" />
+            	</div>
+            	<div style="height:21px;margin-top:-21px;margin-left:50px">
+            		我的会员
+            	</div>
+            </a>
+        </li>
+    {/if}
+    <li class="mui-table-view-cell">
+        <a class="mui-navigate-right" href="{php echo $this->createMobileurl('owner_info')}">
+            <div style="height:21px;line-height: 21px;width:50px;text-align: center;color: #1C86EE">
+                <i class="fa fa-car"></i>
+            </div>
+            <div style="height:21px;margin-top:-21px;margin-left:50px">
+                车辆信息
+            </div>
+        </a>
+    </li>
+    <li class="mui-table-view-cell">
+        <a class="mui-navigate-right" href="{php echo $this->createMobileurl('owner_pin')}">
+        	<div style="height:21px;line-height: 21px;width:50px;text-align: center;color:#66CDAA">
+				<i class="fa fa-list"></i>
+        	</div>
+        	<div style="height:21px;margin-top:-21px;margin-left:50px">
+        		拼车管理
+        	</div>
+        </a>
+    </li>
+</ul>
+
+<style>
+.nav_item {
+    color:grey;
+    text-align: center
+}
+.nav_item_active {
+    color:#54BCDE;
+}
+</style>
+<div style="position: fixed;bottom:0px;height:50px;background-color: #F7F7F7;width:100%">
+    <div class="nav_item" style="width:50px;height:50px;border-top:1px #ACACAC solid;border-right:1px #ACACAC solid" onclick="location.href='{php echo $this->createMobileurl('index')}'">
+        <div style="height:15px;font-size:12px"><i class="fa fa-send"></i></div>
+        <div style="font-size:12px;height:15px">我是</div>
+        <div style="font-size:12px;height:15px">乘客</div>
+    </div>
+    <div style="margin:0px 0px 0px 50px">
+        <div class="nav_item" style="width:33%;height:50px;border-top:1px #ACACAC solid;margin:-50px auto 0px 0px" onclick="location.href='{php echo $this->createMobileurl('owner_index')}'">
+            <div style="font-size:20px;padding-top:5px"><i class="fa fa-home"></i></div>
+            <div style="font-size:12px">首页</div>
+        </div>
+        <div class="nav_item" style="width:34%;height:50px;border-top:1px #ACACAC solid;margin:-50px auto 0px 33%" onclick="location.href='{php echo $this->createMobileurl('release')}'">
+            <div style="font-size:20px;padding-top:5px"><i class="fa fa-home"></i></div>
+            <div style="font-size:12px">发布</div>
+        </div>
+        <div class="nav_item nav_item_active" style="width:33%;margin:-50px auto 0px 67%;height:50px;border-top:1px #ACACAC solid">
+            <div style="font-size:20px;padding-top:5px"><i class="fa fa-user"></i></div>
+            <div style="font-size:12px">个人中心</div>
+        </div>
+    </div>
+</div>

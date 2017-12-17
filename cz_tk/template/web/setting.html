@@ -1,0 +1,254 @@
+{template 'common/header'}
+        <ul class="nav nav-tabs" role="tablist">
+			<li {if $op == 'display'}class="active"{/if} ><a href="{php echo $this->createWebUrl('setting', array('op' => 'display'))}">实时数据</a> </li>
+			<!--<li {if $op == 'add'}class="active"{/if} ><a href="{php echo $this->createweburl('setting', array('op' => 'add'))}">文字数据</a>-->
+			</ul>
+
+		<div class="main">
+		{if $op == 'display'}
+			<div class=" panel-default">
+             <div class="panel-body">
+			 <script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+			 <script href="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+			 <script src="{MODULE_URL}template/mobile/css/js/highcharts.js"></script>
+			 <script src="{MODULE_URL}template/mobile/css/js/exporting.js"></script>
+			 <div id="container" style="min-width:100%;height:400px"></div>
+			 <style>
+			 .right-content{
+			 width:80%;
+			 }
+			 div,ul,li,p{
+			 margin:0;
+			 padding:0;
+			 }
+			 .sjz{
+			    text-align: center;
+				margin-top: 0.6rem;
+				width:100%;
+			 }
+			 .zr{
+			 width: 23%;
+			display: inline-block;
+			background: #00BCD4;
+			border-radius: 5px;
+			color: #fff;
+			 }
+			 .sm{
+			     width: 23%;
+    display: inline-block;
+    background: #F44336;
+    border-radius: 5px;
+    color: #fff;
+			 }
+			.jr{
+			width: 23%;
+    display: inline-block;
+    background: #009688;
+    border-radius: 5px;
+    color: #fff;
+			}
+			.jrsm{
+			    width: 23%;
+    display: inline-block;
+    background: #FF9800;
+    border-radius: 5px;
+    color: #fff;
+			}
+			.jr-a{
+			   padding: 0.8rem 0.3rem;
+			}
+			.jr-a .text{
+			   width: 40%;
+			}
+			.jr-a .sz{
+			    font-size: 25px;
+			}
+			.zr-a{
+			   padding: 0.8rem 0.3rem;
+			}
+			.zr-a .text{
+			   width: 40%;
+			}
+			.zr-a .sz{
+			    font-size: 25px;
+			}
+			.sm{
+			   padding: 0.8rem 0.3rem;
+			}
+			.sm .text{
+			   width: 40%;
+			}
+			.sm .sz{
+			    font-size: 25px;
+			}
+			.jrsm{
+			   padding: 0.8rem 0.3rem;
+			}
+			.jrsm .text{
+			   width: 40%;
+			}
+			.jrsm .sz{
+			    font-size: 25px;
+			}
+			 </style>
+			 <div id="sst" style="display:none"></div>
+			 <script>
+			 var id={$uniacid};
+			 Highcharts.setOptions({
+    global: {
+        useUTC: false
+    }
+});
+function activeLastPointToolip(chart) {
+    var points = chart.series[0].points;
+    chart.tooltip.refresh(points[points.length -1]);
+			$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('data',array('op'=>'ss')),2)}&id="+id,
+		dataType:"json",
+		data:'',
+		success:function(data){
+			$('#sst').text(data.num);
+		}
+		});
+}
+$('#container').highcharts({
+    chart: {
+        type: 'spline',
+        animation: Highcharts.svg, // don't animate in old IE
+        marginRight: 10,
+        events: {
+            load: function () {
+                // set up the updating of the chart each second
+                var series = this.series[0],
+                    chart = this;
+                setInterval(function () {
+				var ssts = $('#sst').text();
+                    var x = (new Date()).getTime(), // current time
+                        y = Number(ssts);
+                    series.addPoint([x, y], true, true);
+                    activeLastPointToolip(chart)
+                }, 1000);
+            }
+        }
+    },
+    title: {
+        text: '实时爆光数据'
+    },
+    xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150
+    },
+        yAxis: {
+            title: {
+                text: false
+            },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    },
+    tooltip: {
+        formatter: function () {
+            return '<b>' + this.series.name + '</b><br/>' +
+                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                Highcharts.numberFormat(this.y, 2);
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    exporting: {
+        enabled: false
+    },
+	credits: false,
+    series: [{
+        name: '实时数据',
+        data: (function () {
+            // generate an array of random data
+            var data = [],
+                time = (new Date()).getTime(),
+                i;
+            for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: 0
+                });
+            }
+            return data;
+        }())
+    }]
+}, function(c) {
+    activeLastPointToolip(c)
+});
+			 </script>
+			 <div class="sjz">
+			 <div class="zr">
+			 <div class="zr-a">
+			 <p class="text">今日爆光</p>
+			 <p><span class="sz" id="jrb">0000</span><span>次</span></p>
+			 </div>
+			 </div>
+			 <div class="sm">
+			 <div class="sm-a">
+			 <p class="text">今日扫码</p>
+			 <p><span class="sz" id="jrs">0000</span><span>次</span></p>
+			 </div>
+			 </div>
+			 <div class="jr">
+			 <div class="jr-a">
+			 <p class="text">昨日爆光</p>
+			 <p><span class="sz" id="zrb">0000</span><span>次</span></p>
+			 </div>
+			 </div>
+			 <div class="jrsm">
+			 <div class="jrsm-a">
+			 <p class="text">昨日扫码</p>
+			 <p><span class="sz" id="zrs">0000</span><span>次</span></p>
+			 </div>
+			 </div>
+			 </div>
+            </div>
+            </div>
+			</div>
+			{elseif $op == 'add'}
+			<div class=" panel-default">
+             <div class="panel-body">
+			 文字数据
+            </div>
+            </div>
+			{/if}
+			</div>
+			<script>
+num();
+numz();
+var t1 = window.setInterval(num,3000); 
+var t3 = window.setInterval(numz,3000); 
+var id={$uniacid};
+function num(){
+$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('data',array('op'=>'pos')),2)}&id="+id,
+		dataType:"json",
+		data:'',
+		success:function(data){
+			  $('#jrb').text(data.num);
+			  $('#jrs').text(data.nums);
+			}
+});
+}
+function numz(){
+$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('data',array('op'=>'poss')),2)}&id="+id,
+		dataType:"json",
+		data:'',
+		success:function(data){
+			  $('#zrb').text(data.num);
+			  $('#zrs').text(data.nums);
+			}
+});
+}
+</script>
+{template 'common/footer'}

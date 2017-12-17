@@ -1,0 +1,489 @@
+<!DOCTYPE html><!-- html5标识 -->
+<html class="html-bg-2"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--每一款手机有不同的分辨率，不同屏幕大小，使我们开发出来的应用或页面大小能适合各种高端手机-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<title>{if !empty($set['name'])}{$set['name']}{else}疯狂拓客码上有客{/if}</title>
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/index.css">
+	<!-- <script src="{MODULE_URL}template/mobile/css/js/jQueryRotate.2.2.js"></script> -->
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+	<script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+	<script src="{MODULE_URL}template/mobile/css/js/highcharts.js"></script>
+	<script src="{MODULE_URL}template/mobile/css/js/exporting.js"></script>
+</head>
+<style>
+select{
+-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+	.name-indexs{
+		width: 49%;
+		display: inline-block;
+		font-size: 15px;
+	}
+	.nume{
+		width: 49%;
+		display: inline-block;
+		text-align: right;
+	}
+	.header-indexs{
+		padding:0.4rem 0.7rem;
+		line-height: 0.6rem;
+		background: linear-gradient(30deg,#7dcdf8,#1298f1);
+		background: -webkit-linear-gradient(30deg,#7dcdf8,#1298f1);
+		color: #fff;
+	}
+	.nume ul{
+		display: inline-block
+	}
+	.nume li{
+		display: inline-block;
+		vertical-align: middle;
+	}.nume svg{
+		fill: #fff;
+		 }
+	.highcharts-title{
+		font-size: 15px!important;
+	}
+	.prm{
+		text-align: center;
+	}
+	.prm p{
+		display: inline-block;
+		background: #c3c3c3;
+		color: #fff;
+		padding: 0.2rem 0.3rem;
+		font-size: 13px;
+		border-radius: 2px;
+	}
+	.jr{
+		width: 95%;
+		margin: 0.5rem auto;
+		/*background: -webkit-linear-gradient(30deg,rgba(255, 81, 68, 0.68),#ff2e7b);*/
+		/*background: linear-gradient(30deg,rgba(255, 81, 68, 0.68),#ff2e7b);*/
+		background: #00BCD4;
+		border-radius: 5px;
+	}
+	.jr-s{
+		width: 95%;
+		margin: 0.5rem auto;
+		/*background: -webkit-linear-gradient(30deg,#ffbe6f,#ff5d0b);*/
+		/*background: linear-gradient(30deg,#ffbe6f,#ff5d0b);*/
+		background: rgb(255, 87, 34);
+		border-radius: 5px;
+	}
+	.zr{
+		width: 95%;
+		margin: 0.5rem auto;
+		/*background: -webkit-linear-gradient(30deg,#63cdd5,#e0ecab);*/
+		/*background: linear-gradient(30deg,#63cdd5,#e0ecab);*/
+		background: rgba(0, 150, 136, 0.8);
+		border-radius: 5px;
+	}
+	.zr-s{
+		width: 95%;
+		margin: 0.5rem auto;
+		/*background: -webkit-linear-gradient(30deg,rgba(156, 39, 176, 0.89),rgba(63, 81, 181, 0.7));*/
+		/*background: linear-gradient(30deg,rgba(156, 39, 176, 0.89),rgba(63, 81, 181, 0.7));*/
+		background: rgba(0, 158, 6, 0.74);
+		border-radius: 5px;
+	}
+	.footer-indexs{
+		padding: 0.8rem 0.5rem;
+	}
+	.footer-indexs .text{
+		padding: 0.5rem 0.8rem;
+		color: #fff;
+	}
+	.footer-indexs .conten-indexs{
+		text-align: center;
+		color: #fff;
+	}
+	.footer-indexs .conten-indexs .sz{
+		font-size: 2rem;
+	}
+	.svg-indexs{
+		position: absolute;
+		margin-top: -1.4rem;
+		left: 15px;
+	}
+	.svg-indexs svg{
+		fill: #03A9F4;
+	}
+	.con-indexs{
+		padding-top: 3.3rem;
+	}
+	.header-indexs{
+		position: fixed;
+		z-index: 5;
+		width: 100%;
+		line-height: 1rem;
+	}
+	.nav-indexs{
+		/* line-height: 2rem; */
+		font-size: 14px;
+		text-align: right;
+		display: none;
+		margin-top: -26px;
+	}
+	.nav-a{
+		padding: 0.5rem 0 0.1rem 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.34);
+		opacity: 0;
+		transition: opacity .5s;
+	}
+	.nav-indexs p{
+		display: inline-block;
+	}
+	.hr{
+		width: 1px;
+		height: 11px;
+		display: inline-block;
+		background: rgba(255, 255, 255, 0.58);
+		margin: 0 0.5rem;
+		vertical-align: initial;
+	}
+	.text-msg{
+    height: 275px;
+    width: 100%;
+    background: #f3f3f3;
+	    position: fixed;
+    bottom: -275px;
+	    box-shadow: 0 0 6px rgba(117, 117, 117, 0.47);
+
+}
+	.text-msg-a{
+    padding: 0.5rem 1rem;
+}
+.text-titel{
+    margin-bottom: 0.5rem;
+	font-size: 15px;
+}
+.text-titel p{
+	display: inline-block;
+    width: 50%;
+}
+.text-titel p span{
+    background: #dcdcdc;
+    padding: 0.1rem 0.3rem;
+    border-radius: 5px;
+    color: #989898;
+}
+.out{
+    width: 100%;
+    height: 90px;
+    border-radius: 5px;
+	border: 1px solid #dcdcdc;
+}
+.text-wa{
+    font-size: 14px;
+    color: red;
+    width: 39%;
+    display: inline-block;
+	    
+}
+#selsadd{
+    width: 59%;
+    display: inline-block;
+    height: 35px;
+    /* text-align: center; */
+    border-radius: 5px;
+	margin-top: 0.3rem;
+	    border: 1px solid #dcdcdc;
+    color: #6d6d6d;
+	 background:#fff;
+}
+.post-msg{
+    background: #28a3f2;
+    text-align: center;
+    padding: 0.46rem 0;
+    color: #fff;
+    margin-top: 0.8rem;
+
+}
+#text-msg-i{
+    width: 100%;
+    height: 35px;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #dcdcdc;
+    padding-left: 0.3rem;
+}
+.gd{
+    position: absolute;
+    font-size: 15px;
+    margin-top: -1.4rem;
+    right: 15px;
+    background: #42b746;
+    border-radius: 5px;
+    padding: 0.05rem 0.3rem;
+    color: #fff;
+}
+</style>
+<body>
+<div class="header-indexs">
+	<div class="back-index">
+	<div class="name-indexs" onclick="">
+		您好：{$users['name']}
+	</div>
+	<div class="nume" onclick="tc();">
+		<ul>
+			<li>菜单</li>
+			<li>
+				<svg t="1501841265155" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="24360" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25"><defs><style type="text/css"></style></defs><path  d="M160 314.4A26.24 26.24 0 0 1 186.08 288h459.84c14.4 0 26.08 11.712 26.08 26.4a26.24 26.24 0 0 1-26.08 26.4H186.08A26.176 26.176 0 0 1 160 314.4z m220 231.008a26.56 26.56 0 0 1 26.72-26.4h430.56c14.752 0 26.72 11.712 26.72 26.4a26.56 26.56 0 0 1-26.72 26.4H406.72a26.496 26.496 0 0 1-26.72-26.4zM160 776.384a26.24 26.24 0 0 1 26.08-26.4h459.84c14.4 0 26.08 11.744 26.08 26.4a26.24 26.24 0 0 1-26.08 26.432H186.08A26.176 26.176 0 0 1 160 776.384z"  p-id="24361"></path></svg>
+			</li>
+		</ul>
+	</div>
+	</div>
+	<div class="nav-indexs">
+		<div class="nav-a"><p onclick="window.location.href='{php echo $this->createMobileUrl('user_dy')}'">员工管理</p><p class="hr"></p><p onclick="window.location.href='{php echo $this->createMobileUrl('cons')}'">群发内容</p><p class="hr"></p>{if empty($wa)}<p onclick="textmsg();">扫码声明</p>{else}<p onclick="bjmsg();">编辑声明</p>{/if}<p class="hr"></p><p onclick="window.location.href='{php echo $this->createMobileUrl('Logint')}'">退出</p></div></div>
+	</div>
+<div class="con-indexs">
+	<div id="container" style="min-width:100%;height:300px"></div>
+</div>
+<div id="sst" style="display:none"></div>
+<script>
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    function activeLastPointToolip(chart) {
+        var points = chart.series[0].points;
+		chart.tooltip.refresh(points[points.length -1]);
+		$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs',array('op'=>'ss')),2)}",
+		dataType:"json",
+		data:'',
+		success:function(data){
+			$('#sst').text(data.num);
+		}
+		});
+    }
+    $('#container').highcharts({
+        chart: {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10,
+            events: {
+                load: function () {
+                    // set up the updating of the chart each second
+                    var series = this.series[0],
+                        chart = this;
+                    setInterval(function () {
+						var ssts = $('#sst').text();
+                        var x = (new Date()).getTime(), // current time
+							y = Number(ssts);
+                        series.addPoint([x, y], true, true);
+                        activeLastPointToolip(chart)
+                    }, 1000);
+                }
+            }
+        },
+        title: {
+            text: '实时爆光数据'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 120
+        },
+        yAxis: {
+            title: {
+                text: false
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        credits: false,
+        series: [{
+            name: '实时数据',
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+                for (i = -19; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y:0
+                    });
+                }
+                return data;
+            }())
+        }]
+    }, function(c) {
+        activeLastPointToolip(c)
+    });
+</script>
+<div class="prm"><p>以下数据10分钟加载一次</p></div>
+<div class="svg-indexs">
+	<svg onclick="num();" t="1501839268996" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3883" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25"><defs><style type="text/css"></style></defs><path d="M838.7584 186.112c-87.0144-87.0144-202.7264-134.9376-325.8112-134.9376-123.0848 0-238.8224 47.9488-325.8624 134.9632C100.0704 273.152 52.1472 388.864 52.1472 511.9488c0 123.0848 47.9232 238.7968 134.9376 325.8368 87.0144 87.0144 202.7264 134.9376 325.8112 134.9376s238.7968-47.9232 325.8112-134.9376C1018.3936 658.0992 1018.3936 365.7472 838.7584 186.112zM734.6432 389.1456c-3.6608 4.0704-8.8576 6.3744-14.2848 6.3744-0.4096 0-0.8192 0-1.2288-0.0256l-113.8176-7.296c-10.5728-0.6656-18.6368-9.8048-17.92-20.3776 0.6656-10.5984 9.7792-18.6112 20.3776-17.9456l61.9008 3.968c-44.9792-43.6992-104.4992-68.4288-168.5504-68.4288-133.888 0-242.8416 108.928-242.8416 242.8416 0 133.9136 108.9536 242.8416 242.8416 242.8416 68.8128 0 134.6816-29.3632 180.7104-80.5888 7.0656-7.8592 19.2768-8.5248 27.1104-1.4336 7.9104 7.0912 8.5504 19.2256 1.4592 27.1104-53.2992 59.3152-129.5872 93.3376-209.2544 93.3376-155.0848 0-281.2416-126.1568-281.2416-281.2416 0-155.0848 126.1824-281.2416 281.2416-281.2416 71.936 0 138.8544 26.9824 190.3616 74.7008l-9.3952-54.5024c-1.792-10.4448 5.2224-20.3776 15.6672-22.1952 10.4704-1.792 20.3776 5.2224 22.1696 15.6672l19.3792 112.384C740.3008 378.8288 738.56 384.768 734.6432 389.1456z" p-id="3884"></path></svg>
+</div>
+<!-- <p class="gd">详情</p> -->
+<div class="footer-indexs">
+	<div class="jr">
+		<div class="jr-a">
+			<p class="text">今日爆光</p>
+			<p class="conten-indexs"><span class="sz szb">0000</span><span>次</span></p>
+		</div>
+	</div>
+	<div class="jr-s">
+		<div class="jrsm-a">
+			<p class="text">今日扫码</p>
+			<p class="conten-indexs"><span class="sz szbs">0000</span><span>次</span></p>
+		</div>
+	</div>
+	<div class="zr">
+		<div class="zr-a">
+			<p class="text">昨日爆光</p>
+			<p class="conten-indexs"><span class="sz szzr">0000</span><span>次</span></p>
+		</div>
+	</div>
+	<div class="zr-s">
+		<div class="sm-a">
+			<p class="text">昨日扫码</p>
+			<p class="conten-indexs"><span class="sz szzrs">0000</span><span>次</span></p>
+		</div>
+	</div>
+</div>
+	<div class="text-msg hide">
+	<div class="text-msg-a">
+	<div class = "text-titel"><p>用户声明</p><p style="text-align:right;"><span onclick="qxmsg();">取消操作<span></P></div>
+	<input type="text" value="" name="title" placeholder="标题" id="text-msg-i">
+	<p class = "tar"><textarea class="out" id="comment" name="msg" rows="" cols=""  placeholder="声明内容"></textarea></p>
+	<p class="text-wa">是否设为启用</p>
+	<select id="selsadd">
+	<option value="0">不启用</option>
+	<option value="1">启用</option>
+	</select>
+	</div>
+	{if empty($wa)}<div class="post-msg" onclick="post();">提交</div>{else}<div class="post-msg" onclick="posts();">修改</div>{/if}
+	</div>
+<script>
+function bjmsg(){
+
+		$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs',array('op'=>'dy')),2)}",
+			dataType:"json",
+			cache:false,
+			data:'',
+			success:function(data){
+			  	$('#text-msg-i').val(data.titel);
+				$('#comment').val(data.con);
+				$('#selsadd').val(data.status);
+				textmsg()
+		}
+	});
+}
+function posts(){
+	var title = $('#text-msg-i').val();
+	var content = $('#comment').val();
+	var sta = $('#selsadd').val();
+	$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs',array('op'=>'up')),2)}",
+			dataType:"json",
+			cache:false,
+			data:{title:title,content:content,sta:sta},
+			success:function(data){
+			  qxmsg();
+		}
+	});
+}
+function post(){
+	var title = $('#text-msg-i').val();
+	var content = $('#comment').val();
+	var sta = $('#selsadd').val();
+	$.ajax({
+			type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs',array('op'=>'smadd')),2)}",
+			dataType:"json",
+			cache:false,
+			data:{title:title,content:content,sta:sta},
+			success:function(data){
+			  window.location.reload();
+		}
+	});
+}
+function qxmsg(){
+    $('.text-msg').animate({bottom:-275 + 'px'});
+	$('.text-msg').fadeOut(100);
+}
+function textmsg(){
+   	$('.text-msg').fadeIn(100);
+	$('.text-msg').animate({bottom:0 +'px'});
+}
+	function tc() {
+        var header = $('.header-indexs').outerHeight(true) +26;
+        var headers = $('.header-indexs').outerHeight(true);
+        $('.nume').attr('onclick','gb();');
+        $('.con-indexs').css({paddingTop:header + 'px'});
+        $('.nav-indexs').fadeIn(100);
+        $('.nav-indexs').animate({marginTop:0+'px'});
+        setTimeout(function () {
+            $('.nav-a').css('opacity','100');
+        },500);
+    }
+    function gb() {
+        var header = $('.header-indexs').outerHeight(true) -26;
+        $('.nume').attr('onclick','tc();');
+        $('.nav-a').css('opacity','0');
+        $('.nav-indexs').animate({marginTop:-10+'px'});
+        setTimeout(function () {
+            $('.nav-indexs').fadeOut(100);
+        },500);
+        $('.con-indexs').css({paddingTop:header + 'px'});
+    }
+</script>
+<script>
+num();
+numz();
+var t1 = window.setInterval(num,100000); 
+var t3 = window.setInterval(numz,100000); 
+function num(){
+$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs',array('op'=>'pos')),2)}",
+		dataType:"json",
+		data:'',
+		success:function(data){
+			  $('.szb').text(data.num);
+			  $('.szbs').text(data.nums);
+			}
+});
+}
+function numz(){
+$.ajax({
+		type:"get",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('indexs',array('op'=>'poss')),2)}",
+		dataType:"json",
+		data:'',
+		success:function(data){
+			  $('.szzr').text(data.num);
+			  $('.szzrs').text(data.nums);
+			}
+});
+}
+</script>
+</body>
+</html>

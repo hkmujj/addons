@@ -1,0 +1,120 @@
+{template 'common/header'}
+<style>
+body{
+	background-color: #F3F3F3;
+}
+.express{
+	margin:10px;
+	border-radius:5px;
+	border:1px #EFEFEF solid;
+	background-color: white;
+	padding: 10px;
+}
+.address{
+	margin:10px 15px;
+	font-size:80%;
+}
+.send .goods {
+	color:#EA7F17;
+}
+.send .express-time {
+	color:#EA7F17;
+}
+.send .money {
+	color:#EA7F17;
+	text-align: right
+}
+.send .info {
+	background-color: #EA7F17;
+}
+.status {
+	height:24px;
+	line-height: 24px;
+	font-size:80%;
+}
+.status-0 {
+	color:#397ADB;
+}
+.status-1 {
+	color:#EA7F17;
+}
+.status-2 {
+	color:green;
+}
+</style>
+
+<script>
+	mui('body').on('tap','a',function(){document.location.href=this.href;});  
+</script>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-arrowleft mui-pull-left mui-plus-visble" href="javascript:history.go(-1)"></a>
+    <!--a class="mui-icon mui-icon-phone mui-pull-right"></a-->
+    <h1 class="mui-title">我的出行</h1>
+</header>
+<div style="height:44px"></div>
+{loop $travel_info $index $vo}
+	<div id="travel_{$vo['id']}" class='express send'>
+		<div style="text-align: center;width: 260px;margin:0px auto">{php echo date('m-d H:i',$vo['departure_time']);}</div>
+		<div style="width:260px;margin:-10px auto 0px auto">
+			<div style="width:80px;display: inline-block;text-align: center">
+				{$vo['departure_station']}
+			</div>
+			<div style="text-align: center;display: inline-block;width:80px">
+				<img src="{$_W['siteroot']}addons/navlange_pinche/template/style/img/arrow.png" height="auto" width="80px" />
+			</div>
+			<div style="width:80px;display: inline-block;text-align: center">
+				{$vo['terminal_station']}
+			</div>
+		</div>
+		<div style="border-top: 1px #EFEFEF solid"></div>
+		<div class="address">
+			乘车人数：{$vo['amount']}
+		</div>
+		<div class="address">
+			集合地点：{$vo['boarding_place']}
+		</div>
+		<div style="border-top: 1px #EFEFEF solid"></div>
+		<div style="margin:10px auto 0px auto">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-5 status" style="line-height: 33px">
+						状态：{php echo $this->trans_status($vo['status']);}
+					</div>
+					<div class="col-xs-7" style="text-align:right">
+						{if $vo['status'] == '0' || $vo['status'] == '0.5' || $vo['status'] == '1'}
+							<button type="button" class="mui-btn mui-btn-danger" onclick="cancel_travel({$vo['id']})">取消</button>
+						{/if}
+						{if $vo['status'] == '0.5'}
+							<button type="button" class="mui-btn" style="background-color: {$conf['color']};color:white" onclick="confirm_travel({$vo['id']})">去确认</button>
+						{else if $vo['status'] == '4'}
+							<button type="button" class="mui-btn mui-btn-warning" onclick="comment({$vo['pin_id']})">评价</button>
+						{/if}							
+					</div>
+				</div>
+			</div>				
+		</div>
+	</div>
+{/loop}
+<script>
+function cancel_travel(id) {
+	var r = confirm("确认取消！");
+	if(r) {
+		$.post("{php echo $this->createMobileurl('my_travel',array('op'=>'cancel_travel'))}",{
+				id:id
+			},function(resp) {
+				resp = $.parseJSON(resp);
+				if(resp.message.errno == 0) {
+					alert("取消成功！");
+					$("#travel_"+id).remove();
+				}
+			}
+		);
+	}
+}
+function confirm_travel(id) {
+	window.location.href="{php echo $this->createMobileurl('confirm')}"+"&id="+id;
+}
+function comment(id) {
+	window.location.href="{php echo $this->createMobileurl('info')}"+"&id="+id;
+}
+</script>

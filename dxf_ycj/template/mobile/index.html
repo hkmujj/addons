@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>零零校园-好兼职</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{OSSURL}/public/mobile/css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="{OSSURL}/public/mobile/css/mui.picker.min.css" />
+		<script src="{OSSURL}/public/mobile/js/mui.min.js"></script>
+		<script src="{OSSURL}/public/mobile/js/mui.picker.min.js"></script>
+		<style type="text/css">
+		.circle{
+			width: 50px;
+			height: 50px;
+			line-height: 50px;
+			
+			border-radius: 50%;
+			-moz-border-radius: 50%;
+			-webkit-border-radius: 50%;
+		}
+		.color_22{
+			background-color:#2BBB55;
+		}
+		.color_23{
+			background-color:#BB7955;
+		}
+		.color_24{
+			background-color:#1DAED4;
+		}
+		.color_25{
+			background-color:#147FE3;
+		}
+		.color_26{
+			background-color:#B78D28;
+		}
+		.color_27{
+			background-color:#AC4646;
+		}
+		.color_28{
+			background-color:#939292;
+		}
+		.color_29{
+			background-color:#9934A5;
+		}
+		.color_30{
+			background-color:#4B53CF;
+		}
+		.color_31{
+			background-color:#FFAEC9;
+		}
+
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" >
+			<div class="" style="color:red;float:left;width:20%;" onclick="alert('其他城市暂无数据');">郑州<span class="mui-icon mui-icon-arrowdown"></span>
+			</div>
+			<div class="mui-search " style="width:70%;float:left;">
+					 <a href="javascript:;" onclick="alert('搜索暂无更多数据！');"><input type="search" class="mui-input-clear " placeholder="请输入搜索的兼职" disabled=""></a>
+
+			</div>
+			<div style="float:right;color:red;">
+				<a href="{php echo $this->createMobileUrl('user')}"><span class="mui-icon mui-icon-person"></span></a>
+			</div>
+		</header>
+		<div id="slider" class="mui-slider" style="margin-top:40px;">
+			<div class="mui-slider-group mui-slider-loop">
+				<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="{$array['1']['0']['url']}">
+						<img src="{php echo tomedia($array['1']['0']['pic_url']);}" style="height:150px;width:100%;">
+					</a>
+				</div>
+				{loop $array['1'] $index $v}
+				<!-- 第一张 -->
+				<div class="mui-slider-item">
+					<a href="{$v['url']}">
+						<img src="{php echo tomedia($v['pic_url']);}" style="height:150px;width:100%;">
+					</a>
+				</div>
+				{/loop}
+				<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+				<div class="mui-slider-item mui-slider-item-duplicate">
+					<a href="{$array['1']['0']['url']}">
+						<img src="{php echo tomedia($array['1']['0']['pic_url']);}" style="height:150px;width:100%;">
+					</a>
+				</div>
+			</div>
+			<div class="mui-slider-indicator">
+				{loop $array['1'] $index $v}
+				<div class="mui-indicator"></div>
+				{/loop}
+				
+			</div>
+		</div>
+		
+		<!-- <div class="mui-row" style="margin-top:5px;">
+		    <div class="mui-col-sm-6" style="width:50%;">
+		    	<a href="{$array['2']['0']['url']}">
+		          	<img src="{php echo tomedia($array['2']['0']['pic_url']);}" style="width:100%;height:80px;">
+		        </a>
+		    </div>
+		    <div class="mui-col-sm-6" style="width:50%;">
+		    	<a href="{$array['3']['0']['url']}">
+		           <img src="{php echo tomedia($array['3']['0']['pic_url']);}" style="width:100%;height:80px;">
+		           </a>
+		    </div>
+		</div> -->
+		<!-- <div class="mui-row">
+		    <div class="mui-col-sm-12" style="width:100%;">
+		          	<img src="{OSSURL}/public/mobile/images/getheadimg.jpg" style="width:100%;height:80px;">
+		    </div>
+		</div> -->
+		<div style="width:100%;border-top:1px solid #AAA9A9;border-bottom:1px solid #AAA9A9;height:41px;margin-top:15px;">
+			<div style="width:33%;float:left;padding:0px;">
+			<select name="category" id="select_k1" onchange="gradeChange()">
+			<option value="0" >区域不限</option>
+			{loop $category  $v}
+			<option value="{$v['id']}" {if $v['id']==$_GPC['job_cid']}selected{/if}>{$v['name']}</option>
+			{/loop}
+			</select>
+			</div>
+			<div style="width:33%;float:left;padding:0px;border-left:1px solid #AAA9A9;">
+			<select name="cate_id" id="select_k2" onchange="gradeChange()">
+			<option value="0">类型不限</option>
+			{loop $catelist  $v1}
+			<option value="{$v1['id']}" {if $v1['id']==$_GPC['cate_id']}selected{/if}>{$v1['title']}</option>
+			{/loop}
+			</select>
+			</div>
+			<div style="width:34%;float:left;padding:0px;border-left:1px solid #AAA9A9;" >
+			<select name="uptime" id="select_k3" onchange="gradeChange()">
+			<option value="0">时间不限</option>
+			<option value="7200" {if $_GPC['uptime']==7200}selected{/if}>2小时内</option>
+			<option value="18000" {if $_GPC['uptime']==18000}selected{/if}>5小时内</option>
+			<option value="28800" {if $_GPC['uptime']==28800}selected{/if}>8小时内</option>
+			<option value="43200" {if $_GPC['uptime']==43200}selected{/if}>12小时内</option>
+			<option value="86400" {if $_GPC['uptime']==86400}selected{/if}>24小时内</option>
+			<option value="172800" {if $_GPC['uptime']==172800}selected{/if}>48小时内</option>
+			
+			</select>
+			</div>
+			
+		</div>
+		
+		<ul class="mui-table-view">
+			{if $list}
+			{loop $list $index $vo}
+		    <li class="mui-table-view-cell mui-media">
+		        <a href="{php echo $this->createMobileurl('index',array('op'=>'detail','id'=>$vo['id']))}">
+		        	<div>
+		            <div class="circle color_{$vo['cid']}" style="float:left;text-align:center;color:#FFFFFF;">{$vo['ctitle']}
+		            </div>
+
+		            <div class="mui-media-body" style="float:left;width:75%;margin-left:10px;">
+		                {if mb_strlen($vo['title'], 'utf8')>14}
+								{php echo mb_substr($vo['title'], 0, 14, 'utf8').'...';}
+								{else}
+								{$vo['title']}
+								{/if} 
+		                <p class='mui-ellipsis'>{$vo['cname']}&nbsp;|&nbsp;性别：{$lang['sex'][$vo['sex']]}&nbsp;|&nbsp;{$vo['p_num']}人</p>
+		                <p class='mui-ellipsis' style="color:red;">{if mb_strlen($vo['money'], 'utf8')>14}
+								{php echo mb_substr($vo['money'], 0, 14, 'utf8').'...';}
+								{else}
+								{$vo['money']}
+								{/if} <span style="float:right;color:black;">{php $time=time()-$vo['updat_time']; if($time<86400)if($time<3600)echo round($time/60).'分钟前';else echo round($time/3600).'小时前';else  echo date('Y-m-d ',$vo['updat_time'])}</span></p>
+		            </div>
+		            {if $vo['ad_hot']==1}
+		            <img src="{OSSURL}/public/mobile/images/jian.png" width="40px" height="40px" />
+		            {/if}
+		            </div>
+		        </a>
+		    </li>
+		    {/loop}
+		    {else}
+		    <li class="mui-table-view-cell mui-media">
+		       
+		        <div style="text-align:center;">暂无发布</div>
+		    </li>
+		    
+		    {/if}
+		   
+		</ul>
+	
+		
+		
+	</body>
+
+									
+</html>
+<script type="text/javascript" charset="utf-8">
+	mui.init({
+	swipeBack:true //启用右滑关闭功能
+	});
+	var slider = mui("#slider");
+	slider.slider({
+	interval: 5000
+	});
+	 function gradeChange(){
+        var job_cid = document.getElementById("select_k1").value;
+        var cate_id = document.getElementById("select_k2").value;
+        var uptime = document.getElementById("select_k3").value;
+        var url="http://wx.yingcaijie.cn/app/index.php?i=5&c=entry&op=display&id=18&do=index&m=dxf_ycj&job_cid="+job_cid+"&cate_id="+cate_id+"&uptime="+uptime;
+       	location.href=url;
+       
+       }
+      
+</script>
+	
+	
+

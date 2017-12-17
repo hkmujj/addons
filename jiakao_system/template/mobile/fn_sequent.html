@@ -1,0 +1,75 @@
+{template 'header'}
+<div class="container">
+	<div class="row" style="height:34px;">
+		<a href="javascript:void(0);" class="btn btn-default" onclick="window.history.back()">
+			<span class="glyphicon glyphicon-home"></span>
+		</a>
+		顺序答题-共<span class="label label-success">898</span>题 
+		<button class="btn btn-default btn-sm" style="float:right;"  data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-search"></span></button>
+	</div>
+	<div class="row" id="title" style="font-size:14px;height:30px;">
+	</div>
+	<div class="row" id="pic" style="height:110px;padding:5px;text-align:center;">
+
+	</div>
+	<div class="row">
+			<span class="label label-success" id="t_sort"></span>
+			<span class="label label-info" id="t_type"></span>
+		</div>
+	<div class="row" id="items"  style="height:200px;">
+	</div>
+	<div class="row">
+		<input type="hidden" value="" id="t_id_hidden">
+		<button class="col-md-6 col-xs-6 btn btn-default" type="button" id="prev">
+			<span class="glyphicon glyphicon-chevron-left"></span>上一题
+		</button>
+		<button class="col-md-6 col-xs-6 btn btn-default" type="button" id="next">
+			下一题<span class="glyphicon glyphicon-chevron-right"></span>
+		</button>
+	</div>
+	<div class="row" id="alert">
+	</div>
+</div>
+<!--modal-->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">选择题号</h4>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" type="text" id="t_id_change">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" id="t_id_change_confrim">跳转</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{$_W['siteroot']}addons/jiakao_system/js/KaoShi.js"></script>
+<script>
+$(function(){
+	//页面初次加载完成，那么需要获取第一个题目
+	KaoShi.web_root = "{$_W['siteroot']}";
+	KaoShi.init('',"sx_",898);
+	//向下翻页
+	$("#next").click(function(){
+		KaoShi.next();
+	})
+	//向上翻页
+	$("#prev").click(function(){
+		KaoShi.prev();
+	})
+	//确认跳转
+	$("#t_id_change_confrim").click(function(){
+		var t_id = $("#t_id_change").val();
+		KaoShi.changeitem(t_id);
+	})
+})
+</script>
+{template 'footer'}

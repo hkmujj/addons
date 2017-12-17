@@ -1,0 +1,526 @@
+<!DOCTYPE html><!-- html5标识 -->
+<html class="html-bg-2"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!--每一款手机有不同的分辨率，不同屏幕大小，使我们开发出来的应用或页面大小能适合各种高端手机-->
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<title>{if !empty($set['name'])}{$set['name']}{else}疯狂拓客码上有客{/if}</title>
+	<!-- <link rel="stylesheet" href="{MODULE_URL}template/mobile/css/mui.picker.min.css"> -->
+	<link rel="stylesheet" href="{MODULE_URL}template/mobile/css/index.css">
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+</head>
+<style>
+select{
+-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+	.header-user div{
+		display:inline-block;
+		width: 49%; 
+	}
+	body{
+	background:#fff;
+	}
+	.header-user{
+		background:-webkit-linear-gradient(30deg,#7dcdf8,#1298f1);
+		background:linear-gradient(30deg,#7dcdf8,#1298f1);
+		padding: 0.2rem 0.3rem;
+    	color: #fff;
+		box-shadow: 0px 0px 6px rgba(53, 170, 244, 0.55);
+	}
+	.back-user{
+		display: inline-block;
+    	vertical-align: middle;
+    	line-height: 1rem;
+	}
+	.add-user{
+		text-align: right;
+	}
+	.add-user p{
+		display: inline-block;
+		background: rgba(0, 130, 214, 0.48);
+    	padding: 0.2rem 0.5rem;
+    	border-radius: 5px;
+    	font-size: 15px;
+    	vertical-align: middle;
+		color:#fff;
+	}
+	.user-list ul{
+		display: -webkit-box;
+     	text-align: center; 
+    	font-size: 14px;
+	}.user-list ul li{
+		width: 25%;
+	}
+	.nav-user ul{
+		display: -webkit-box;
+		text-align: center;
+    	font-size: 14px;
+	}
+	.nav-user li{
+		width: 25%;
+	}
+	
+	.nav-user{
+		width: 100%!important;
+    	border-top: 1px solid rgba(255, 255, 255, 0.34);
+    /* padding-top: 0.3rem; */
+    	padding: 0.2rem 0.3rem 0 0.3rem;
+    	text-align: center;
+		font-size: 14px;
+		margin-top: 0.2rem;
+	}
+	.user-form{
+		padding: 0.2rem 0.5rem;
+	}
+	.user-form ul{
+		border-bottom: 1px solid rgba(187, 187, 187, 0.15);
+	}
+	.user-list{
+		line-height: 2rem;
+	}
+	button{
+		outline: none;
+		border:none;
+		background: none;
+	}
+	.but-user{
+		text-align: center;
+    	margin-top: 2rem;
+		padding: 0 3rem;
+	}
+	.but-user button{
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-size: 15px;
+	}
+	.but-su{
+		background: rgb(241, 110, 101);
+	}
+	.but-wa{
+		background: rgba(31, 212, 38, 0.78);
+	}
+	.tc-users{
+		position: fixed;
+    	width: 100%;
+    	height: 100%;
+	}
+	.tc-u-a{
+    width: 80%;
+    margin: auto;
+    margin-top: 50%;
+    background: rgb(68, 181, 255);
+    color: #fff;
+    padding: 0.5rem 0.3rem;
+    /* border: 5px; */
+    /* border-top: 5px; */
+    border-radius: 5px 5px 0 0;
+	}
+	#msg-titel{
+		text-align: center;
+	}
+	#msg-content{
+		font-size: 15px;
+    	text-align: center;
+		margin: 0.5rem 0;
+	}
+	.but-tc{
+		width: 80%;
+    	margin: auto;
+    	text-align: center;
+    	color: #fff;
+	}
+	#esc{
+		 width: 50%;
+    	display: inline-block;
+    	background: #a0a0a0;
+    	padding: 0.4rem;
+    	border-radius: 0 0 0 5px;
+	}
+	#ok{
+		width: 50%;
+    display: inline-block;
+    background: #FF9800;
+    padding: 0.4rem;
+    border-radius: 0 0 5px 0;
+	}
+	.hide{
+		display: none;
+	}
+	.tc-reg{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+	}
+	.tc-reg-a{
+		width: 85%;
+		background: rgb(3, 169, 244);
+		margin: auto;
+		margin-top: 35%;
+		text-align: right;
+		border-radius: 5px 5px 0 0;
+		padding: 0.2rem;
+	}
+	.tc-reg-but{
+		border: 1px solid #fff;
+		padding: 0.2rem 0.7rem;
+		border-radius: 5px;
+		color: #fff;
+		line-height: 1.6rem;
+		width: 80%;
+		margin: 0.5rem auto;
+		text-align: center;
+	}
+	.tc-reg-dz{
+		border: 1px solid #fff;
+		padding: 0.2rem 0.7rem;
+		border-radius: 5px;
+		color: #fff;
+		line-height: 1.6rem;
+		width: 80%;
+		margin: 0.5rem auto;
+	}
+	.reg-gb{
+		display: inline-block;
+		position: absolute;
+		margin-top: -0.5rem;
+
+	}
+	.tc-tx{
+		width: 85%;
+		margin: auto;
+		background: #03a9f4;
+		padding: 0.1rem;
+		text-align: center;
+		border-radius: 0 0 5px 5px;
+		height: 54px;
+	}
+	.input input{
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+		margin: 0.3rem 0;
+		padding-left: 0.3rem;
+		width: 78%;
+		text-align: left;
+		background: #fff;
+		color: #757575;
+	}
+	.input select{
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+		width: 78%;
+		margin: 0.3rem 0;
+		padding-left: 0.3rem;
+		color: #757575;
+		background: #fff;
+	}
+	.input .in-but{
+		width: 76%;
+		background: #1191e4;
+		margin: auto;
+		margin-top: 2%;
+		padding: 0.4rem 0;
+		border-radius: 5px;
+		color: #fff;
+	}
+	.input p{
+		font-size: 13px;
+		color: red;
+		/* margin: 0.3rem 0; */
+
+	}
+	.inputs input{
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+		margin: 0.3rem 0;
+		padding-left: 0.3rem;
+		width: 78%;
+	}
+	#ins,#selsadd{
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+		width: 78%;
+		margin: 0.3rem 0;
+		padding-left: 0.3rem;
+		color: #757575;
+	}
+	.inputs .in-but{
+		width: 76%;
+		background: #1191e4;
+		margin: auto;
+		margin-top: 2%;
+		padding: 0.4rem 0;
+		border-radius: 5px;
+		color: #fff;
+	}
+	.inputs p{
+		font-size: 13px;
+		color: red;
+		/* margin: 0.3rem 0; */
+
+	}
+</style>
+
+<body>
+	<!--tc-->
+	<div class="tc-users hide">
+		<div class="tc-u-a">
+			<p id="msg-titel"></p>
+			<p id="msg-content"></p>
+		</div>
+		<div class="but-tc"><div id="esc" onclick="esc();">取消</div><div id="ok" onclick="ok();">确定</div></div>
+	</div>
+	<!--tc-a-->
+	<div class="tc-reg hide">
+		<div class="tc-reg-a">
+			<div class="reg-gb">
+				<svg t="1501894961988" id="gb-regs" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="998" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25"><defs><style type="text/css"></style></defs><path d="M478.993067 512.436907c-2.409813-1.87392-4.037973-2.884267-5.358933-4.201813-90.76736-90.719573-181.49376-181.486933-272.295253-272.172373-6.406827-6.4-10.349227-13.489493-9.127253-22.756693 1.242453-9.424213 6.33856-16.09728 15.056213-19.729067 8.977067-3.741013 17.38752-2.17088 24.982187 3.751253 1.87392 1.460907 3.505493 3.242667 5.19168 4.928853 90.269013 90.25536 180.5312 180.514133 270.76608 270.80704 1.430187 1.430187 2.464427 3.252907 3.682987 4.89472 0.750933 0.167253 1.501867 0.334507 2.2528 0.50176 1.08544-1.744213 1.880747-3.781973 3.293867-5.195093 90.699093-90.791253 181.466453-181.51424 272.162133-272.305493 6.97344-6.98368 14.759253-10.902187 24.794453-8.649387 18.660693 4.18816 25.77408 26.385067 13.028693 40.628907-1.36192 1.52576-2.863787 2.92864-4.31104 4.375893-90.262187 90.262187-180.52096 180.527787-270.810453 270.762667-1.430187 1.430187-3.208533 2.512213-5.891413 4.580693 2.7648 2.12992 4.703573 3.310933 6.263467 4.870827 90.53184 90.473813 181.019307 180.995413 271.5648 271.455573 5.51936 5.515947 9.567573 11.52 9.519787 19.633493-0.06144 10.40384-4.78208 18.141867-14.056107 22.534827-9.485653 4.491947-18.609493 3.078827-26.729813-3.703467-1.696427-1.416533-3.218773-3.05152-4.785493-4.621653-90.14272-90.139307-180.28544-180.278613-270.41792-270.431573-1.44384-1.44384-2.74432-3.034453-4.5056-5.000533-1.792 1.703253-3.24608 3.0208-4.62848 4.406613-90.86976 90.85952-181.756587 181.705387-272.56832 272.622933-7.318187 7.328427-15.53408 11.001173-25.838933 8.246613-17.769813-4.747947-24.214187-26.210987-12.090027-40.072533 1.344853-1.539413 2.83648-2.952533 4.283733-4.399787 90.38848-90.395307 180.77696-180.7872 271.182507-271.16544C474.924373 515.720533 476.443307 514.604373 478.993067 512.436907z"  fill="#03a9f4" p-id="999"></path></svg>
+			</div>
+			<div class="tc-reg-but" onclick="butpl();">批量生成</div>
+		</div>
+		<div class="tc-tx">
+			<div class="tc-dz">
+			<div class="tc-reg-dz" onclick="adds();">添加单个</div>
+				<div class="input hide">
+					<input type="text" name="sl" id='sl' value="" placeholder="还可以创建{$nq}个帐户">
+					<p>是否开启绑定姓名</p>
+					<select id="ins">
+						<option value="0">不开启</option>
+						<option value="1">开启</option>
+					</select>
+					<div class="in-but" id="ins-but" onclick="pl();">确认提交</div>
+				</div>
+				<div class="inputs hide">
+					<input type="text" class="addsel" id="name" name="name" value="" placeholder="还可以创建{$nq}个帐户">
+					<input type="text" class="addsel" name="psw" value="" placeholder="授权码">
+					<p>是否开启绑定姓名</p>
+					<select id="selsadd">
+						<option value="0">不开启</option>
+						<option value="1">开启</option>
+					</select>
+					<div class="in-but" onclick="add();">确认提交</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id='sls'></div>
+	<script>
+	var xss= '{$nq}';
+	var xs = '{$st['xs']}';
+	var i = 0;
+	function pl(){
+	var sm = $('#ins').val();
+	var sl = $('#sl').val();
+	if(sl > xss){
+		alert('批量创建失败,超过数量'+ xss +'个');
+		return false
+	}
+	 if(i < sl ){
+	 i++;
+	 	 $.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('user_dy',array('op'=>'addpl')),2)}&sm="+sm,
+			dataType:"json",
+			data:"",
+			success:function(data){
+				pl();
+				if(i == sl){
+				window.location.reload();
+				}
+			}
+	 })
+	 }
+	}
+	function add(){
+	var name = $('#name').val();
+	if(name == ''){
+	alert('请填写帐号');
+	}
+	var params = $(".addsel").serialize();
+	var sm = $('#selsadd').val();
+		$.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('user_dy',array('op'=>'add')),2)}&sm="+sm,
+			dataType:"json",
+			data:params,
+			success:function(data){
+			if(data.status == 3){
+			alert('重复帐号,请重试!');
+			}
+			if(data.status == 1){
+			window.location.reload();
+			}
+			if(data.status ==5){
+				alert('超过上限');
+				$('.tc-reg').fadeOut(100);
+				return false
+			}
+			}
+	 })
+	}
+		function butpl(){
+            $('.tc-reg-but').attr('onclick','gbpl();');
+            $('.tc-reg-dz').fadeOut(100);
+            $('.tc-tx').animate({height:160 +'px'});
+            $('.input').fadeIn(200);
+        }
+        function gbpl() {
+            $('.tc-reg-but').attr('onclick','butpl();');
+            $('.input').fadeOut(100,function () {
+                $('.tc-reg-dz').fadeIn(200);
+            });
+            $('.tc-tx').animate({height:54 +'px'});
+        }
+        function adds() {
+		    $('.tc-reg-dz').attr('onclick','addg();');
+		    //$('.tc-reg-a').animate({height:0 + 'px'});
+            $('.tc-tx').animate({height:240 + 'px'});
+            $('.tc-reg-but').fadeOut(100);
+            $('.inputs').fadeIn(100);
+        }
+        function addg() {
+            $('.tc-reg-dz').attr('onclick','adds();');
+
+            $('.inputs').fadeOut(100,function () {
+                $('.tc-tx').animate({height:54 + 'px'});
+            });
+            setTimeout(function () {
+                $('.tc-reg-but').fadeIn(100);
+            },500);
+
+        }
+	</script>
+    <div class="header-user">
+		<div class="back-user"><p><svg onclick="location.href='javascript:history.go(-1);'" t="1501850514135" class="icon" style="" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="995" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32"><defs><style type="text/css"></style></defs><path d="M694.018543 234.845703l-305.960367 277.157367 305.97981 277.137924c10.692526 10.577916 10.692526 27.699875 0 38.259372-10.691503 10.577916-28.004821 10.577916-38.697347 0l-325.613986-294.907637c-5.688559-5.631254-8.124028-13.108552-7.743358-20.48966-0.38067-7.382131 2.054799-14.839986 7.743358-20.48966l325.613986-294.926056c10.692526-10.558473 28.004821-10.558473 38.697347 0C704.710047 207.164247 704.710047 224.286206 694.018543 234.845703z" p-id="996" fill="#fff"></path></svg>
+		</p></div>
+        <div class="add-user"><p id="reg-add">新增员工</p></div>
+		<div class="nav-user">
+			<ul><li>工号</li><li>授权码</li><li>姓名</li><li >状态</li></ul>
+		</div>
+    </div>
+<div class="user-form">
+{loop $userlist $row}
+    <div class="user-list" id='{$row['id']}' onclick="del(this.id);"><ul><li>{$row['name']}</li><li>{$row['psw']}</li><li>{$row['bg']}</li><li id="zt">{$row['status']}</li></div>
+	{/loop}
+    </div>
+	<div class="but-user">
+<button type="button" class="but-su" onclick="su();" id="0">开启删除模式</button>
+<button type="button" class="but-wa" onclick="wa();" id="0">开启失效模式</button>
+</div>
+<script>
+function del(id){
+var is = $('.but-su').attr('id');
+var zs = $('.but-wa').attr('id');
+if(is == 1){
+  		$.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('user_dy',array('op'=>'del')),2)}&id="+id,
+			dataType:"json",
+			data:'',
+			success:function(data){
+			  $('#'+ id).remove()
+			}
+			});
+			}
+			if(zs == 1){
+			var  tx = $('#'+ id).children().children('#zt').text();
+			if (tx == '正常'){
+			   var dm = '1';
+			}else if(tx== '失效'){
+			   var dm = '0';
+			}
+		$.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('user_dy',array('op'=>'dy')),2)}&id="+id,
+			dataType:"json",
+			data:{status:dm},
+			success:function(data){
+			  if(data.status == 1){
+			    $('#'+ id).children().children('#zt').text('失效');
+			  }else if(data.status == 0){
+				$('#'+ id).children().children('#zt').text('正常');
+			  }
+			}
+			});
+		}
+		}
+	$('#gb-regs').click(function () {
+		$('.tc-reg').fadeOut(100);
+    });
+	$('#reg-add').click(function () {
+	    $('.tc-reg').fadeIn(100);
+		$.ajax({
+	     	type:"post",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('user_dy',array('op'=>'ts')),2)}",
+			dataType:"json",
+			data:'',
+			success:function(data){
+				if(data.sl < 0){
+				$('#sl').attr('placeholder','帐户');
+				$('#name').attr('placeholder','帐户');
+				}else{
+				$('#sl').attr('placeholder','还可以创建'+ data.sl +'个帐户');
+				$('#name').attr('placeholder','还可以创建'+ data.sl +'个帐户');
+				}
+			}
+			});
+    });
+  function su(){
+	  var tex = $('.but-wa').attr('id');
+	  if(tex == 1){alert('请关闭失效模式！')}else{
+	  $('.tc-users').fadeIn(100);
+	  $('#msg-titel').text('提示信息');
+	  $('#msg-content').text('开始后,点击列表即可删除对应用户');
+	  	$('#esc').attr('onclick','esc();');
+	  $('#ok').attr('onclick','ok();');
+	  }
+  }
+  function esc(){
+	  $('.tc-users').fadeOut(100);
+  };
+    function escs(){
+	  $('.tc-users').fadeOut(100);
+  };
+ function ok(){
+	  $('.tc-users').fadeOut(100);
+	  $('.but-su').attr('id','1');
+	  $('.but-su').attr('onclick','sus();');
+	  $('.but-su').text('已开启删除模式');
+  };
+    function oks(){
+	  $('.tc-users').fadeOut(100);
+	  $('.but-wa').attr('id','1');
+	  $('.but-wa').attr('onclick','suss();');
+	  $('.but-wa').text('已开启失效模式');
+  };
+  function sus(){
+	  $('.but-su').attr('onclick','su();');
+	  $('.but-su').attr('id','0');
+	  $('.but-su').text('开启删除模式');
+  }
+    function suss(){
+	  $('.but-wa').attr('onclick','wa();');
+	  $('.but-wa').attr('id','0');
+	  $('.but-wa').text('开启失效模式');
+  }
+  function wa(){
+	  var tex = $('.but-su').attr('id');
+	  if(tex == 1){alert('请关闭删除模式！')}else{
+	  $('#msg-titel').text('提示信息');
+	  $('#msg-content').text('开始后,点击列表即可暂停对应用户');
+	  $('#esc').attr('onclick','escs();');
+	  $('#ok').attr('onclick','oks();');
+	  $('.tc-users').fadeIn(100);
+	  }
+  }
+</script>
+</body>
+</html>

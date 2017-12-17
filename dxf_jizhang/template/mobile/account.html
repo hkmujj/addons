@@ -1,0 +1,75 @@
+{template 'common/header'}
+<style type="text/css">
+.btn-success{
+  margin-left:40%; 
+}
+.form-group{
+  margin-top:15px;
+  height:auto;
+}
+.foat_one{
+  float:left;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+</style>
+<div class="panel panel-default" style="height:100px;">
+  <div class="panel-heading" style="text-align:center;">
+    {if $op==1}
+    <h3 class="panel-title">月度账单</h3>
+    {else}
+    <h3 class="panel-title">{$year}年{$month}月账单</h3>
+    {/if}
+  </div>
+  {if $op==1}
+  <form  action="" method="POST" >
+  <div style="width:110px;border:1px solid #e7e6e6;" class="foat_one">
+      <select class="form-control" name="year">
+        <option value="2017" {if $year==2017}selected{/if}>2017年</option>
+        <option value="2018" {if $year==2018}selected{/if}>2018年</option>
+        <option value="2019" {if $year==2019}selected{/if}>2019年</option>
+        <option value="2020" {if $year==2020}selected{/if}>2020年</option>
+      </select>
+  </div>
+  <div style="width:110px;border:1px solid #e7e6e6;" class="foat_one">
+      <select class="form-control" name="month">
+        <option value="1" {if $month==1}selected{/if}>1月</option>
+        <option value="2" {if $month==2}selected{/if}>2月</option>
+        <option value="3" {if $month==3}selected{/if}>3月</option>
+        <option value="4" {if $month==4}selected{/if}>4月</option>
+        <option value="5" {if $month==5}selected{/if}>5月</option>
+        <option value="6" {if $month==6}selected{/if}>6月</option>
+        <option value="7" {if $month==7}selected{/if}>7月</option>
+        <option value="8" {if $month==8}selected{/if}>8月</option>
+        <option value="9" {if $month==9}selected{/if}>9月</option>
+        <option value="10" {if $month==10}selected{/if}>10月</option>
+        <option value="11" {if $month==11}selected{/if}>11月</option>
+        <option value="12" {if $month==12}selected{/if}>12月</option>
+      </select>
+  </div>
+  <div class="foat_one">
+      <input type="hidden" name="token" value="{$_W['token']}">
+      <input type="submit" name="submit" class="btn btn-default" value="查询" style="height: 40px;"/>
+    </form>
+  </div> 
+  {/if}
+</div>
+{loop $info $key $itemn}
+
+<div class="panel panel-default" style="margin-top:10px;">
+  <div class="panel-heading">
+    <h3 class="panel-title">{$listone[$key]['group_name']} <span style="float:right;color:#f56f12;">总额：{php echo $listone[$key]['total']/$listone[$key]['group_num'];}&nbsp;元，平均：{php echo $listone[$key]['total']/$listone[$key]['group_num']/$listone[$key]['group_num']}元</span></h3>
+  </div>
+  <div class="panel-body">
+    <table class="table" style="margin-top:20px;">
+      <tr ><td style="">头像</td><td>名称</td><td>支出</td><td>应收/付</td></tr>
+     {loop $itemn $ke $item}
+      <tr ><td><img src="{$item['headimgurl']}" width="50" height="50"></td><td style="line-height:50px;">{$item['nickname']}</td><td style="line-height:50px;">{php echo $listone[$key][$item['openid']]/$listone[$key]['group_num'];}</td><td style="line-height:50px;">{php echo  ($listone[$key][$item['openid']]/2)-($listone[$key]['total']/2/$listone[$key]['group_num']);}</td></tr>
+     {/loop}
+    </table>
+  </div>
+</div>
+{/loop}
+
+{template './footer_nav'}
+{template 'common/footer'}

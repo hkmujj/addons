@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="">
+    <title>拓客商户&加盟商登入</title>
+    <link href="{MODULE_URL}pc/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+    <link href="{MODULE_URL}pc/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="{MODULE_URL}pc/css/style.css" rel="stylesheet">
+    <link href="{MODULE_URL}pc/css/style-responsive.css" rel="stylesheet" />
+	<script src="{MODULE_URL}template/mobile/css/js/jquery.js"></script>
+</head>
+ <style>
+ .sy{
+     background: rgba(57, 183, 62, 0.85)!important;
+    margin-bottom: 5px!important;
+    margin-top: 5px;
+    font-size: 14px;
+ }
+ </style>
+  <body class="login-body">
+    <div class="container">
+      <div class="form-signin" >
+        <h2 class="form-signin-heading">用户登入</h2>
+        <div class="login-wrap">
+            <input type="text" class="form-control" name="user" placeholder="用户名" autofocus>
+            <input type="password" class="form-control" name="psw" placeholder="密码">
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me"> 记住我
+                <span class="pull-right"> <a href="javascript:void(0)" onclick="ty()">忘记密码？</a></span>
+            </label>
+            <button class="btn btn-lg btn-login btn-block post" type="submit">登入</button>
+			{if $tal['status'] == 1}
+            <p>您还没有账号？您可以选择试用功能</p>
+			<button class="btn btn-lg btn-login btn-block sy" onclick="window.location.href='{php echo $this->createMobileUrl('pclogin',array('op'=>'sy'))}'">试用账号</button>
+			{/if}
+        </div>
+      </div>
+    </div>
+	<script>
+	function ty(){
+		alert('请联系管理员！');
+	}
+	$('.post').click(function(){
+		var username = $("input[name='user']").val();
+		var password = $("input[name = 'psw']").val();
+		$.ajax({
+		type: "post",
+        url: "{php echo $this->createMobileUrl('pclogin')}",
+        dataType: "json",
+        cache: false,
+        data:{username:username,password:password},
+		success:function(data) {
+			if(data.status == '11'){
+				alert('请检查帐户密码是否正确');
+			}else if(data.status == '6'){
+				alert('员工帐户,请在手机端登陆!');
+			}else if(data.status == '8'){
+				window.location.href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex'),2)}";
+			}else if(data.status == '10'){
+				window.location.href="{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex'),2)}";
+			}else if(data.status == '12'){
+			    alert('您的账户服务已经到期！请及时续费');
+            }else if(data.status == '13'){
+			    alert('该账户已经停用！')
+            }else{
+				alert('未知错误');
+			}
+		}
+	 });
+	})
+	</script>
+  </body>
+</html>

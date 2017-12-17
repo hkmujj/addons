@@ -1,0 +1,215 @@
+{template 'common/header'}
+
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form"  id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				编辑信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">报名所选</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="catename" class="form-control" value="{$list['f_title']}" disabled />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户姓名</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="catename" class="form-control" value="{$list['u_name']}" disabled />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户电话</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="catename" class="form-control" value="{$list['mobile']}" disabled />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">个人Q Q</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="catename" class="form-control" value="{$list['qq']}" disabled />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2  control-label">区域</label>
+					<div class="col-xs-12 col-sm-8 col-lg-9">
+						<select name="cat_id" class='form-control'>
+							{loop $category $row}
+							<option value="{$row['id']}" style="color:#C60A27;" {if $list['cat_id'] ==$row['id'] } selected{/if}>|—{$row['name']}</option>
+							{loop $children[$row['id']] $row}
+							<option value="{$row['id']}" {if $list['cat_id'] ==$row['id'] } selected{/if}>|——{$row['name']}</option>
+							{loop $grandson[$row['id']] $row}
+							<option value="{$row['id']}" {if $list['cat_id'] ==$row['id'] } selected{/if}>|————{$row['name']}</option>
+							{/loop}
+							{/loop}
+							{/loop}
+						</select>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">区域代理可见</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='one_status' value='1' {if $list['one_status']==1}checked{/if} /> 是
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='one_status' value='0' {if $list['one_status']==0}checked{/if} /> 否
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">学校代理可见</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='two_status' value='1' {if $list['two_status']==1}checked{/if} /> 是
+						</label>
+
+						<label class='radio-inline'>
+							<input type='radio' name='two_status' value='0' {if $list['two_status']==0}checked{/if} /> 否
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">备注信息</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea name="desc" class="form-control" cols="70">{$list['desc']}</textarea>
+					</div>
+						
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="确定" class="btn btn-primary col-lg-1 " />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{elseif $operation == 'display'}
+
+<div class="main" style="margin-top:2px;height:auto;">
+	<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body" style="height:200px;">
+		<form action="./index.php" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="site" />
+			<input type="hidden" name="a" value="entry" />
+			<input type="hidden" name="m" value="dxf_jwt" />
+			<input type="hidden" name="do" value="join" />
+			<input type="hidden" name="op" value="display" />
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">姓名</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="u_name" id="" type="text" value="{$_GPC['u_name']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">电话</label>
+				<div class="col-xs-12 col-sm-8 col-lg-9">
+					<input class="form-control" name="mobile" id="" type="text" value="{$_GPC['mobile']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-1 control-label">区域</label>
+				<div class="col-sm-7 col-xs-12">
+					<select name="cat_id" class='form-control'>
+							<option value="0" >全部</option>
+							{loop $category $row}
+							<option value="{$row['id']}" style="color:#C60A27;" {if $_GPC['cat_id'] ==$row['id'] } selected{/if}>|—{$row['name']}</option>
+							{loop $children[$row['id']] $row}
+							<option value="{$row['id']}" {if $_GPC['cat_id'] ==$row['id'] } selected{/if}>|——{$row['name']}</option>
+							{loop $grandson[$row['id']] $row}
+							<option value="{$row['id']}" {if $_GPC['cat_id'] ==$row['id'] } selected{/if}>|————{$row['name']}</option>
+							{/loop}
+							{/loop}
+							{/loop}
+					</select>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+
+			<div class="form-group">
+				
+				
+			</div>
+
+			<div class="form-group">
+			</div>
+		</form>
+	</div>
+</div>
+<style>
+.label{cursor:pointer;}
+</style>
+<div class="panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					
+					<th style="width:10%;">用户姓名</th>
+					<th style="width:15%;">用户电话</th>
+					<th style="width:10%;">个人QQ</th>
+					<th style="width:15%;">所在学校</th>
+					<th style="width:10%;">区域代理</th>
+					<th style="width:10%;">学校代理</th>
+					<th style="width:20%;">报名时间</th>
+					<th style=" width:10%;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['u_name']}</td>
+					<td>{$item['mobile']}</td>
+					<td>{$item['qq']}</td>
+					<td>{$item['name']}</td>
+					<td>
+						<label data='{$item['one_status']}' class='label label-default {if $item['one_status']==1}label-info{else}{/if}' onclick="setProperty(this,{$item['id']},'one_status')">可见</label>
+					</td>
+					<td>
+						<label data='{$item['two_status']}' class='label label-default {if $item['two_status']==1}label-info{else}{/if}' onclick="setProperty(this,{$item['id']},'two_status')">可见</label>
+					</td>
+					<td>{php echo date('m-d H:i',$item['ctime'])}</td>
+					<td style="">
+						<a href="{php echo $this->createWebUrl('join', array('id' => $item['id'], 'op' => 'post'))}"class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><i class="fa fa-pencil"></i></a>
+						<a href="{php echo $this->createWebUrl('join', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('确认删除吗？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function setProperty(obj,id,type){
+		
+		$(obj).html($(obj).html() + "...");
+		$.post("{php echo $this->createWebUrl('setstudents')}"
+			,{id:id,type:type, data: obj.getAttribute("data")}
+			,function(d){
+				$(obj).html($(obj).html().replace("...",""));
+				if(type=='one_status'){
+				 $(obj).html( d.data=='1'?'可见':'可见');
+				}
+				if(type=='two_status'){
+				 $(obj).html( d.data=='1'?'可见':'可见');
+				}
+				$(obj).attr("data",d.data);
+				if(d.result==1){
+					$(obj).toggleClass("label-info");
+				}
+			}
+			,"json"
+		);
+	}
+
+</script>
+{/if}
+{template 'common/footer'}

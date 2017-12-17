@@ -1,0 +1,40 @@
+<empty name="list">
+	<div class="alert alert-success" role="alert">没有找到您要的内容</div>
+<else />
+<table class="table table-bordered">
+	<thead>
+		<tr class="text-c">
+			<th width="100" class="text-center">ID</th>
+			<th>视频名称</th>
+			<th width="100" class="text-center">分类</th>
+			<th width="100" class="text-center">人气</th>
+			<th width="150" class="text-center">更新时间</th>
+			<th width="100" class="text-center">管理操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<foreach name="list" item="item">
+			<tr class="text-c">
+				<td class="text-center"><{$item.d_id}></td>
+				<td><{$item.d_name}></td>
+				<td class="text-center"><{$types[$item['d_type']]['t_name']}></td>
+				<td class="text-center"><{$item.d_hits}></td>
+				<td class="text-center"><{$item.d_time|date="Y-m-d H:i",###}></td>
+				<td class="text-center">
+					<a title="删除" href="javascript:;" onclick="ajax_del('<{$item.d_id}>')" class="btn btn-danger size-S" style="text-decoration:none">删除</a>
+				</td>
+			</tr>
+		</foreach>
+	</tbody>
+</table>
+<div class="row text-center">
+	<{$page}>  
+</div>
+</empty>
+<script type="text/javascript">
+	$(".pagination a").click(function(event){
+		event.preventDefault();
+        var page = $(this).data('p');
+        ajax_get_table('search-form',page);
+    });
+</script>

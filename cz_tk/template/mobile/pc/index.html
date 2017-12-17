@@ -1,0 +1,331 @@
+{template 'pc/header'}
+{template 'pc/nav'}
+	<script href="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+	<script src="{MODULE_URL}template/mobile/css/js/highcharts.js"></script>
+	<script src="{MODULE_URL}template/mobile/css/js/exporting.js"></script>
+  <style>
+  .border-head{
+	    margin-bottom: 15px;
+  }
+  .chart{
+		font-size: 50px;
+  }
+  .avas{
+	color: #55f2e7 !important;
+  }
+  .highcharts-title{
+	color: #989898!important;
+	font-size: 15px!important;
+	fill: #adadad!important;
+  }
+  .badge{
+	padding: 7px 10px;
+  }
+  </style>
+      <section id="main-content">
+          <section class="wrapper">
+              <div class="row state-overview">
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol terques">
+                              <i class="icon-user"></i>
+                          </div>
+                          <div class="value">
+							{if $uutt['gid'] == '8'}
+                              <h1>{$userumn}</h1>
+                              <p>员工数量</p>
+							  {else if $dl['gid'] == '10'}
+								<h1>{$userumn}</h1>
+                              <p>商家数量</p>
+							  {/if}
+                          </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol red">
+                              <i class="icon-tags"></i>
+                          </div>
+						   <div class="value">
+						  	{if $uutt['gid'] == '8'}
+                              <h1>{$consumn}</h1>
+                              <p>群发数量</p>
+							  {else if $dl['gid'] == '10'}
+								<h1>{$is}</h1>
+								<p>员工数量</p>
+							  {/if}
+							  </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol yellow">
+                              <i class="icon-shopping-cart"></i>
+                          </div>
+                          <div class="value">
+                              <h1>{if $member['point'] == 0}0{else}{$member['point']}{/if}</h1>
+                              <p>可用点数</p>
+                          </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol blue">
+                              <i class="icon-bar-chart"></i>
+                          </div>
+                          <div class="value">
+                              <h1>{$ns}</h1>
+                              <p>支出点数</p>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+			 
+              <div class="row">
+                  <div class="col-lg-8">
+                      <div class="border-head">
+                          <h3>实时统计</h3>
+						 <div id="containers" style="min-width:100%;height:300px"></div>
+                      </div>
+					  
+                  </div>
+                  <div class="col-lg-4" style="margin-top: 10px;">
+                      <div class="panel terques-chart">
+                          <div class="panel-body">
+                              <div class="chart">
+                                  <div id="barchart" class="szb">0</div>
+                              </div>
+                          </div>
+                          <div class="chart-tittle">
+                              <span class="title">数据</span>
+                                  <span class="value">
+                                  <a href="#" id="jrbg" onclick="buts(this.id)"  class="avas">今日曝光</a>
+                                  |
+                                  <a href="#" id="zrbg" onclick="buts(this.id)">昨日曝光</a>
+                                  |
+                                  <a href="#" id="bgzs" onclick="buts(this.id)">曝光总数</a>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="panel terques-chart">
+                          <div class="panel-body">
+                              <div class="chart">
+                                  <div id="barchart" class="szbs">0</div>
+                              </div>
+                          </div>
+                          <div class="chart-tittle">
+                              <span class="title">扫码数据</span>
+                                  <span class="value">
+                                  <a href="javascript:void(0)"  id="jrsm" onclick="but(this.id)" class="active jrsm">今日扫码</a>
+                                  |
+                                  <a href="#" onclick="but(this.id)" id="zrsm">昨日扫码</a>
+                                  |
+                                  <a href="#" onclick="but(this.id)" id="smzs">扫码总数</a>
+                              </span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+			  <script>
+			  function but(id){
+					$('.active').removeClass('active');
+					$('#' + id).addClass('active');
+				$.ajax({
+					type:'json',
+					url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex',array('op'=>'sm')),2)}&name="+ id,
+					dataType:'json',
+					data:'',
+					success:function(data){
+						$('.szbs').text(data.nums);
+					}
+				});
+			  }
+			  function buts(id){
+					$('.avas').removeClass('avas');
+					$('#' + id).addClass('avas');
+				$.ajax({
+					type:'json',
+					url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex',array('op'=>'bg')),2)}&name="+ id,
+					dataType:'json',
+					data:'',
+					success:function(data){
+						$('.szb').text(data.num);
+					}
+				});
+			  
+			  }
+			  num();
+			function num(){
+			$.ajax({
+			type:"get",
+			url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex',array('op'=>'pos')),2)}",
+			dataType:"json",
+			data:'',
+			success:function(data){
+			  $('.szb').text(data.num);
+			  $('.szbs').text(data.nums);
+			}
+			});
+			}
+			 </script>
+                  </div>
+                      <section class="panel">
+                          <div class="panel-body progress-panel">
+                              <div class="task-progress">
+                                  <h1>统计数据</h1>
+                              </div>
+                              <div class="task-option">
+                                  <select class="styled" id="selsadds" onchange="show_sub(this.value);">
+								    {loop $msglist $row}
+                                      <option value="{$row['id']}" >{if $uutt['gid'] == '8'}{$row['title']}{else if $dl['gid'] == '10'}{$row['name']}{/if}</option>
+									  {/loop}
+                                  </select>
+                              </div>
+                          </div>
+                          <table id="tb" class="table table-hover personal-task">
+                              <tbody>
+                              <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                              </tr>
+                              </tbody>
+                          </table>
+                      </section>
+                  </div>
+  </section>
+  {if $uutt['gid'] == '8'}
+   <script>
+var a = $('#selsadds').val();
+show_sub(a);
+function show_sub(v) {
+    $.ajax({
+        type: "get",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex',array('op'=>'smg')),2)}&id=" + v,
+        data: "",
+        dataType: "json",
+        success: function(data) {
+            $('#tb tr:gt(0)').remove(); //删除之前数据
+            var s = '';
+            for (var i = 0; i < data.length; i++) s += '<tr><td>' + data[i].id + '</td><td>' + data[i].name + '</td><td><span class="badge bg-primary">' + data[i].smb + '次曝光' + '</span></td><td><span class="badge bg-important">' + data[i].sm + '次扫码' + '</span></td><td></td></tr>';
+            $('#tb').append(s);
+        }
+
+    })
+}
+</script>
+{else if $dl['gid'] == '10'}
+   <script>
+var a = $('#selsadds').val();
+show_sub(a);
+function show_sub(v) {
+	    $.ajax({
+        type: "get",
+        url: "{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex',array('op'=>'smg')),2)}&id=" + v,
+        data: "",
+        dataType: "json",
+        success: function(data) {
+            $('#tb tr:gt(0)').remove(); //删除之前数据
+            var s = '';
+            for (var i = 0; i < data.length; i++) s += '<tr><td>' + data[i].id + '</td><td>' + data[i].title + '</td><td><span class="badge bg-primary">' + data[i].smb + '次曝光' + '</span></td><td><span class="badge bg-important">' + data[i].sm + '次扫码' + '</span></td><td></td></tr>';
+            $('#tb').append(s);
+        }
+
+    })
+}
+</script>
+{/if}
+  <div id="sst" style="display:none"></div>
+  <script>
+	Highcharts.setOptions({
+    global: {
+    useUTC: false
+    }
+});
+function activeLastPointToolip(chart) {
+    var points = chart.series[0].points;
+    chart.tooltip.refresh(points[points.length -1]);
+		$.ajax({
+		type:"post",
+		url:"{php echo $_W['siteroot'].'app/'.substr($this->createMobileUrl('pcindex'),2)}",
+		dataType:"json",
+		data:'',
+		success:function(data){
+			$('#sst').text(data.num);
+		}
+		});
+}
+$('#containers').highcharts({
+    chart: {
+        type: 'spline',
+        animation: Highcharts.svg, // don't animate in old IE
+        marginRight: 10,
+        events: {
+            load: function () {
+                // set up the updating of the chart each second
+                var series = this.series[0],
+                    chart = this;
+                setInterval(function () {
+				var ssts = $('#sst').text();
+                    var x = (new Date()).getTime(), // current time
+                        y = Number(ssts);
+                    series.addPoint([x, y], true, true);
+                    activeLastPointToolip(chart)
+                }, 1000);
+            }
+        }
+    },
+    title: {
+        text: '实时爆光数据'
+    },
+    xAxis: {
+        type: 'datetime',
+        tickPixelInterval: 150
+    },
+        yAxis: {
+            title: {
+                text: false
+            },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    },
+    tooltip: {
+        formatter: function () {
+            return '<b>' + this.series.name + '</b><br/>' +
+                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                Highcharts.numberFormat(this.y, 2);
+        }
+    },
+    legend: {
+        enabled: false
+    },
+    exporting: {
+        enabled: false
+    },
+	credits: false,
+    series: [{
+        name: '实时数据',
+        data: (function () {
+            // generate an array of random data
+            var data = [],
+                time = (new Date()).getTime(),
+                i;
+            for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: 0
+                });
+            }
+            return data;
+        }())
+    }]
+}, function(c) {
+    activeLastPointToolip(c)
+});
+			 </script>
+{template 'pc/footer'}

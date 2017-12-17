@@ -1,0 +1,35 @@
+{template 'common/header'}
+<style type="text/css">
+.btn-success{
+  margin-left:40%; 
+}
+</style>
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;">
+    {if $hidden=='2'}
+    <h3 class="panel-title">微信扫描进组</h3>
+    {else}
+    <h3 class="panel-title">共享组详情</h3>
+    {/if}
+  </div>
+  {if $hidden!='2'}
+  <div class="table-responsive">
+  <p style="margin-top:20px;color:#16aef0;">创建时间：{php echo date('Y-m-d',$list['0']['group_ctime']);}  &nbsp;&nbsp;组人数：{$list['0']['group_num']} &nbsp;人</p>
+  <table class="table" style="margin-top:20px;">
+    <tr ><td>头像</td><td>名称</td><td>性别</td><td>类型</td></tr>
+    {loop $list $key $item}
+    <tr ><td><img src="{$item['fans']['headimgurl']}" width="50" height="50"></td><td style="line-height:50px;">{$item['fans']['nickname']}</td><td style="line-height:50px;">{php echo $item['fans']['sex']==1?'男':'女';}</td><td style="line-height:50px;">{php echo $item['gu_manager']==1?'管理员':'成员';}</td></tr>
+    {/loop}
+  </table>
+</div>
+{/if}
+</div>
+{if $hidden=='1'}
+{elseif $hidden=='2'}
+{$showimg}
+{else}
+<a href="{php echo $this->createMobileUrl('qcode',array('group_id'=>$list['0']['group_id']))}" type="button" class="btn btn-success">邀请好友</a>
+{/if}
+</script>
+{template './footer_nav'}
+{template 'common/footer'}
