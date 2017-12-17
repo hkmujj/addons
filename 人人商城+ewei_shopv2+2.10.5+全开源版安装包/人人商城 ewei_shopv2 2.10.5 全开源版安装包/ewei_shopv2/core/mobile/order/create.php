@@ -325,7 +325,7 @@ class Create_EweiShopV2Page extends MobileLoginPage
 					$good['optionid'] = $option['optionid'];
 					if (0 < $option['optionid']) 
 					{
-						$option = pdo_fetch('select id,title,marketprice,presellprice,goodssn,productsn,`virtual`,stock,weight,specs from ' . tablename('ewei_shop_goods_option') . ' where id=:id and goodsid=:goodsid and uniacid=:uniacid  limit 1', array(':uniacid' => $uniacid, ':goodsid' => $id, ':id' => $option['optionid']));
+						$option = pdo_fetch('select id,title,marketprice,presellprice,goodssn,productsn,virtual,stock,weight,specs from ' . tablename('ewei_shop_goods_option') . ' where id=:id and goodsid=:goodsid and uniacid=:uniacid  limit 1', array(':uniacid' => $uniacid, ':goodsid' => $id, ':id' => $option['optionid']));
 						if (!(empty($option))) 
 						{
 							$good['optiontitle'] = $option['title'];
@@ -454,7 +454,7 @@ class Create_EweiShopV2Page extends MobileLoginPage
 				$data['optionid'] = $optionid;
 				if (!(empty($optionid))) 
 				{
-					$option = pdo_fetch('select id,title,marketprice,liveprice,islive,presellprice,goodssn,productsn,`virtual`,stock,weight,specs,' . "\r\n" . '                    `day`,allfullbackprice,fullbackprice,allfullbackratio,fullbackratio,isfullback' . "\r\n" . '                    from ' . tablename('ewei_shop_goods_option') . ' where id=:id and goodsid=:goodsid and uniacid=:uniacid  limit 1', array(':uniacid' => $uniacid, ':goodsid' => $id, ':id' => $optionid));
+					$option = pdo_fetch('select id,title,marketprice,presellprice,goodssn,productsn,virtual,stock,weight,specs,day,allfullbackprice,fullbackprice,allfullbackratio,fullbackratio,isfullback from ' . tablename('ewei_shop_goods_option') . ' where id=:id and goodsid=:goodsid and uniacid=:uniacid  limit 1', array(':uniacid' => $uniacid, ':goodsid' => $id, ':id' => $optionid));
 					if (!(empty($option))) 
 					{
 						$data['optionid'] = $optionid;
@@ -490,9 +490,9 @@ class Create_EweiShopV2Page extends MobileLoginPage
 							}
 						}
 					}
-					else if (!(empty($data['hasoption']))) 
+					elseif (!(empty($data['hasoption']))) 
 					{
-						$this->message('商品' . $data['title'] . '的规格不存在,请重新选择规格!', '', 'error');
+						$this->message('商品'.$data['title'] . '的规格不存在,请重新选择规格!', '', 'error');
 					}
 				}
 				if ($giftid) 
